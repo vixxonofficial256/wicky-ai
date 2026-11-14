@@ -11,7 +11,7 @@ input[type=radio]{display:none}
 .top{padding:12px;background:#fff;border-bottom:2px solid #e60023;text-align:center;position:sticky;top:0;z-index:90}
 .logo{font-size:24px;font-weight:900;color:#e60023}
 .searchRow{display:flex;gap:6px;padding:10px}
-.searchRow input[type=text],.searchRow input:not([type=radio]){flex:1;padding:12px;border-radius:10px;border:2px solid #ddd;font-size:16px}
+.searchRow input{flex:1;padding:12px;border-radius:10px;border:2px solid #ddd;font-size:16px}
 .searchBtn{background:#e60023;color:white;border:none;padding:11px 12px;border-radius:10px;font-weight:bold;font-size:13px;flex:1}
 .searchBtn2{background:#111;color:white;border:none;padding:11px 12px;border-radius:10px;font-weight:bold;font-size:13px;flex:1}
 .songRow{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid #eee}
@@ -28,7 +28,6 @@ input[type=radio]{display:none}
 #debugBar{background:#0a7a2f;color:white;padding:8px;text-align:center;font-weight:bold;font-size:13px}
 .secTitle{padding:12px 12px 0;font-size:17px}
 .skel{height:70px;background:#f0f0f0;border-radius:10px;margin:8px 12px}
-/* TABS - NO JAVASCRIPT - PURE CSS */
 .page{display:none}
 #tab-home:checked ~ .pages #page-home{display:block}
 #tab-search:checked ~ .pages #page-search{display:block}
@@ -38,7 +37,6 @@ input[type=radio]{display:none}
 #tab-upload:checked ~ .pages #page-upload{display:block}
 #tab-royalties:checked ~ .pages #page-royalties{display:block}
 #tab-profile:checked ~ .pages #page-profile{display:block}
-/* BOTTOM BUTTONS LIGHT UP WHEN ACTIVE */
 .bottomNav label{flex:1;background:#f8f8f8;border:2px solid #ddd;border-radius:10px;font-size:11px;font-weight:bold;color:#333;text-align:center;padding:6px 1px;line-height:1.2;margin:0 1px;min-height:60px;cursor:pointer;display:block}
 .bottomNav label span{font-size:24px;display:block}
 #tab-home:checked ~ .bottomNav label[for=tab-home]{background:#e60023;color:white;border-color:#e60023}
@@ -59,11 +57,17 @@ input[type=radio]{display:none}
 .goTitle{text-align:center;font-weight:bold;color:#666;font-size:13px;padding:5px 10px 0}
 .modeBtn{flex:1;padding:12px;border:2px solid #ddd;background:#f8f8f8;border-radius:10px;font-weight:bold}
 .modeBtn.on{background:#e60023;color:white;border-color:#e60023}
+.calcRow{display:flex;gap:8px;align-items:center}
+.calcRow label{flex:1;font-size:13px;font-weight:bold}
+.calcRow input{flex:1}
+.calcBox{background:white;padding:12px;border-radius:10px;border:2px solid #e60023;margin-top:10px}
+.calcLine{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:14px}
+.calcTotal{display:flex;justify-content:space-between;padding:10px 0;font-size:18px;font-weight:900;color:#e60023}
+.srcTag{background:#111;color:white;padding:2px 7px;border-radius:8px;font-size:10px}
 </style>
 </head>
 <body>
 <div id="toast"></div>
-<!-- RADIO TABS - HIDDEN - THEY CONTROL EVERYTHING - NO JS NEEDED -->
 <input type="radio" name="tab" id="tab-home" checked>
 <input type="radio" name="tab" id="tab-search">
 <input type="radio" name="tab" id="tab-internet">
@@ -73,21 +77,19 @@ input[type=radio]{display:none}
 <input type="radio" name="tab" id="tab-royalties">
 <input type="radio" name="tab" id="tab-profile">
 
-<div class="top"><div class="logo">VIXXON MUSIC</div><div style="font-size:13px;color:#777">Free Music For The World - Full Songs!</div><div id="debugBar">✅ NO SCROLL! Tap bottom = ONLY that page shows! Like Spotify!</div></div>
+<div class="top"><div class="logo">VIXXON MUSIC</div><div style="font-size:13px;color:#777">Free Music For The World - Full Songs!</div><div id="debugBar">✅ ACCURATE CALCULATOR + 🌍 SEARCH: Apple + Deezer + Audius!</div></div>
 
 <div class="pages">
 
-<!-- HOME -->
 <div id="page-home" class="page">
 <div style="background:#e60023;color:white;padding:18px;text-align:center"><h2 style="margin:0">🌍 MUSIC FOR THE WORLD</h2><p>Search - Hear FULL Song - Download!</p><p id="statsText">0 Songs • 0 Artists • 0 Downloads</p></div>
 <p style="padding:10px 12px;text-align:center;color:#666;font-weight:bold">👇 Tap bottom buttons - ONLY that page shows! 👇</p>
 <h3 class="secTitle">🔥 Hot Right Now - Tap Listen!</h3>
 <div id="homeHot"></div>
-<p class="goTitle">🚀 GO TO - Tap to jump - NO SCROLL!</p>
+<p class="goTitle">🚀 GO TO:</p>
 <div class="goRow"><label class="red" for="tab-search">🔍 SEARCH APP</label><label for="tab-internet">🌍 INTERNET</label><label for="tab-trending">🔥 TRENDING</label><label for="tab-artists">⭐ ARTISTS</label><label for="tab-upload">🎤 UPLOAD</label><label for="tab-royalties">💰 ROYALTIES</label><label for="tab-profile">👤 PROFILE</label></div>
 </div>
 
-<!-- SEARCH APP -->
 <div id="page-search" class="page">
 <div class="pageTitle"><h2>🔍 SEARCH APP</h2><p style="color:#666">Only songs uploaded IN THIS APP!</p></div>
 <div class="searchRow"><input id="searchInput" placeholder="Search in App... e.g Alien Skin"></div>
@@ -99,10 +101,9 @@ input[type=radio]{display:none}
 <div class="goRow"><label for="tab-home">🏠 HOME</label><label class="red" for="tab-internet">🌍 INTERNET</label><label for="tab-trending">🔥 TRENDING</label><label for="tab-artists">⭐ ARTISTS</label><label for="tab-upload">🎤 UPLOAD</label><label for="tab-royalties">💰 ROYALTIES</label><label for="tab-profile">👤 PROFILE</label></div>
 </div>
 
-<!-- INTERNET - WORLD SEARCH - SONGS + ARTISTS -->
 <div id="page-internet" class="page">
-<div class="pageTitle"><h2>🌍 INTERNET MUSIC - WHOLE WORLD</h2><p style="color:#666">Search the whole world! Artists + Songs! Listen INSIDE app! Download INSIDE app!</p></div>
-<div style="background:#e6f7ff;margin:10px;padding:12px;border-radius:10px;text-align:center"><b>🎧 LISTEN INSIDE APP + ⬇ DOWNLOAD INSIDE APP</b><br><span style="font-size:13px;color:#555">Tap Listen = Plays here! Tap Download = Downloads here! Tap + Save = Saves to App!</span></div>
+<div class="pageTitle"><h2>🌍 INTERNET MUSIC - WHOLE WORLD</h2><p style="color:#666">Search Apple + Deezer + Audius! Listen INSIDE app! Download INSIDE app!</p></div>
+<div style="background:#e6f7ff;margin:10px;padding:12px;border-radius:10px;text-align:center"><b>🎧 LISTEN INSIDE APP + ⬇ DOWNLOAD INSIDE APP</b><br><span style="font-size:13px;color:#555">Sources: 🍎 Apple Music • 🎵 Deezer • 🔊 Audius FULL</span><br><span id="netStatus" style="font-size:12px;color:#0a7a2f;font-weight:bold"></span></div>
 <div style="display:flex;gap:6px;padding:10px"><button class="modeBtn on" id="modeSongsBtn" onclick="setNetMode('songs')">🎵 SEARCH SONGS</button><button class="modeBtn" id="modeArtistsBtn" onclick="setNetMode('artists')">👤 SEARCH ARTISTS</button></div>
 <div class="searchRow"><input id="netSearchInput" placeholder="Search World... Songs or Artists e.g Azawi"></div>
 <div style="display:flex;gap:6px;padding:0 10px 10px"><button class="searchBtn" onclick="doSearchNet2()">🌍 SEARCH WORLD</button><button class="searchBtn2" onclick="loadDiscover2('Afrobeats')">🔥 TRENDING WORLD</button></div>
@@ -117,17 +118,14 @@ input[type=radio]{display:none}
 <div class="goRow"><label for="tab-home">🏠 HOME</label><label class="red" for="tab-search">🔍 SEARCH APP</label><label for="tab-trending">🔥 TRENDING</label><label for="tab-artists">⭐ ARTISTS</label><label for="tab-upload">🎤 UPLOAD</label><label for="tab-royalties">💰 ROYALTIES</label><label for="tab-profile">👤 PROFILE</label></div>
 </div>
 
-<!-- TRENDING -->
 <div id="page-trending" class="page"><div class="pageTitle"><h2>🔥 TRENDING NOW</h2><p style="color:#666">Most played + Most downloaded in App</p></div><div id="trendList"></div><div style="padding:15px"><label for="tab-internet" class="jumpBtn">🌍 Load World Trending</label></div>
 <p class="goTitle">🚀 GO TO:</p>
 <div class="goRow"><label for="tab-home">🏠 HOME</label><label class="red" for="tab-search">🔍 SEARCH APP</label><label for="tab-internet">🌍 INTERNET</label><label for="tab-artists">⭐ ARTISTS</label><label for="tab-upload">🎤 UPLOAD</label><label for="tab-royalties">💰 ROYALTIES</label><label for="tab-profile">👤 PROFILE</label></div></div>
 
-<!-- ARTISTS -->
 <div id="page-artists" class="page"><div class="pageTitle"><h2>⭐ ALL ARTISTS</h2><p style="color:#666">Tap an artist to see their songs</p></div><div id="allArtists"></div><div id="artistView" style="padding:15px;text-align:center;display:none"><div id="profPic" style="width:90px;height:90px;border-radius:50%;background:#e60023;color:white;font-size:50px;display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden">🎤</div><h2 id="profName">Artist</h2><p id="profBio"></p><p id="profStats"></p><div id="profileSongs"></div></div>
 <p class="goTitle">🚀 GO TO:</p>
 <div class="goRow"><label for="tab-home">🏠 HOME</label><label class="red" for="tab-search">🔍 SEARCH APP</label><label for="tab-internet">🌍 INTERNET</label><label for="tab-trending">🔥 TRENDING</label><label for="tab-upload">🎤 UPLOAD</label><label for="tab-royalties">💰 ROYALTIES</label><label for="tab-profile">👤 PROFILE</label></div></div>
 
-<!-- UPLOAD -->
 <div id="page-upload" class="page">
 <div class="pageTitle"><h2>🎤 UPLOAD</h2><p style="color:#666">Upload for the world - Only upload here!</p></div>
 <div class="box" style="background:#fff3f3;border:2px solid #e60023"><h3>🌍 UPLOAD FOR THE WORLD - FULL SONG!</h3><div style="text-align:center"><b>🖼️ SONG COVER</b><br><div id="coverPreview" style="width:100px;height:100px;border-radius:12px;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:40px;margin:5px auto;overflow:hidden">🎵</div><input type="file" id="uCover" accept="image/*"></div><input id="uName" placeholder="Artist Name* e.g Alien Skin"><input id="uTitle" placeholder="Song Title* e.g Sitya Loss"><select id="uGenre"><option>AfroPop</option><option>Afrobeats</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Amapiano</option></select><p>Select MP3 - FULL Song:</p><input id="uFile" type="file" accept="audio/*"><button class="btn" style="width:100%;padding:13px" onclick="uploadSong()">🌍 UPLOAD FULL SONG FOR THE WORLD</button><p id="uploadMsg" style="font-weight:bold"></p></div>
@@ -135,14 +133,29 @@ input[type=radio]{display:none}
 <div class="goRow"><label for="tab-home">🏠 HOME</label><label class="red" for="tab-search">🔍 SEARCH APP</label><label for="tab-internet">🌍 INTERNET</label><label for="tab-trending">🔥 TRENDING</label><label for="tab-artists">⭐ ARTISTS</label><label for="tab-royalties">💰 ROYALTIES</label><label for="tab-profile">👤 PROFILE</label></div>
 </div>
 
-<!-- ROYALTIES -->
-<div id="page-royalties" class="page"><div class="pageTitle"><h2>💰 ROYALTIES - YOU EARN 50%!</h2><p style="color:#666">Every download = 50 UGX for artist.</p></div>
-<div class="box"><h3>🧮 Calculator</h3><input id="calcDl" type="number" placeholder="Downloads e.g 10000"><button class="btn" onclick="calcRoyalty()">CALCULATE MY MONEY</button><p id="calcResult" style="font-weight:bold;color:#e60023;font-size:17px"></p></div>
+<div id="page-royalties" class="page"><div class="pageTitle"><h2>💰 ROYALTIES - ACCURATE CALCULATOR</h2><p style="color:#666">Type Downloads + Plays - See EXACT money! Live calculation!</p></div>
+<div class="box"><h3>🧮 ACCURATE CALCULATOR - Live!</h3>
+<p style="font-size:13px;color:#666">Change any number - Total updates instantly!</p>
+<div class="calcRow"><label>⬇ Downloads:</label><input id="calcDl" type="number" value="10000" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>▶ Plays / Streams:</label><input id="calcPlays" type="number" value="50000" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>💵 Price per Download (UGX):</label><input id="calcPrice" type="number" value="50" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>🎵 Pay per Stream (UGX):</label><input id="calcStreamRate" type="number" value="5" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>👤 Your Share %:</label><input id="calcShare" type="number" value="50" min="0" max="100" oninput="calcRoyalty()"></div>
+<div class="calcBox">
+<div class="calcLine"><span>⬇ Downloads: <span id="cDlShow">10,000</span> x <span id="cPriceShow">50</span> UGX</span><span id="cDlMoney">500,000 UGX</span></div>
+<div class="calcLine"><span>▶ Streams: <span id="cPlayShow">50,000</span> x <span id="cRateShow">5</span> UGX</span><span id="cStreamMoney">250,000 UGX</span></div>
+<div class="calcLine"><span>💰 Total Revenue (100%)</span><span id="cTotalRev">750,000 UGX</span></div>
+<div class="calcLine"><span>👤 YOU Earn (<span id="cShareShow">50</span>%)</span><span id="cYouEarn" style="color:#0a7a2f;font-weight:bold">375,000 UGX</span></div>
+<div class="calcLine"><span>🏢 VIXXON Keeps (<span id="cVixxonShare">50</span>%)</span><span id="cVixxonEarn">375,000 UGX</span></div>
+<div class="calcTotal"><span>✅ YOU TAKE HOME:</span><span id="calcResult">375,000 UGX</span></div>
+<div style="font-size:12px;color:#666;text-align:center" id="calcPer">Per 1,000 downloads = 25,000 UGX for you • Per 1,000 plays = 2,500 UGX for you</div>
+</div>
+<button class="btn" style="width:100%;margin-top:10px" onclick="calcRoyalty()">🧮 CALCULATE AGAIN</button>
+</div>
 <h3 style="padding:0 15px">🏆 Earnings From Your Uploads</h3><div id="royaltyList"></div>
 <p class="goTitle">🚀 GO TO:</p>
 <div class="goRow"><label for="tab-home">🏠 HOME</label><label class="red" for="tab-search">🔍 SEARCH APP</label><label for="tab-internet">🌍 INTERNET</label><label for="tab-trending">🔥 TRENDING</label><label for="tab-artists">⭐ ARTISTS</label><label for="tab-upload">🎤 UPLOAD</label><label for="tab-profile">👤 PROFILE</label></div></div>
 
-<!-- PROFILE -->
 <div id="page-profile" class="page">
 <div style="padding:15px"><h2>👤 MY PROFILE</h2><p style="color:#666">Everything about YOU is HERE!</p>
 <div style="text-align:center"><div id="myPicPreview" style="width:100px;height:100px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:45px;margin:0 auto;overflow:hidden">👤</div><p id="myProfileNameShow" style="font-weight:bold;font-size:18px"></p><p id="myProfileStatsShow" style="color:#666"></p></div>
@@ -156,11 +169,10 @@ input[type=radio]{display:none}
 <label for="tab-home" class="jumpBtn">🏠 BACK TO HOME</label>
 </div>
 
-</div><!-- end pages -->
+</div>
 
 <div class="player"><div id="nowPlaying">🎵 Choose song - Tap ▶ Listen</div><div><button class="btn" onclick="togglePlay()">⏯ Play/Pause</button> <button class="btn" onclick="doDownload()">⬇ Download</button></div></div>
 
-<!-- BOTTOM TABS - LABELS - TAP = SWITCH PAGE - NO JS! -->
 <div class="bottomNav">
 <label for="tab-home"><span>🏠</span>Home</label>
 <label for="tab-search"><span>🔍</span>Search</label>
@@ -174,15 +186,9 @@ input[type=radio]{display:none}
 
 <script>
 var songs=[]; var cur=null; var curSong=null; var netSongs=[]; var netArtists=[]; var netMode="songs"; var myStage=""; var myBio=""; var myPicUrl=""; var cache={}; var cacheA={};
+function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,","); }
 function toast(msg){ var t=document.getElementById("toast"); if(!t) return; t.innerText=msg; t.style.display="block"; setTimeout(function(){ t.style.display="none"; },2500); }
 function getScore(s){ return Math.round((s.dl*2 + s.plays)/2); }
 function countArtists(){ var o={}; for(var i=0;i<songs.length;i++){ o[songs[i].a]=1; } var c=0; for(var k in o){ c++; } return c; }
 function totalDl(){ var t=0; for(var i=0;i<songs.length;i++){ t+=songs[i].dl; } return t; }
-function setNetMode(m){ netMode=m; document.getElementById("modeSongsBtn").className="modeBtn"+(m=="songs"?" on":""); document.getElementById("modeArtistsBtn").className="modeBtn"+(m=="artists"?" on":""); document.getElementById("netSearchInput").placeholder = m=="songs" ? "Search World Songs... e.g Sitya Loss" : "Search World Artists... e.g Azawi, Alien Skin"; toast(m=="songs"?"Mode: SEARCH SONGS":"Mode: SEARCH ARTISTS"); }
-function renderHome(){
-  var st=document.getElementById("statsText"); if(st) st.innerText = songs.length+" Songs - "+countArtists()+" Artists - "+totalDl()+" Downloads";
-  var html=""; if(songs.length==0){ html='<div style="text-align:center;padding:20px;color:#777"><b>No songs in App yet!</b><br><label for="tab-upload" style="background:#e60023;color:white;padding:10px 20px;border-radius:20px;display:inline-block;margin-top:10px;font-weight:bold">UPLOAD NOW</label><br><br><label for="tab-internet" style="background:#111;color:white;padding:10px 20px;border-radius:20px;display:inline-block;margin-top:10px;font-weight:bold">🌍 LISTEN WORLD MUSIC</label></div>'; }
-  else { var top=songs.slice(); top.sort(function(a,b){ return getScore(b)-getScore(a); }); for(var i=0;i<Math.min(3,top.length);i++){ var s=top[i]; html+='<div class="songRow"><div class="cover">'+(s.cover?'<img src="'+s.cover+'">':s.emoji)+'</div><div style="flex:1"><b>'+s.t+'</b><br><b style="color:#e60023">'+s.a+'</b> - '+s.g+'</div><button class="btn" onclick="playSong('+s.id+')">Listen</button></div>'; } }
-  var hh=document.getElementById("homeHot"); if(hh) hh.innerHTML=html;
-  var html2=""; if(songs.length==0){ html2='<div style="text-align:center;padding:20px;color:#777"><b>No songs in App yet! Upload or listen World!</b></div>'; }
-  else { for(var i=0;i<songs.length;i++){ var s=songs[i]; html2+='<div class="songRow"><div class="cover">'+(s.cover?'<img src="'+s.cover+'">':s.emoji)+'</div><div style="flex:1"><b>'+s.t+'</b><br><b style="color:#e60023">'+s.a+'</b> - '+s.g+'<br><span class="badgeFull">FULL SONG</span> - '+s.plays+' plays - '+s.dl+' downloads</div
+function setNetMode(m){ netMode=m; document.getElementById("modeSongsBtn").className="modeBtn"+(m=="songs"?" on":""); document.getElementById("
