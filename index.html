@@ -34,31 +34,23 @@ button{cursor:pointer}
 .navItem span{font-size:26px;display:block}
 #toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;color:white;padding:14px 20px;border-radius:12px;font-weight:bold;z-index:200;display:none;text-align:center;max-width:85%}
 .pageTitle{padding:15px 15px 0}
-.bigBtn{width:100%;padding:14px;border-radius:12px;font-weight:bold;font-size:16px;margin:6px 0;border:none}
 </style>
 </head>
 <body>
 <div id="toast"></div>
-<div id="debugBar">✅ EVERYTHING SEPARATED! Home is clean now!</div>
+<div id="debugBar">✅ USE BOTTOM BUTTONS ONLY! No fake buttons on Home!</div>
 <div class="top"><div class="logo">VIXXON MUSIC</div><div style="font-size:13px;color:#777">Free Music For The World - Full Songs!</div></div>
 
-<!-- ============ HOME - ONLY WELCOME ============ -->
+<!-- HOME - CLEAN - NO BIG BUTTONS -->
 <div id="page-home" class="page show">
 <div style="background:#e60023;color:white;padding:18px;text-align:center"><h2 style="margin:0">🌍 MUSIC FOR THE WORLD</h2><p>Search - Hear FULL Song - Download!</p><p id="statsText">0 Songs • 0 Artists • 0 Downloads</p></div>
-<div style="padding:15px">
-<button class="bigBtn" style="background:#e60023;color:white" onclick="go('search')">🔍 SEARCH MUSIC →</button>
-<button class="bigBtn" style="background:#111;color:white" onclick="go('trending')">🔥 TRENDING NOW →</button>
-<button class="bigBtn" style="background:#eee" onclick="go('artists')">⭐ ALL ARTISTS →</button>
-<button class="bigBtn" style="background:#e60023;color:white" onclick="go('upload')">🎤 UPLOAD YOUR SONG →</button>
-<button class="bigBtn" style="background:#eee" onclick="go('royalties')">💰 MY ROYALTIES →</button>
-<button class="bigBtn" style="background:#111;color:white" onclick="go('profileEdit')">👤 MY PROFILE →</button>
-</div>
+<p style="padding:10px 12px;text-align:center;color:#666;font-weight:bold">👇 Use the BOTTOM buttons to move! 👇<br>🔍 Search • 🔥 Trending • ⭐ Artists • 🎤 Upload • 💰 Royalties • 👤 Profile</p>
 <h3 class="secTitle">🔥 Hot Right Now - Tap Listen!</h3>
 <div id="homeHot"></div>
 <p style="padding:0 12px;color:#777">Want more? Tap 🔍 Search at bottom!</p>
 </div>
 
-<!-- ============ SEARCH - ALL SEARCH HERE ONLY ============ -->
+<!-- SEARCH - ALL SEARCH HERE ONLY -->
 <div id="page-search" class="page">
 <div class="pageTitle"><h2>🔍 SEARCH</h2><p style="color:#666">Everything for searching is HERE!</p></div>
 <div class="searchRow"><input id="searchInput" placeholder="Search ANY music... e.g Alien Skin"></div>
@@ -78,23 +70,23 @@ button{cursor:pointer}
 <h3 class="secTitle">📱 In This App - FULL Songs</h3><div id="songList"></div>
 </div>
 
-<!-- ============ TRENDING - ONLY TRENDING ============ -->
+<!-- TRENDING -->
 <div id="page-trending" class="page"><div class="pageTitle"><h2>🔥 TRENDING NOW</h2><p style="color:#666">Most played + Most downloaded</p></div><div id="trendList"></div><div style="padding:15px"><button class="btn" onclick="loadDiscover('Afrobeats');go('search')">🔥 Load Internet Trending in Search</button></div></div>
 
-<!-- ============ ARTISTS - ONLY ARTISTS ============ -->
+<!-- ARTISTS -->
 <div id="page-artists" class="page"><div class="pageTitle"><h2>⭐ ALL ARTISTS</h2><p style="color:#666">Tap an artist to see their songs</p></div><div id="allArtists"></div></div>
 
-<!-- ============ ARTIST PROFILE VIEW ============ -->
+<!-- ARTIST PROFILE VIEW -->
 <div id="page-profile" class="page"><div style="padding:15px;text-align:center"><div id="profPic" style="width:90px;height:90px;border-radius:50%;background:#e60023;color:white;font-size:50px;display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden">🎤</div><h2 id="profName">Artist</h2><p id="profBio"></p><p id="profStats"></p><div id="profileSongs"></div><button class="btn" onclick="go('artists')">⬅ All Artists</button></div></div>
 
-<!-- ============ ROYALTIES - ONLY ROYALTIES ============ -->
+<!-- ROYALTIES -->
 <div id="page-royalties" class="page"><div class="pageTitle"><h2>💰 ROYALTIES - YOU EARN 50%!</h2><p style="color:#666">Every download = 50 UGX for artist.</p></div>
 <div class="box"><h3>🧮 Calculator</h3><input id="calcDl" type="number" placeholder="Downloads e.g 10000"><button class="btn" onclick="calcRoyalty()">CALCULATE MY MONEY</button><p id="calcResult" style="font-weight:bold;color:#e60023;font-size:17px"></p></div>
 <h3 style="padding:0 15px">🏆 Earnings From Your Uploads</h3><div id="royaltyList"></div></div>
 
-<!-- ============ PROFILE - EVERYTHING ABOUT YOU HERE ONLY ============ -->
+<!-- PROFILE - EVERYTHING ABOUT YOU -->
 <div id="page-profileEdit" class="page">
-<div style="padding:15px"><h2>👤 MY PROFILE</h2><p style="color:#666">Everything about YOU is HERE! Edit, View, Your Songs, Your Earnings!</p>
+<div style="padding:15px"><h2>👤 MY PROFILE</h2><p style="color:#666">Everything about YOU is HERE!</p>
 <div style="text-align:center"><div id="myPicPreview" style="width:100px;height:100px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:45px;margin:0 auto;overflow:hidden">👤</div><p id="myProfileNameShow" style="font-weight:bold;font-size:18px"></p><p id="myProfileStatsShow" style="color:#666"></p></div>
 <div class="box"><h3>✏️ EDIT MY PROFILE</h3><input type="file" id="myPic" accept="image/*"><input id="myName" placeholder="Full Name* e.g John Doe"><input id="myStage" placeholder="Stage Name* e.g Alien Skin"><textarea id="myBio" placeholder="Bio..."></textarea><input id="myCountry" placeholder="Country e.g Uganda"><input id="myPhone" placeholder="Phone / WhatsApp"><input id="myMomo" placeholder="MTN MoMo for Royalties"><button class="btn" style="width:100%;padding:13px" onclick="saveProfile()">💾 SAVE MY PROFILE</button><p id="myProfileMsg" style="font-weight:bold"></p></div>
 <div class="box"><h3>🎵 MY SONGS</h3><div id="mySongsList"><p>Upload a song to see it here!</p></div><button class="btn" style="width:100%" onclick="go('upload')">🎤 UPLOAD A SONG</button></div>
@@ -102,7 +94,7 @@ button{cursor:pointer}
 <button class="btn2" style="width:100%;margin-top:8px" onclick="viewMyProfile()">👀 VIEW MY PROFILE AS FANS SEE IT</button>
 </div></div>
 
-<!-- ============ UPLOAD - ONLY UPLOAD ============ -->
+<!-- UPLOAD -->
 <div id="page-upload" class="page">
 <div class="pageTitle"><h2>🎤 UPLOAD</h2><p style="color:#666">Upload for the world - Only upload here!</p></div>
 <div class="box" id="uploadBox" style="background:#fff3f3;border:2px solid #e60023"><h3>🌍 UPLOAD FOR THE WORLD - FULL SONG!</h3><div style="text-align:center"><b>🖼️ SONG COVER</b><br><div id="coverPreview" style="width:100px;height:100px;border-radius:12px;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:40px;margin:5px auto;overflow:hidden">🎵</div><input type="file" id="uCover" accept="image/*"></div><input id="uName" placeholder="Artist Name* e.g Alien Skin"><input id="uTitle" placeholder="Song Title* e.g Sitya Loss"><select id="uGenre"><option>AfroPop</option><option>Afrobeats</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Amapiano</option></select><p>Select MP3 - FULL Song:</p><input id="uFile" type="file" accept="audio/*"><button class="btn" style="width:100%;padding:13px" onclick="uploadSong()">🌍 UPLOAD FULL SONG FOR THE WORLD</button><p id="uploadMsg" style="font-weight:bold"></p></div>
@@ -189,4 +181,9 @@ function renderMyProfile(){
 }
 function renderRoyalties(){
   if(songs.length==0){ document.getElementById("royaltyList").innerHTML='<div style="padding:0 15px"><b>No earnings yet.</b><br>Upload - Fans download - You earn 50 UGX per download!<br><button class="btn" onclick="go(\'upload\')" style="margin-top:10px">UPLOAD TO EARN</button></div>'; return; }
-  var h=""; for(var i=0;i<songs.length;i++){ var earn=songs[i].dl*50; h+='<div class="songRow"><di
+  var h=""; for(var i=0;i<songs.length;i++){ var earn=songs[i].dl*50; h+='<div class="songRow"><div class="cover">'+songs[i].emoji+'</div><div style="flex:1"><b>'+songs[i].t+'</b><br>'+songs[i].a+' - '+songs[i].dl+' downloads<br><b style="color:#e60023">Earn: '+earn+' UGX</b></div></div>'; }
+  document.getElementById("royaltyList").innerHTML=h;
+}
+function playSong(id){ var s=null; for(var i=0;i<songs.length;i++){ if(songs[i].id==id){ s=songs[i]; } } if(!s) return; if(cur){ cur.pause(); } cur=new Audio(s.url); cur.play(); curSong=s; s.plays++; document.getElementById("nowPlaying").innerText="Now: "+s.t+" - "+s.a+" - FULL - Playing"; renderHome(); toast("Playing FULL: "+s.t); }
+function togglePlay(){ if(!cur){ toast("Tap Listen on a song first!"); return; } if(cur.paused){ cur.play(); toast("Playing..."); } else { cur.pause(); toast("Paused"); } }
+function doDownload(){ if(!curSong){ toast("Play a song first, then tap Download!"); return; } var a=document.createElement("a"); a.hr
