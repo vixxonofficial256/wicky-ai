@@ -22,10 +22,9 @@ button{cursor:pointer;touch-action:manipulation}
 .box input,.box select,.box textarea{width:100%;padding:12px;margin:5px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:16px}
 .player{background:#111;color:white;padding:10px;display:flex;justify-content:space-between;align-items:center;position:fixed;bottom:72px;left:0;right:0;z-index:99}
 .badge{background:#ffecec;color:#e60023;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
-.badge2{background:#e8f5e9;color:#2e7d32;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
 .badgeFull{background:#e60023;color:white;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
 .page{display:none}.page.show{display:block}
-#debugBar{background:#e60023;color:white;padding:8px;text-align:center;font-weight:bold;font-size:13px}
+#debugBar{background:#0a7a2f;color:white;padding:8px;text-align:center;font-weight:bold;font-size:13px}
 .secTitle{padding:12px 12px 0;font-size:17px}
 .skel{height:70px;background:#f0f0f0;border-radius:10px;margin:8px 12px;animation:blink 1s infinite}
 @keyframes blink{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
@@ -34,107 +33,123 @@ button{cursor:pointer;touch-action:manipulation}
 .navItem.on{color:#e60023}
 .navItem span{font-size:22px;display:block}
 #toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;color:white;padding:14px 20px;border-radius:12px;font-weight:bold;z-index:200;display:none;text-align:center;max-width:85%}
+#errorBox{display:none;background:red;color:white;padding:10px;font-weight:bold;text-align:center}
 .pageTitle{padding:15px 15px 0}
 </style>
 </head>
 <body>
+<div id="errorBox"></div>
 <div id="toast"></div>
-<div id="debugBar">✅ EVERYTHING WORKS! Tap any button - It will do something!</div>
+<div id="debugBar">✅ FIXED! If buttons work, this bar is GREEN!</div>
 <div class="top"><div class="logo">VIXXON MUSIC</div><div style="font-size:13px;color:#777">Free Music For The World - Full Songs!</div></div>
+
 <div class="searchRow"><input id="searchInput" placeholder="Search ANY music... e.g Alien Skin"></div>
 <div style="display:flex;gap:6px;padding:0 10px 10px">
-<button class="searchBtn" onclick="doSearchApp()">📱 SEARCH IN APP</button>
-<button class="searchBtn2" onclick="doSearchNet()">🌍 SEARCH INTERNET</button>
+<button class="searchBtn" id="btnApp">📱 SEARCH IN APP</button>
+<button class="searchBtn2" id="btnNet">🌍 SEARCH INTERNET</button>
 </div>
-<div style="padding:0 10px 5px"><button style="width:100%;background:#e60023;color:white;border:none;padding:11px;border-radius:10px;font-weight:bold" onclick="doSearchBoth()">⚡ SEARCH BOTH - APP + INTERNET</button></div>
-<div style="padding:0 10px;font-size:12px;color:#666">📱 App = Your uploads - FULL song &nbsp;|&nbsp; 🌍 Internet = Audius FULL + Apple preview</div>
+<div style="padding:0 10px 5px"><button style="width:100%;background:#e60023;color:white;border:none;padding:11px;border-radius:10px;font-weight:bold" id="btnBoth">⚡ SEARCH BOTH - APP + INTERNET</button></div>
+<div style="padding:0 10px;font-size:12px;color:#666">📱 App = Your uploads - FULL song | 🌍 Internet = Audius FULL + Apple preview</div>
+<div style="padding:10px"><button class="btn2" style="width:100%" id="btnTest">🧪 TEST ALL BUTTONS - Tap here if buttons don't work!</button><p id="testResult" style="font-weight:bold;text-align:center"></p></div>
+
 <div id="page-home" class="page show">
 <div style="background:#e60023;color:white;padding:18px;text-align:center"><h2 style="margin:0">🌍 MUSIC FOR THE WORLD</h2><p>Search - Hear FULL Song - Download - Listen Inside App!</p><p id="statsText">0 Songs • 0 Artists • 0 Downloads</p></div>
 <div id="searchResults"></div>
 <h3 class="secTitle">📱 In This App - FULL Songs</h3><div id="songList"></div>
 <h3 class="secTitle">🔥 Discover - Tap a button, songs load!</h3>
-<div style="padding:0 10px"><button class="btn2" onclick="loadDiscover('Afrobeats')">Afrobeats 🔥</button> <button class="btn2" onclick="loadDiscover('Alien Skin')">Alien Skin</button> <button class="btn2" onclick="loadDiscover('Azawi')">Azawi</button> <button class="btn2" onclick="loadDiscover('Eddy Kenzo')">Eddy Kenzo</button> <button class="btn2" onclick="loadDiscover('Gospel')">Gospel 🙏</button></div>
+<div style="padding:0 10px">
+<button class="btn2" data-discover="Afrobeats">Afrobeats 🔥</button> <button class="btn2" data-discover="Alien Skin">Alien Skin</button> <button class="btn2" data-discover="Azawi">Azawi</button> <button class="btn2" data-discover="Eddy Kenzo">Eddy Kenzo</button> <button class="btn2" data-discover="Gospel">Gospel 🙏</button>
+</div>
 <div id="discoverList"><p style="padding:0 12px;color:#777">Loading trending FULL songs...</p></div>
 <h3 class="secTitle">🌍 From Internet - FULL Songs Where Available</h3><div id="netList"><p style="padding:0 12px;color:#777">Tap 🌍 SEARCH INTERNET above - Get FULL songs from Audius + previews from Apple</p></div>
 <h3 class="secTitle">🎼 Genres - Tap to search that genre!</h3><div id="genres"></div>
 <h3 class="secTitle">⭐ Top Artists - Tap to see their songs!</h3><div id="artists"></div>
 </div>
-<div id="page-trending" class="page"><div class="pageTitle"><h2>🔥 TRENDING NOW</h2><p style="color:#666">Most played + Most downloaded in App + Discover Internet trending</p></div><div id="trendList"></div><div style="padding:15px"><button class="btn" onclick="loadDiscover('Afrobeats');showPage('home')">🔥 Load Internet Trending</button> <button class="btn2" onclick="showPage('home')">⬅ Back to Home</button></div></div>
-<div id="page-artists" class="page"><div class="pageTitle"><h2>⭐ ALL ARTISTS</h2><p style="color:#666">Tap an artist to see their songs</p></div><div id="allArtists"></div><div style="padding:15px"><button class="btn2" onclick="showPage('home')">⬅ Back</button></div></div>
-<div id="page-profile" class="page"><div style="padding:15px;text-align:center"><div id="profPic" style="width:90px;height:90px;border-radius:50%;background:#e60023;color:white;font-size:50px;display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden">🎤</div><h2 id="profName">Artist</h2><p id="profBio"></p><p id="profStats"></p><div id="profileSongs"></div><button class="btn" onclick="showPage('home')">⬅ Back to Home</button> <button class="btn2" onclick="showPage('artists')">⭐ All Artists</button></div></div>
-<div id="page-royalties" class="page"><div class="pageTitle"><h2>💰 ROYALTIES - YOU EARN 50%!</h2><p style="color:#666">Every download = 50 UGX for artist. We take 50% for app running.</p></div>
-<div class="box"><h3>🧮 Calculator - See how much you earn!</h3><input id="calcDl" type="number" placeholder="Downloads e.g 10000"><button class="btn" onclick="calcRoyalty()">CALCULATE MY MONEY</button><p id="calcResult" style="font-weight:bold;color:#e60023;font-size:17px"></p></div>
+
+<div id="page-trending" class="page"><div class="pageTitle"><h2>🔥 TRENDING NOW</h2><p style="color:#666">Most played + Most downloaded in App</p></div><div id="trendList"></div><div style="padding:15px"><button class="btn" data-discover="Afrobeats">🔥 Load Internet Trending</button> <button class="btn2" data-page="home">⬅ Back to Home</button></div></div>
+<div id="page-artists" class="page"><div class="pageTitle"><h2>⭐ ALL ARTISTS</h2><p style="color:#666">Tap an artist to see their songs</p></div><div id="allArtists"></div><div style="padding:15px"><button class="btn2" data-page="home">⬅ Back</button></div></div>
+<div id="page-profile" class="page"><div style="padding:15px;text-align:center"><div id="profPic" style="width:90px;height:90px;border-radius:50%;background:#e60023;color:white;font-size:50px;display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden">🎤</div><h2 id="profName">Artist</h2><p id="profBio"></p><p id="profStats"></p><div id="profileSongs"></div><button class="btn" data-page="home">⬅ Back to Home</button> <button class="btn2" data-page="artists">⭐ All Artists</button></div></div>
+<div id="page-royalties" class="page"><div class="pageTitle"><h2>💰 ROYALTIES - YOU EARN 50%!</h2><p style="color:#666">Every download = 50 UGX for artist.</p></div>
+<div class="box"><h3>🧮 Calculator - See how much you earn!</h3><input id="calcDl" type="number" placeholder="Downloads e.g 10000"><button class="btn" id="btnCalc">CALCULATE MY MONEY</button><p id="calcResult" style="font-weight:bold;color:#e60023;font-size:17px"></p></div>
 <h3 style="padding:0 15px">🏆 Earnings From Your Uploads</h3><div id="royaltyList"></div>
-<div style="padding:15px"><button class="btn2" onclick="showPage('home')">⬅ Back</button></div></div>
-<div id="page-profileEdit" class="page"><div style="padding:15px"><h2>👤 MY PROFILE</h2><p style="color:#666">Fill this - Fans will see you as an artist!</p><div class="box"><div id="myPicPreview" style="width:90px;height:90px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto;overflow:hidden">👤</div><p style="text-align:center;font-size:13px">Tap to choose your photo:</p><input type="file" id="myPic" accept="image/*"><input id="myName" placeholder="Full Name* e.g John Doe"><input id="myStage" placeholder="Stage Name* e.g Alien Skin"><textarea id="myBio" placeholder="Bio... e.g I sing AfroPop from Kampala"></textarea><input id="myCountry" placeholder="Country e.g Uganda"><input id="myPhone" placeholder="Phone / WhatsApp e.g 0700..."><input id="myMomo" placeholder="MTN MoMo for Royalties e.g 0770..."><button class="btn" style="width:100%;padding:13px" onclick="saveProfile()">💾 SAVE MY PROFILE</button><p id="myProfileMsg" style="font-weight:bold"></p><button class="btn2" style="width:100%;margin-top:8px" onclick="viewMyProfile()">👀 VIEW MY PROFILE AS FANS SEE IT</button></div><button class="btn2" onclick="showPage('home')">Back to Home</button></div></div>
-<div id="page-search" class="page"><div style="padding:15px"><h2>🔍 SEARCH</h2><p>1. Type artist or song in the box at TOP of screen</p><p>2. Tap <b>📱 SEARCH IN APP</b> for your uploads</p><p>3. Tap <b>🌍 SEARCH INTERNET</b> for FULL songs from world</p><p>4. Tap <b>⚡ SEARCH BOTH</b> for both together</p><button class="btn" onclick="showPage('home')">⬅ Back to Home</button></div></div>
-<div class="box" id="uploadBox" style="background:#fff3f3;border:2px solid #e60023"><h3>🌍 UPLOAD FOR THE WORLD - FULL SONG!</h3><p style="font-size:13px;color:#666">Step 1: Choose cover &nbsp; Step 2: Fill Artist + Title &nbsp; Step 3: Choose MP3 &nbsp; Step 4: Tap Upload!</p><div style="text-align:center"><b>🖼️ SONG COVER - Tap to choose</b><br><div id="coverPreview" style="width:100px;height:100px;border-radius:12px;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:40px;margin:5px auto;overflow:hidden">🎵</div><input type="file" id="uCover" accept="image/*"></div><input id="uName" placeholder="Artist Name* e.g Alien Skin"><input id="uTitle" placeholder="Song Title* e.g Sitya Loss"><select id="uGenre"><option>AfroPop</option><option>Afrobeats</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Amapiano</option></select><p>Select MP3 - FULL Song:</p><input id="uFile" type="file" accept="audio/*"><button class="btn" style="width:100%;padding:13px" onclick="uploadSong()">🌍 UPLOAD FULL SONG FOR THE WORLD</button><p id="uploadMsg" style="font-weight:bold"></p></div>
-<div class="player"><div id="nowPlaying">🎵 Choose song - Tap ▶ Listen</div><div><button class="btn" onclick="togglePlay()">⏯ Play/Pause</button> <button class="btn" onclick="doDownload()">⬇ Download</button></div></div>
+<div style="padding:15px"><button class="btn2" data-page="home">⬅ Back</button></div></div>
+<div id="page-profileEdit" class="page"><div style="padding:15px"><h2>👤 MY PROFILE</h2><p style="color:#666">Fill this - Fans will see you as an artist!</p><div class="box"><div id="myPicPreview" style="width:90px;height:90px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto;overflow:hidden">👤</div><p style="text-align:center;font-size:13px">Tap to choose your photo:</p><input type="file" id="myPic" accept="image/*"><input id="myName" placeholder="Full Name* e.g John Doe"><input id="myStage" placeholder="Stage Name* e.g Alien Skin"><textarea id="myBio" placeholder="Bio... e.g I sing AfroPop from Kampala"></textarea><input id="myCountry" placeholder="Country e.g Uganda"><input id="myPhone" placeholder="Phone / WhatsApp"><input id="myMomo" placeholder="MTN MoMo for Royalties"><button class="btn" style="width:100%;padding:13px" id="btnSaveProfile">💾 SAVE MY PROFILE</button><p id="myProfileMsg" style="font-weight:bold"></p><button class="btn2" style="width:100%;margin-top:8px" id="btnViewProfile">👀 VIEW MY PROFILE AS FANS SEE IT</button></div><button class="btn2" data-page="home">Back to Home</button></div></div>
+<div id="page-search" class="page"><div style="padding:15px"><h2>🔍 SEARCH</h2><p>1. Type artist or song in the box at TOP</p><p>2. Tap <b>📱 SEARCH IN APP</b> for your uploads</p><p>3. Tap <b>🌍 SEARCH INTERNET</b> for FULL songs</p><button class="btn" data-page="home">⬅ Back to Home</button></div></div>
+
+<div class="box" id="uploadBox" style="background:#fff3f3;border:2px solid #e60023"><h3>🌍 UPLOAD FOR THE WORLD - FULL SONG!</h3><p style="font-size:13px;color:#666">Step 1: Choose cover | Step 2: Fill Artist + Title | Step 3: Choose MP3 | Step 4: Tap Upload!</p><div style="text-align:center"><b>🖼️ SONG COVER - Tap to choose</b><br><div id="coverPreview" style="width:100px;height:100px;border-radius:12px;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:40px;margin:5px auto;overflow:hidden">🎵</div><input type="file" id="uCover" accept="image/*"></div><input id="uName" placeholder="Artist Name* e.g Alien Skin"><input id="uTitle" placeholder="Song Title* e.g Sitya Loss"><select id="uGenre"><option>AfroPop</option><option>Afrobeats</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Amapiano</option></select><p>Select MP3 - FULL Song:</p><input id="uFile" type="file" accept="audio/*"><button class="btn" style="width:100%;padding:13px" id="btnUpload">🌍 UPLOAD FULL SONG FOR THE WORLD</button><p id="uploadMsg" style="font-weight:bold"></p></div>
+
+<div class="player"><div id="nowPlaying">🎵 Choose song - Tap ▶ Listen</div><div><button class="btn" id="btnToggle">⏯ Play/Pause</button> <button class="btn" id="btnDownload">⬇ Download</button></div></div>
+
 <div class="bottomNav">
-<button class="navItem on" id="nav-home" onclick="showPage('home')"><span>🏠</span>Home</button>
-<button class="navItem" id="nav-search" onclick="showPage('search')"><span>🔍</span>Search</button>
-<button class="navItem" id="nav-trending" onclick="showPage('trending')"><span>🔥</span>Trending</button>
-<button class="navItem" id="nav-artists" onclick="showPage('artists')"><span>⭐</span>Artists</button>
-<button class="navItem" id="nav-upload" onclick="goUpload()"><span>🎤</span>Upload</button>
-<button class="navItem" id="nav-royalties" onclick="showPage('royalties')"><span>💰</span>Royalties</button>
-<button class="navItem" id="nav-profileEdit" onclick="showPage('profileEdit')"><span>👤</span>Profile</button>
+<button class="navItem on" data-page="home"><span>🏠</span>Home</button>
+<button class="navItem" data-page="search"><span>🔍</span>Search</button>
+<button class="navItem" data-page="trending"><span>🔥</span>Trending</button>
+<button class="navItem" data-page="artists"><span>⭐</span>Artists</button>
+<button class="navItem" data-page="upload"><span>🎤</span>Upload</button>
+<button class="navItem" data-page="royalties"><span>💰</span>Royalties</button>
+<button class="navItem" data-page="profileEdit"><span>👤</span>Profile</button>
 </div>
+
 <script>
-var songs=[]; var cur=null; var curSong=null; var netSongs=[]; var myStage=''; var myBio=''; var myPicUrl=''; var myNameVal=''; var cache={};
-function toast(msg){ var t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(function(){ t.style.display='none'; },2500); }
+window.onerror = function(msg){ var e=document.getElementById("errorBox"); e.style.display="block"; e.innerText="⚠️ ERROR: "+msg+" - Copy this and send to me!"; };
+var songs=[]; var cur=null; var curSong=null; var netSongs=[]; var myStage=""; var myBio=""; var myPicUrl=""; var cache={};
+function toast(msg){ var t=document.getElementById("toast"); t.innerText=msg; t.style.display="block"; setTimeout(function(){ t.style.display="none"; },2500); }
 function showPage(name){
-  var pages=['home','trending','artists','royalties','profile','profileEdit','search'];
-  for(var i=0;i<pages.length;i++){ var el=document.getElementById('page-'+pages[i]); if(el){ el.style.display = pages[i]==name ? 'block' : 'none'; } }
-  var navs=['home','search','trending','artists','royalties','profileEdit']; for(var i=0;i<navs.length;i++){ var n=document.getElementById('nav-'+navs[i]); if(n){ n.className = 'navItem' + (navs[i]==name ? ' on' : ''); } }
-  if(name=='home'){ renderHome(); }
-  if(name=='trending'){ renderTrending(); }
-  if(name=='artists'){ renderAllArtists(); }
-  if(name=='royalties'){ renderRoyalties(); }
+  if(name==="upload"){ showPage("home"); setTimeout(function(){ document.getElementById("uploadBox").scrollIntoView(); toast("🎤 Upload here! Fill Artist + Title + MP3"); },150); return; }
+  var pages=["home","trending","artists","royalties","profile","profileEdit","search"];
+  for(var i=0;i<pages.length;i++){ var el=document.getElementById("page-"+pages[i]); if(el){ el.style.display = pages[i]==name ? "block" : "none"; } }
+  var navs=document.querySelectorAll(".navItem");
+  for(var i=0;i<navs.length;i++){ var p=navs[i].getAttribute("data-page"); navs[i].className = "navItem" + (p==name ? " on" : ""); }
+  if(name=="home"){ renderHome(); }
+  if(name=="trending"){ renderTrending(); }
+  if(name=="artists"){ renderAllArtists(); }
+  if(name=="royalties"){ renderRoyalties(); }
   window.scrollTo(0,0);
+  toast("✅ Opened: "+name);
 }
-function goUpload(){ showPage('home'); setTimeout(function(){ document.getElementById('uploadBox').scrollIntoView(); toast('🎤 Upload here! Fill Artist + Title + MP3'); },150); }
 function getScore(s){ return Math.round((s.dl*2 + s.plays)/2); }
 function countArtists(){ var o={}; for(var i=0;i<songs.length;i++){ o[songs[i].a]=1; } var c=0; for(var k in o){ c++; } return c; }
 function totalDl(){ var t=0; for(var i=0;i<songs.length;i++){ t+=songs[i].dl; } return t; }
 function renderHome(){
-  document.getElementById('statsText').innerText = songs.length+' Songs • '+countArtists()+' Artists • '+totalDl()+' Downloads';
-  var html=''; if(songs.length==0){ html='<div style="text-align:center;padding:20px;color:#777"><b>No songs in App yet!</b><br>Be first to upload FULL song 👇<br><button class="btn" onclick="goUpload()" style="margin-top:10px">🎤 UPLOAD NOW</button></div>'; }
-  else { for(var i=0;i<songs.length;i++){ var s=songs[i]; html+='<div class="songRow"><div class="cover" onclick="openProfile(\''+s.a+'\')">'+(s.cover?'<img src="'+s.cover+'">':s.emoji)+'</div><div style="flex:1"><b>'+s.t+'</b><br><span style="color:#e60023;font-weight:bold" onclick="openProfile(\''+s.a+'\')">'+s.a+'</span> • '+s.g+'<br><span class="badgeFull">🎵 FULL SONG - IN APP</span> • ▶ '+s.plays+' plays • ⬇ '+s.dl+' downloads</div><button class="btn" onclick="playSong('+s.id+')">▶ Listen</button></div>'; } }
-  document.getElementById('songList').innerHTML=html;
-  document.getElementById('genres').innerHTML='<button class="card" onclick="loadDiscover(\'Afrobeats\');showPage(\'home\')">🔥 Afrobeats<br><small>Tap to load</small></button><button class="card" onclick="loadDiscover(\'Gospel\')">🙏 Gospel<br><small>Tap to load</small></button><button class="card" onclick="loadDiscover(\'Amapiano\')">🎹 Amapiano<br><small>Tap to load</small></button><button class="card" onclick="loadDiscover(\'Dancehall\')">💃 Dancehall<br><small>Tap to load</small></button>';
-  if(songs.length==0){ document.getElementById('artists').innerHTML='<div class="card"><b>Be First Artist!</b><br><button class="btn" onclick="goUpload()">🎤 Upload</button></div>'; }
-  else { var seen={}; var h=''; for(var i=0;i<songs.length;i++){ if(!seen[songs[i].a]){ seen[songs[i].a]=1; h+='<button class="card" onclick="openProfile(\''+songs[i].a+'\')"><b>'+songs[i].a+'</b><br><small>Tap to see songs 👆</small></button>'; } } document.getElementById('artists').innerHTML=h; }
+  document.getElementById("statsText").innerText = songs.length+" Songs • "+countArtists()+" Artists • "+totalDl()+" Downloads";
+  var html=""; if(songs.length==0){ html='<div style="text-align:center;padding:20px;color:#777"><b>No songs in App yet!</b><br>Be first to upload FULL song 👇<br><button class="btn" data-page="upload" style="margin-top:10px">🎤 UPLOAD NOW</button></div>'; }
+  else { for(var i=0;i<songs.length;i++){ var s=songs[i]; html+='<div class="songRow"><div class="cover">'+(s.cover?'<img src="'+s.cover+'">':s.emoji)+'</div><div style="flex:1"><b>'+s.t+'</b><br><b style="color:#e60023">'+s.a+'</b> • '+s.g+'<br><span class="badgeFull">🎵 FULL SONG</span> • ▶ '+s.plays+' • ⬇ '+s.dl+'</div><button class="btn" data-play="'+s.id+'">▶ Listen</button></div>'; } }
+  document.getElementById("songList").innerHTML=html;
+  document.getElementById("genres").innerHTML='<button class="card" data-discover="Afrobeats">🔥 Afrobeats<br><small>Tap to load</small></button><button class="card" data-discover="Gospel">🙏 Gospel<br><small>Tap to load</small></button><button class="card" data-discover="Amapiano">🎹 Amapiano<br><small>Tap to load</small></button><button class="card" data-discover="Dancehall">💃 Dancehall<br><small>Tap to load</small></button>';
+  if(songs.length==0){ document.getElementById("artists").innerHTML='<div class="card"><b>Be First Artist!</b><br><button class="btn" data-page="upload">🎤 Upload</button></div>'; }
+  else { var seen={}; var h=""; for(var i=0;i<songs.length;i++){ if(!seen[songs[i].a]){ seen[songs[i].a]=1; h+='<button class="card" data-artist="'+songs[i].a+'"><b>'+songs[i].a+'</b><br><small>Tap to see songs 👆</small></button>'; } } document.getElementById("artists").innerHTML=h; }
 }
 function renderTrending(){
   var t=songs.slice(); t.sort(function(a,b){ return getScore(b)-getScore(a); });
-  var h=''; if(t.length==0){ h='<div style="padding:15px;text-align:center;color:#777"><b>No trending in App yet.</b><br>Upload a song, play it, it will trend here!<br><br><b>But Internet Trending is below in Discover!</b></div>'; }
-  else { for(var i=0;i<t.length;i++){ h+='<div class="songRow"><div class="cover">'+t[i].emoji+'</div><div style="flex:1"><b>#'+(i+1)+' '+t[i].t+'</b><br>'+t[i].a+' • Score: '+getScore(t[i])+' • ▶ '+t[i].plays+' plays • ⬇ '+t[i].dl+' downloads</div><button class="btn" onclick="playSong('+t[i].id+')">▶ Listen</button></div>'; } }
-  document.getElementById('trendList').innerHTML=h;
+  var h=""; if(t.length==0){ h='<div style="padding:15px;text-align:center;color:#777"><b>No trending in App yet.</b><br>Upload a song, play it, it will trend here!<br><br><b>Internet Trending is in Discover on Home!</b></div>'; }
+  else { for(var i=0;i<t.length;i++){ h+='<div class="songRow"><div class="cover">'+t[i].emoji+'</div><div style="flex:1"><b>#'+(i+1)+' '+t[i].t+'</b><br>'+t[i].a+' • Score: '+getScore(t[i])+' • ▶ '+t[i].plays+' • ⬇ '+t[i].dl+'</div><button class="btn" data-play="'+t[i].id+'">▶ Listen</button></div>'; } }
+  document.getElementById("trendList").innerHTML=h;
 }
 function renderAllArtists(){
-  if(songs.length==0){ document.getElementById('allArtists').innerHTML='<div style="padding:15px;text-align:center"><b>No artists in App yet.</b><br>Be first!<br><button class="btn" onclick="goUpload()" style="margin-top:10px">🎤 UPLOAD NOW</button><br><br><b>Or search Internet artists:</b><br><button class="btn2" onclick="document.getElementById(\'searchInput\').value=\'Azawi\';doSearchNet();showPage(\'home\')">Search Azawi 🌍</button> <button class="btn2" onclick="document.getElementById(\'searchInput\').value=\'Alien Skin\';doSearchNet();showPage(\'home\')">Search Alien Skin 🌍</button></div>'; return; }
-  var seen={}; var h=''; for(var i=0;i<songs.length;i++){ if(!seen[songs[i].a]){ seen[songs[i].a]=1; var cnt=0; for(var j=0;j<songs.length;j++){ if(songs[j].a==songs[i].a){ cnt++; } } h+='<div class="songRow"><div class="cover">'+songs[i].emoji+'</div><div style="flex:1"><b>'+songs[i].a+'</b><br>'+cnt+' song(s) • Tap to see</div><button class="btn" onclick="openProfile(\''+songs[i].a+'\')">👀 View</button></div>'; } }
-  document.getElementById('allArtists').innerHTML=h;
+  if(songs.length==0){ document.getElementById("allArtists").innerHTML='<div style="padding:15px;text-align:center"><b>No artists in App yet.</b><br>Be first!<br><button class="btn" data-page="upload" style="margin-top:10px">🎤 UPLOAD NOW</button><br><br><b>Or search Internet:</b><br><button class="btn2" data-discover="Azawi">Search Azawi 🌍</button> <button class="btn2" data-discover="Alien Skin">Search Alien Skin 🌍</button></div>'; return; }
+  var seen={}; var h=""; for(var i=0;i<songs.length;i++){ if(!seen[songs[i].a]){ seen[songs[i].a]=1; var cnt=0; for(var j=0;j<songs.length;j++){ if(songs[j].a==songs[i].a){ cnt++; } } h+='<div class="songRow"><div class="cover">'+songs[i].emoji+'</div><div style="flex:1"><b>'+songs[i].a+'</b><br>'+cnt+' song(s)</div><button class="btn" data-artist="'+songs[i].a+'">👀 View</button></div>'; } }
+  document.getElementById("allArtists").innerHTML=h;
 }
 function openProfile(name){
-  showPage('profile');
-  document.getElementById('profName').innerText=name;
-  document.getElementById('profBio').innerText = (name==myStage ? (myBio||'Artist on VIXXON') : 'Artist on VIXXON - Tap Listen to hear their FULL songs!');
+  showPage("profile");
+  document.getElementById("profName").innerText=name;
+  document.getElementById("profBio").innerText = (name==myStage ? (myBio||"Artist on VIXXON") : "Artist on VIXXON - Tap Listen to hear FULL songs!");
   var list=[]; for(var i=0;i<songs.length;i++){ if(songs[i].a==name){ list.push(songs[i]); } }
-  var totalPlays=0, totalDl2=0; for(var i=0;i<list.length;i++){ totalPlays+=list[i].plays; totalDl2+=list[i].dl; }
-  document.getElementById('profStats').innerText = list.length+' Songs • '+totalPlays+' Plays • '+totalDl2+' Downloads • Earnings: '+(totalDl2*50)+' UGX';
-  if(name==myStage && myPicUrl){ document.getElementById('profPic').innerHTML='<img src="'+myPicUrl+'" style="width:100%;height:100%;object-fit:cover">'; } else { document.getElementById('profPic').innerText='🎤'; }
-  var h=''; if(list.length==0){ h='<p>No songs in App for '+name+' yet. Search Internet for them!</p><button class="btn" onclick="document.getElementById(\'searchInput\').value=\''+name+'\';doSearchNet();showPage(\'home\')">🌍 Search '+name+' on Internet</button>'; }
-  for(var i=0;i<list.length;i++){ h+='<div class="songRow"><div class="cover">'+(list[i].cover?'<img src="'+list[i].cover+'">':list[i].emoji)+'</div><div style="flex:1"><b>'+list[i].t+'</b><br>'+list[i].g+' • ▶ '+list[i].plays+' • ⬇ '+list[i].dl+'</div><button class="btn" onclick="playSong('+list[i].id+')">▶ Listen</button></div>'; }
-  document.getElementById('profileSongs').innerHTML=h;
-  toast('👀 Viewing '+name);
+  var tp=0, td=0; for(var i=0;i<list.length;i++){ tp+=list[i].plays; td+=list[i].dl; }
+  document.getElementById("profStats").innerText = list.length+" Songs • "+tp+" Plays • "+td+" Downloads • Earnings: "+(td*50)+" UGX";
+  if(name==myStage && myPicUrl){ document.getElementById("profPic").innerHTML='<img src="'+myPicUrl+'" style="width:100%;height:100%;object-fit:cover">'; } else { document.getElementById("profPic").innerText="🎤"; }
+  var h=""; if(list.length==0){ h='<p>No songs in App for '+name+' yet.</p><button class="btn" data-discover="'+name+'">🌍 Search '+name+' on Internet</button>'; }
+  for(var i=0;i<list.length;i++){ h+='<div class="songRow"><div class="cover">'+(list[i].cover?'<img src="'+list[i].cover+'">':list[i].emoji)+'</div><div style="flex:1"><b>'+list[i].t+'</b><br>'+list[i].g+' • ▶ '+list[i].plays+' • ⬇ '+list[i].dl+'</div><button class="btn" data-play="'+list[i].id+'">▶ Listen</button></div>'; }
+  document.getElementById("profileSongs").innerHTML=h;
 }
 function renderRoyalties(){
-  if(songs.length==0){ document.getElementById('royaltyList').innerHTML='<div style="padding:0 15px"><b>No earnings yet.</b><br>Upload a song → Fans download → You earn 50 UGX per download!<br><button class="btn" onclick="goUpload()" style="margin-top:10px">🎤 UPLOAD TO EARN</button></div>'; return; }
-  var h=''; for(var i=0;i<songs.length;i++){ var earn=songs[i].dl*50; h+='<div class="songRow"><div class="cover">'+songs[i].emoji+'</div><div style="flex:1"><b>'+songs[i].t+'</b><br>'+songs[i].a+' • ⬇ '+songs[i].dl+' downloads<br><b style="color:#e60023">💰 Earn: '+earn+' UGX</b></div></div>'; }
-  document.getElementById('royaltyList').innerHTML=h;
+  if(songs.length==0){ document.getElementById("royaltyList").innerHTML='<div style="padding:0 15px"><b>No earnings yet.</b><br>Upload → Fans download → You earn 50 UGX per download!<br><button class="btn" data-page="upload" style="margin-top:10px">🎤 UPLOAD TO EARN</button></div>'; return; }
+  var h=""; for(var i=0;i<songs.length;i++){ var earn=songs[i].dl*50; h+='<div class="songRow"><div class="cover">'+songs[i].emoji+'</div><div style="flex:1"><b>'+songs[i].t+'</b><br>'+songs[i].a+' • ⬇ '+songs[i].dl+' downloads<br><b style="color:#e60023">💰 Earn: '+earn+' UGX</b></div></div>'; }
+  document.getElementById("royaltyList").innerHTML=h;
 }
-function playSong(id){ var s=null; for(var i=0;i<songs.length;i++){ if(songs[i].id==id){ s=songs[i]; } } if(!s) return; if(cur){ cur.pause(); } cur=new Audio(s.url); cur.play(); curSong=s; s.plays++; document.getElementById('nowPlaying').innerText='🎵 '+s.t+' - '+s.a+' • FULL SONG • ▶ Playing... Tap ⏯ to pause'; renderHome(); toast('▶ Playing FULL: '+s.t+' - '+s.a); }
-function togglePlay(){ if(!cur){ toast('⚠️ Tap ▶ Listen on a song first!'); return; } if(cur.paused){ cur.play(); toast('▶ Playing...'); } else { cur.pause(); toast('⏸ Paused'); } }
-function doDownload(){ if(!curSong){ toast('⚠️ Play a song first, then tap Download!'); return; } var a=document.createElement('a'); a.href=curSong.url; a.download=curSong.t+'.mp3'; document.body.appendChild(a); a.click(); a.remove(); if(curSong.id){ for(var i=0;i<songs.length;i++){ if(songs[i].id==curSong.id){ songs[i].dl++; } } } toast('⬇ Downloaded FULL: '+curSong.t); renderHome(); }
-function saveProfile(){ var n=document.getElementById('myName').value.trim(); var st=document.getElementById('myStage').value.trim(); if(!n||!st){ document.getElementById('myProfileMsg').innerText='❌ Please fill Full Name + Stage Name! Both are required!'; document.getElementById('myProfileMsg').style.color='red'; toast('❌ Fill Name + Stage Name!'); return;
+function playSong(id){ var s=null; for(var i=0;i<songs.length;i++){ if(songs[i].id==id){ s=songs[i]; } } if(!s) return; if(cur){ cur.pause(); } cur=new Audio(s.url); cur.play(); curSong=s; s.plays++; document.getElementById("nowPlaying").innerText="🎵 "+s.t+" - "+s.a+" • FULL SONG • ▶ Playing"; renderHome(); toast("▶ Playing FULL: "+s.t); }
+function togglePlay(){ if(!cur){ toast("⚠️ Tap ▶ Listen on a song first!"); return; } if(cur.paused){ cur.play(); toast("▶ Playing..."); } else { cur.pause(); toast("⏸ Paused"); } }
+function doDownload(){ if(!curSong){ toast("⚠️ Play a song first, then tap Download!"); return; } var a=document.createElement("a"); a.href=curSong.url; a.download=curSong.t+".mp3"; document.body.appendChild(a); a.click(); a.remove(); if(curSong.id){ for(var i=0;i<songs.length;i++){ if(songs[i].id==curSong.id){ songs[i].dl++; } } } toast("⬇ Downloaded: "+curSong.t); renderHome(); }
+function saveProfile(){ var n=document.getElementById("myName").value.trim(); var st=document.getElementById("myStage").value.trim(); if(!n||!st){ document.getElementById("myProfileMsg").innerText="❌ Please fill Full Name + Stage Name!"; document.getElementById("myProfileMsg").style.color="red"; toast("❌ Fill Name + Stage Name!"); return; } myStage=st; myBio=document.getElementById("myBio").value; document.getElementById("myProfileMsg").innerText="✅ SAVED! You are now "+st+". Tap VIEW MY PROFILE below!"; document.getElementById("myProfileMsg").style.color="green"; toast("✅ Profile Saved: "+st); }
+function viewMyProfile(){ if(!myStage){ toast("⚠️ Save your profile first!"); return; } openProfile(myStage); }
+function uploadSong(){ var n=document.getElementById("uName").value.trim(); var t=document.getElementById("uTitle").value.trim(); var g=document.getElementById("uGenre").value; var f=document.getElementById("uFile").files[0]; if(!n||!t){ document.getElementById("uploadMsg").innerText="❌ Fill Artist Name + Song Title!"; document.getElementById("uploadMsg").style.color="red"; toast("❌ Fill Artist + Title!"); return; } if(!f){ document.getElementById("uploadMsg").innerText="❌ Select MP3 file!"; document.getElementById("uploadMs
