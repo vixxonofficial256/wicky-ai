@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WICKY AI - Built by Kalema Wyclif</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#0a3d24;color:white}
+header{text-align:center;padding:20px;background:linear-gradient(#0a3d24,#0f5a36);border-bottom:3px solid gold}
+h1{color:gold;font-size:38px;margin:5px 0}
+.sub{color:#fff;font-size:14px}
+.badge{background:gold;color:#0a3d24;padding:6px 12px;border-radius:20px;font-weight:bold;display:inline-block;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px}
+.card{background:#145a34;border:1px solid gold;border-radius:14px;padding:14px 5px;text-align:center;cursor:pointer}
+.card span{font-size:28px;display:block}
+.card b{font-size:12px;color:#ffe98a}
+#view{padding:16px;display:none}
+#view h2{color:gold}
+button{background:gold;color:#0a3d24;border:0;padding:12px 18px;border-radius:25px;font-weight:bold;width:100%;font-size:16px}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:0;margin:8px 0}
+.back{background:#fff;color:#0a3d24}
+footer{text-align:center;padding:15px;font-size:12px;color:#ffe98a}
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:40px">👑</div>
+<h1>WICKY AI</h1>
+<div class="sub">Built by Kalema Wyclif</div>
+<div class="sub">From Busowa to the World</div>
+<div class="badge">25 CHAMBERS • FREE • @Vixxonofficial256</div>
+</header>
+<div id="home">
+<div class="grid" id="grid"></div>
+<footer>WICKY AI • Your Smart Kingdom • Free for the Whole World<br>Built by Kalema Wyclif - Busowa, Bugiri, Uganda<br>@Vixxonofficial256</footer>
+</div>
+<div id="view">
+<button class="back" onclick="goHome()">⬅ Back to Home</button>
+<h2 id="vTitle"></h2>
+<div id="vBody"></div>
+</div>
+<script>
+const chambers=[
+["🎵","Music","Play Ugandan music, Afrobeat, Gospel & more. Your songs live here!"],
+["▶️","Videos","Watch videos, comedy, music videos & Wicky AI shows."],
+["📰","News","Bugiri news, Uganda news & world news in simple English & Luganda."],
+["🌱","Farming","Maize, beans, coffee tips. Weather for farmers, prices & diseases."],
+["❤️","Health","Stay healthy. Malaria, first aid, clean water & clinic tips."],
+["🎓","Education","Learn English, Maths, Science. PLE, UCE & UACE help."],
+["💼","Business","Start small business. Mobile Money tips, pricing & customers."],
+["🎮","Games","Play games, quizzes & puzzles. Win points!"],
+["🙏","Prayer","Daily prayer, Bible verses & encouragement."],
+["🛍️","Shop","Buy & sell in Busowa & Bugiri. Clothes, phones, food."],
+["💬","Chat","Chat with Wicky AI. Ask anything in Luganda or English!"],
+["💘","Love","Respect, friendship & advice for young people."],
+["⚽","Sports","Football, Vipers, Arsenal, Man Utd & Bugiri sports news."],
+["🌤️","Weather","Busowa today: Sunny, 28°C. Rain tomorrow - carry umbrella!"],
+["💼","Jobs","Jobs in Bugiri, Kampala & online. How to apply."],
+["📚","Library","Read books, stories & school notes for free."],
+["📻","Radio","Listen to radio, gospel & local stations."],
+["🏆","Discover","Discover new songs, creators & trends in Uganda."],
+["⭐","VIP Gold","VIP Gold - 5,000/month. No ads, early access, priority support."],
+["👤","Profile","Kalema Wyclif - Creator of Wicky AI. @Vixxonofficial256"],
+["⚙️","Settings","Language: Luganda / English. Dark Mode: ON. Notifications: ON."],
+["💰","Money","Mobile Money, saving & how to earn online safely."],
+["🎤","Studio","Record your song, write lyrics & make beats."],
+["🌍","Travel","Travel Busowa to Kampala, Jinja, Mbale. Boda & taxi prices."],
+["🆘","Help","Need help? Talk to a trusted adult, teacher or parent."]
+];
+const grid=document.getElementById('grid');
+chambers.forEach((c,i)=>{
+let d=document.createElement('div');
+d.className='card';
+d.innerHTML=`<span>${c[0]}</span><b>${c[1]}</b><div style="font-size:10px;color:#ccc">${i+1}</div>`;
+d.onclick=()=>openChamber(c);
+grid.appendChild(d);
+});
+function openChamber(c){
+document.getElementById('home').style.display='none';
+let v=document.getElementById('view');
+v.style.display='block';
+document.getElementById('vTitle').innerText=c[0]+' '+c[1];
+let extra='';
+if(c[1]=='Chat'){
+extra=`<textarea id="q" placeholder="Ask Wicky AI anything..."></textarea><button onclick="ask()">Ask Wicky AI</button><p id="ans"></p>`;
+}
+if(c[1]=='Music'){
+extra=`<button onclick="alert('Now Playing: Wicky AI - From Busowa to the World 🎵')">▶ Play My Song</button>`;
+}
+document.getElementById('vBody').innerHTML=`<p>${c[2]}</p>${extra}<br><p><b>WICKY AI • Built by Kalema Wyclif • @Vixxonofficial256</b></p>`;
+window.scrollTo(0,0);
+}
+function goHome(){
+document.getElementById('view').style.display='none';
+document.getElementById('home').style.display='block';
+}
+function ask(){
+let q=document.getElementById('q').value;
+document.getElementById('ans').innerText="Wicky AI: Great question! '"+q+"' - I am still learning, but keep dreaming big. From Busowa to the World! Ask a teacher or trusted adult for more help too.";
+}
+</script>
+</body>
+</html>
