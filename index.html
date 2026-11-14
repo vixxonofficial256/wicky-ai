@@ -2,94 +2,82 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VIXXON MUSIC - Free African Music</title>
+<title>VIXXON MUSIC - Free Music For The World</title>
 <style>
-*{box-sizing:border-box} body{margin:0;font-family:Arial;background:#fff;color:#222;padding-bottom:100px}
-.top{display:flex;gap:10px;padding:12px;position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10;align-items:center}
-.logo{font-size:24px;font-weight:900;color:#e60023;white-space:nowrap} .logo span{color:#111}
+*{box-sizing:border-box} body{margin:0;font-family:Arial;background:#fff;color:#222;padding-bottom:90px}
+.top{display:flex;gap:8px;padding:12px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;align-items:center}
+.logo{font-size:22px;font-weight:900;color:#e60023;white-space:nowrap} .logo span{color:#111}
 .searchBox{flex:1} .searchBox input{width:100%;padding:10px;border-radius:20px;border:1px solid #ddd}
 .nav{display:flex;gap:15px;overflow-x:auto;padding:10px;font-weight:bold;font-size:14px;white-space:nowrap}
-.songRow{display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px solid #eee}
-.songRow img{width:55px;height:55px;border-radius:8px}
-.btn{background:#e60023;color:white;border:none;padding:7px 12px;border-radius:20px}
-.btn2{background:#eee;border:none;padding:7px 12px;border-radius:20px}
-.card{display:inline-block;min-width:130px;background:#f8f8f8;padding:10px;border-radius:10px;text-align:center;margin-left:10px}
+.songRow{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid #eee}
+.cover{width:55px;height:55px;border-radius:10px;background:#e60023;color:white;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.btn{background:#e60023;color:white;border:none;padding:8px 13px;border-radius:20px}
+.btn2{background:#eee;border:none;padding:8px 13px;border-radius:20px}
+.card{display:inline-block;min-width:130px;background:#f8f8f8;padding:12px;border-radius:10px;text-align:center;margin-left:10px}
 .box{background:#f8f8f8;margin:12px;padding:15px;border-radius:12px}
 .box input,.box select{width:100%;padding:11px;margin:5px 0;border:1px solid #ddd;border-radius:8px}
 .player{position:fixed;bottom:0;left:0;right:0;background:#111;color:white;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.empty{text-align:center;padding:30px;color:#777}
+.badge{background:#ffecec;color:#e60023;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="top"><div class="logo">VIXXON<span>MUSIC</span></div><div class="searchBox"><input id="search" onkeyup="SEARCH_ENGINE()" placeholder="🔍 Search..."></div><div style="font-weight:bold">Login</div></div>
-<div class="nav"><span onclick="showSection('home')">🏠 Home</span><span onclick="showSection('trending')">🔥 Trending</span><span onclick="showSection('artists')">⭐ Artists</span><span onclick="showSection('upload')">🎤 Upload</span><span onclick="showSection('royalty')">💰 Royalties</span></div>
+<div class="top"><div class="logo">VIXXON<span>MUSIC</span></div><div class="searchBox"><input id="search" onkeyup="searchSongs()" placeholder="Search songs, artists..."></div><div style="font-weight:bold">Login</div></div>
+<div class="nav"><span>🏠 Home</span><span>🔥 Trending</span><span>⭐ Artists</span><span>🎤 Upload</span><span>💰 Royalties</span></div>
 
-<div id="home">
-<div style="background:#e60023;color:white;padding:18px;text-align:center"><h2 style="margin:0">🔥 TRENDING ENGINE LIVE</h2><p id="heroText">Top song today auto-calculated</p></div>
-<h3 style="padding:0 12px">📈 Trending Now - Auto Ranked by Engine</h3>
+<div style="background:#e60023;color:white;padding:18px;text-align:center"><h2 style="margin:0">🌍 MUSIC FOR THE WORLD</h2><p id="heroText">Upload • Listen • Download FREE - Artists Get 50%</p><p style="font-size:12px;opacity:0.9" id="statsText">0 Songs • 0 Artists • 0 Downloads</p></div>
+
+<h3 style="padding:0 12px">📈 Trending Now - World</h3>
 <div id="songList"></div>
-<h3 style="padding:0 12px">💡 Recommended For You - Recommendation Engine</h3>
+
+<h3 style="padding:0 12px">💡 Recommended For You</h3>
 <div id="recommended"></div>
-<h3 style="padding:0 12px">🎼 Genres</h3>
+
+<h3 style="padding:0 12px">🎼 Browse Genres</h3>
 <div style="display:flex;overflow-x:auto" id="genres"></div>
-<h3 style="padding:0 12px">⭐ Top Artists</h3>
+
+<h3 style="padding:0 12px">⭐ Top Artists - World</h3>
 <div style="display:flex;overflow-x:auto" id="artists"></div>
-</div>
 
-<div id="upload" style="display:none">
-<div class="box"><h3>🎤 UPLOAD ENGINE - For Artists</h3>
-<input id="uName" placeholder="Legal Name*"><input id="uPhone" placeholder="Phone*"><input id="uTitle" placeholder="Song Title*">
-<select id="uGenre"><option>AfroPop</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Rhumba</option></select>
-<button class="btn" style="width:100%;padding:12px" onclick="UPLOAD_ENGINE()">UPLOAD - CHECK & SUBMIT</button><p id="uploadMsg"></p></div>
-</div>
+<div class="box" style="background:#fff3f3;border:2px solid #e60023"><h3>🌍 UPLOAD FOR THE WORLD</h3><p style="font-size:13px;color:#555">Anyone from anywhere can upload. Your song will be heard worldwide.</p>
+<input id="uName" placeholder="Artist Name* e.g Eddy Kenzo, Sheebah, YOU">
+<input id="uTitle" placeholder="Song Title* e.g Omukwano">
+<select id="uGenre"><option>AfroPop</option><option>Afrobeats</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Zouk</option><option>Amapiano</option></select>
+<p style="font-size:12px;color:#555">Select MP3 File:</p>
+<input id="uFile" type="file" accept="audio/*">
+<button class="btn" style="width:100%;padding:12px;margin-top:10px" onclick="uploadSong()">🌍 UPLOAD FOR THE WORLD</button><p id="uploadMsg"></p><p style="font-size:11px;color:#888">By uploading you agree you own this song. You earn 50% of royalties.</p></div>
 
-<div id="royalty" style="display:none">
-<div class="box"><h3>💰 ROYALTY ENGINE - 50% For Artists</h3>
-<p>Total Downloads: <b id="totalDl">0</b><br>Rate: 100 UGX per download<br>Your 50% Earnings: <b id="earnings">0 UGX</b></p>
-<input id="calcDl" type="number" placeholder="Enter your downloads e.g 10000" onkeyup="ROYALTY_ENGINE()">
-<p id="calcResult"></p></div>
-</div>
+<div class="box"><h3>💰 Artist Royalty - 50% For Artists</h3>
+<input id="calcDl" type="number" placeholder="Enter downloads e.g 10000" onkeyup="calcRoyalty()"><p id="calcResult">Enter downloads to see earnings</p></div>
 
-<div class="player"><div id="nowPlaying">🎵 Choose song</div><div><button class="btn" onclick="togglePlay()">⏯</button> <button class="btn" onclick="DOWNLOAD_ENGINE()">⬇ Download</button></div></div>
+<div class="player"><div id="nowPlaying">🎵 Choose song to listen</div><div><button class="btn" onclick="togglePlay()">⏯</button> <button class="btn" onclick="downloadSong()">⬇ Download</button></div></div>
 
 <script>
-// ===== DATABASE - Like Mdundo Database =====
-let DB=[
-{id:1,t:"Omukwano Gwo",a:"Vixxon Kalema",g:"AfroPop",plays:12500,dl:8500,days:2,img:"https://via.placeholder.com/55/e60023/fff?text=V",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-{id:2,t:"Busowa Boy",a:"Vixxon Kalema",g:"Hip Hop",plays:9800,dl:7200,days:1,img:"https://via.placeholder.com/55/111/fff?text=B",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-{id:3,t:"Nkwagala Nyo",a:"Vixxon Kalema",g:"Bongo",plays:8100,dl:6100,days:5,img:"https://via.placeholder.com/55/0082ff/fff?text=N",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
-{id:4,t:"Money Hustle",a:"Vixxon Kalema",g:"Dancehall",plays:7600,dl:5400,days:3,img:"https://via.placeholder.com/55/ffaa00/fff?text=M",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
-{id:5,t:"Mukama Yebaale",a:"Vixxon Kalema",g:"Gospel",plays:6400,dl:4900,days:7,img:"https://via.placeholder.com/55/00aa66/fff?text=G",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"},
-];
-let cur=null, curSong=null, lastGenre="AfroPop";
-
-// ===== ENGINE 1: TRENDING ENGINE =====
-function TRENDING_ENGINE(list){return list.map(s=>({...s,score:(s.dl*2 + s.plays) / (s.days+1)})).sort((a,b)=>b.score-a.score)}
-
-// ===== ENGINE 2: SEARCH ENGINE =====
-function SEARCH_ENGINE(){let q=document.getElementById('search').value.toLowerCase().trim();if(!q){render(TRENDING_ENGINE(DB));return}let res=DB.filter(s=>(s.t+s.a+s.g).toLowerCase().includes(q));render(res)}
-
-// ===== ENGINE 3: RECOMMENDATION ENGINE =====
-function RECOMMENDATION_ENGINE(){let rec=DB.filter(s=>s.g==lastGenre);if(rec.length<2)rec=DB.slice(0,3);document.getElementById('recommended').innerHTML=rec.map(s=>`<div class="card"><img src="${s.img}" style="width:80px;height:80px;border-radius:10px"><br><b>${s.t}</b><br><span>${s.a}</span><br><button class="btn" onclick="PLAY_ENGINE(${s.id})">▶ Play</button></div>`).join('')}
-
-// ===== ENGINE 4: PLAYER ENGINE =====
-function PLAY_ENGINE(id){let s=DB.find(x=>x.id==id);if(!s)return;if(cur)cur.pause();cur=new Audio(s.url);cur.play();curSong=s;lastGenre=s.g;s.plays++;document.getElementById('nowPlaying').innerText="🎵 "+s.t+" - "+s.a;RECOMMENDATION_ENGINE();render(TRENDING_ENGINE(DB))}
-function togglePlay(){if(!cur)return;cur.paused?cur.play():cur.pause()}
-
-// ===== ENGINE 5: DOWNLOAD ENGINE =====
-function DOWNLOAD_ENGINE(){if(!curSong){alert('Play a song first!');return}curSong.dl++;let a=document.createElement('a');a.href=curSong.url;a.download=curSong.t+'.mp3';a.click();alert('✅ Downloaded FREE: '+curSong.t+'\nTotal downloads now: '+curSong.dl);ROYALTY_ENGINE();render(TRENDING_ENGINE(DB))}
-
-// ===== ENGINE 6: UPLOAD ENGINE =====
-function UPLOAD_ENGINE(){let n=document.getElementById('uName').value,t=document.getElementById('uTitle').value,p=document.getElementById('uPhone').value;if(!n||!t||!p){document.getElementById('uploadMsg').innerText="❌ ERROR: Fill Name, Phone, Title - All required like Mdundo!";return}document.getElementById('uploadMsg').innerText="✅ SUCCESS! Song '"+t+"' by "+n+" submitted. Our team will review in 24h. You get 50% revenue!"}
-
-// ===== ENGINE 7: ROYALTY ENGINE =====
-function ROYALTY_ENGINE(){let total=DB.reduce((sum,s)=>sum+s.dl,0);document.getElementById('totalDl').innerText=total;document.getElementById('earnings').innerText=(total*100*0.5).toLocaleString()+" UGX";let v=document.getElementById('calcDl').value;if(v)document.getElementById('calcResult').innerText="For "+v+" downloads you earn: "+(v*100*0.5).toLocaleString()+" UGX (50%)"}
-
-function render(list){document.getElementById('songList').innerHTML=list.map((s,i)=>`<div class="songRow"><b style="color:#e60023">${i+1}</b><img src="${s.img}"><div style="flex:1"><b>${s.t}</b><br><span>${s.a} • ${s.g} • ${s.dl} downloads • ${s.plays} plays • Score: ${Math.round(s.score||0)}</span></div><button class="btn" onclick="PLAY_ENGINE(${s.id})">▶</button><button class="btn2" onclick="PLAY_ENGINE(${s.id});setTimeout(DOWNLOAD_ENGINE,500)">⬇ Free</button></div>`).join('')}
-function showSection(x){document.getElementById('home').style.display=x=='home'?'block':'none';document.getElementById('upload').style.display=x=='upload'?'block':'none';document.getElementById('royalty').style.display=x=='royalty'?'block':'none';if(x=='trending')render(TRENDING_ENGINE(DB))}
-document.getElementById('genres').innerHTML=["AfroPop","Bongo","Gospel","Hip Hop","Dancehall","Rhumba"].map(g=>`<div class="card"><b>${g}</b><br><button class="btn" onclick="render(DB.filter(s=>s.g=='${g}'))">View</button></div>`).join('');
-document.getElementById('artists').innerHTML=[["Vixxon Kalema","V"],["Eddy Kenzo","E"],["Sheebah","S"]].map(a=>`<div class="card"><img src="https://via.placeholder.com/70/e60023/fff?text=${a[1]}" style="border-radius:50%"><br><b>${a[0]}</b><br><button class="btn">+ Follow</button></div>`).join('');
-let top=TRENDING_ENGINE(DB)[0];document.getElementById('heroText').innerText="🔥 #1 Today: "+top.t+" - "+top.a+" - "+top.dl+" downloads";
-render(TRENDING_ENGINE(DB));RECOMMENDATION_ENGINE();ROYALTY_ENGINE();
+var songs = [];
+var cur = null;
+var curSong = null;
+var lastGenre = "";
+function getScore(s){ return Math.round((s.dl*2 + s.plays) / (s.days+1)); }
+function getTrending(){ var c=songs.slice(); c.sort(function(a,b){ return getScore(b)-getScore(a); }); return c; }
+function updateStats(){ var totalDl=0; for(var i=0;i<songs.length;i++){ totalDl+=songs[i].dl; } var arts={}; for(var i=0;i<songs.length;i++){ arts[songs[i].a]=1; } var aCount=0; for(var k in arts){ aCount++; } document.getElementById('statsText').innerText = songs.length+" Songs • "+aCount+" Artists • "+totalDl+" Downloads"; }
+function render(list){
+  if(list.length==0){ document.getElementById('songList').innerHTML='<div class="empty"><div style="font-size:50px">🌍</div><b>No songs yet in the world!</b><br>Be the FIRST artist in the world to upload!<br>Scroll down 👇</div>'; return; }
+  var html="";
+  for(var i=0;i<list.length;i++){ var s=list[i]; html+='<div class="songRow"><div class="cover">'+s.emoji+'</div><div style="flex:1"><b>'+s.t+'</b><br><span style="color:#777;font-size:12px">'+s.a+' • '+s.g+' • '+s.dl+' downloads</span><br><span class="badge">🔥 Score: '+getScore(s)+'</span></div><button class="btn" onclick="playSong('+s.id+')">▶ Listen</button><button class="btn2" onclick="playAndDownload('+s.id+')">⬇ Free</button></div>'; }
+  document.getElementById('songList').innerHTML=html;
+}
+function searchSongs(){ var q=document.getElementById('search').value.toLowerCase(); if(q==""){ render(getTrending()); return; } var out=[]; for(var i=0;i<songs.length;i++){ if((songs[i].t+" "+songs[i].a+" "+songs[i].g).toLowerCase().indexOf(q)>-1){ out.push(songs[i]); } } render(out); }
+function playSong(id){ var s=null; for(var i=0;i<songs.length;i++){ if(songs[i].id==id){ s=songs[i]; } } if(!s) return; if(cur){ cur.pause(); } cur=new Audio(s.url); cur.play(); curSong=s; lastGenre=s.g; s.plays++; document.getElementById('nowPlaying').innerText="🎵 "+s.t+" - "+s.a; showRecommended(); render(getTrending()); updateStats(); }
+function playAndDownload(id){ playSong(id); setTimeout(downloadSong,600); }
+function togglePlay(){ if(!cur) return; if(cur.paused){ cur.play(); } else { cur.pause(); } }
+function downloadSong(){ if(!curSong){ alert('Play a song first!'); return; } curSong.dl++; var a=document.createElement('a'); a.href=curSong.url; a.download=curSong.t+'.mp3'; a.click(); alert('Downloaded FREE: '+curSong.t); render(getTrending()); updateStats(); }
+function showRecommended(){ if(songs.length==0){ document.getElementById('recommended').innerHTML='<p style="padding:0 12px;color:#777">Upload a song - Recommendations will appear here</p>'; return; } var html=""; for(var i=0;i<songs.length;i++){ if(songs[i].g==lastGenre || lastGenre==""){ html+='<div class="card"><div style="font-size:40px">'+songs[i].emoji+'</div><b>'+songs[i].t+'</b><br><span>'+songs[i].a+'</span><br><button class="btn" onclick="playSong('+songs[i].id+')">▶ Listen</button></div>'; } } document.getElementById('recommended').innerHTML=html; }
+function showArtists(){ if(songs.length==0){ document.getElementById('artists').innerHTML='<div class="card"><div style="font-size:40px">🎤</div><b>Be First Artist</b><br><span>World is waiting</span></div>'; return; } var seen={}; var html=""; for(var i=0;i<songs.length;i++){ if(!seen[songs[i].a]){ seen[songs[i].a]=1; html+='<div class="card"><div style="font-size:40px">'+songs[i].emoji+'</div><b>'+songs[i].a+'</b><br><span>'+songs[i].g+'</span><br><button class="btn" onclick="searchArtist(\''+songs[i].a+'\')">View Songs</button></div>'; } } document.getElementById('artists').innerHTML=html; }
+function searchArtist(name){ document.getElementById('search').value=name; searchSongs(); window.scrollTo(0,0); }
+function uploadSong(){ var n=document.getElementById('uName').value; var t=document.getElementById('uTitle').value; var g=document.getElementById('uGenre').value; var f=document.getElementById('uFile').files[0]; if(!n||!t){ document.getElementById('uploadMsg').innerText="❌ Fill Artist Name + Song Title!"; return; } if(!f){ document.getElementById('uploadMsg').innerText="❌ Select MP3 file!"; return; } var url=URL.createObjectURL(f); var emojis=["❤️","🔥","💕","💰","🙏","🎵","⭐","🌍"]; var ns={id:Date.now(),t:t,a:n,g:g,emoji:emojis[songs.length%emojis.length],plays:0,dl:0,days:1,url:url}; songs.push(ns); document.getElementById('uploadMsg').innerText="✅ SUCCESS! "+t+" by "+n+" is LIVE FOR THE WORLD!"; document.getElementById('heroText').innerText="🔥 #1 Today: "+t+" - "+n; render(getTrending()); showRecommended(); showArtists(); updateStats(); }
+function calcRoyalty(){ var v=document.getElementById('calcDl').value; if(!v) return; document.getElementById('calcResult').innerText="For "+v+" downloads you earn: "+(v*50)+" UGX (50%)"; }
+document.getElementById('genres').innerHTML='<div class="card"><b>AfroPop</b></div><div class="card"><b>Afrobeats</b></div><div class="card"><b>Bongo</b></div><div class="card"><b>Gospel</b></div><div class="card"><b>Hip Hop</b></div><div class="card"><b>Dancehall</b></div><div class="card"><b>Amapiano</b></div>';
+render(getTrending()); showRecommended(); showArtists(); updateStats();
 </script>
 </body>
   </html>
