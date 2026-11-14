@@ -2,73 +2,94 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WICKY AI - All 25 Chambers</title>
+<title>VIXXON MUSIC - Free African Music</title>
 <style>
-body{background:#0b4d2e;color:white;font-family:Arial;text-align:center;margin:0;padding:12px}
-h1{color:#ffe600;font-size:36px;margin:5px}
-.yellow{background:#ffe600;color:#0b4d2e;padding:12px;border-radius:20px;font-weight:bold}
-.card{background:#0a3d24;border:2px solid #ffe600;border-radius:15px;padding:15px;margin:10px 0;text-align:left}
-button{background:#ffe600;color:#0b4d2e;border:none;padding:11px 18px;border-radius:20px;font-weight:bold;margin:4px;font-size:15px}
-input,textarea,select{width:92%;padding:11px;border-radius:10px;border:none;margin:5px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.chamber{background:white;color:#0b4d2e;padding:14px;border-radius:14px;font-weight:bold;cursor:pointer;font-size:14px}
-.hidden{display:none}
-.back{background:white}
+*{box-sizing:border-box} body{margin:0;font-family:Arial;background:#fff;color:#222;padding-bottom:100px}
+.top{display:flex;gap:10px;padding:12px;position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10;align-items:center}
+.logo{font-size:24px;font-weight:900;color:#e60023;white-space:nowrap} .logo span{color:#111}
+.searchBox{flex:1} .searchBox input{width:100%;padding:10px;border-radius:20px;border:1px solid #ddd}
+.nav{display:flex;gap:15px;overflow-x:auto;padding:10px;font-weight:bold;font-size:14px;white-space:nowrap}
+.songRow{display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px solid #eee}
+.songRow img{width:55px;height:55px;border-radius:8px}
+.btn{background:#e60023;color:white;border:none;padding:7px 12px;border-radius:20px}
+.btn2{background:#eee;border:none;padding:7px 12px;border-radius:20px}
+.card{display:inline-block;min-width:130px;background:#f8f8f8;padding:10px;border-radius:10px;text-align:center;margin-left:10px}
+.box{background:#f8f8f8;margin:12px;padding:15px;border-radius:12px}
+.box input,.box select{width:100%;padding:11px;margin:5px 0;border:1px solid #ddd;border-radius:8px}
+.player{position:fixed;bottom:0;left:0;right:0;background:#111;color:white;padding:12px;display:flex;justify-content:space-between;align-items:center}
 </style>
 </head>
 <body>
+<div class="top"><div class="logo">VIXXON<span>MUSIC</span></div><div class="searchBox"><input id="search" onkeyup="SEARCH_ENGINE()" placeholder="🔍 Search..."></div><div style="font-weight:bold">Login</div></div>
+<div class="nav"><span onclick="showSection('home')">🏠 Home</span><span onclick="showSection('trending')">🔥 Trending</span><span onclick="showSection('artists')">⭐ Artists</span><span onclick="showSection('upload')">🎤 Upload</span><span onclick="showSection('royalty')">💰 Royalties</span></div>
+
 <div id="home">
-<h1>👑 WICKY AI</h1><p>Built by Kalema Wyclif<br>From Busowa to the World</p>
-<div class="yellow">25 CHAMBERS • FREE • @Vixxonofficial256</div>
-<h2>Tap Any Chamber 👇 All Work Now!</h2>
-<div class="grid" id="menu"></div>
-<p style="margin-top:20px">WICKY AI • Built by Kalema Wyclif</p>
+<div style="background:#e60023;color:white;padding:18px;text-align:center"><h2 style="margin:0">🔥 TRENDING ENGINE LIVE</h2><p id="heroText">Top song today auto-calculated</p></div>
+<h3 style="padding:0 12px">📈 Trending Now - Auto Ranked by Engine</h3>
+<div id="songList"></div>
+<h3 style="padding:0 12px">💡 Recommended For You - Recommendation Engine</h3>
+<div id="recommended"></div>
+<h3 style="padding:0 12px">🎼 Genres</h3>
+<div style="display:flex;overflow-x:auto" id="genres"></div>
+<h3 style="padding:0 12px">⭐ Top Artists</h3>
+<div style="display:flex;overflow-x:auto" id="artists"></div>
 </div>
-<div id="page" class="hidden">
-<button class="back" onclick="goHome()">← Back to Home</button>
-<div id="content"></div>
+
+<div id="upload" style="display:none">
+<div class="box"><h3>🎤 UPLOAD ENGINE - For Artists</h3>
+<input id="uName" placeholder="Legal Name*"><input id="uPhone" placeholder="Phone*"><input id="uTitle" placeholder="Song Title*">
+<select id="uGenre"><option>AfroPop</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Rhumba</option></select>
+<button class="btn" style="width:100%;padding:12px" onclick="UPLOAD_ENGINE()">UPLOAD - CHECK & SUBMIT</button><p id="uploadMsg"></p></div>
 </div>
+
+<div id="royalty" style="display:none">
+<div class="box"><h3>💰 ROYALTY ENGINE - 50% For Artists</h3>
+<p>Total Downloads: <b id="totalDl">0</b><br>Rate: 100 UGX per download<br>Your 50% Earnings: <b id="earnings">0 UGX</b></p>
+<input id="calcDl" type="number" placeholder="Enter your downloads e.g 10000" onkeyup="ROYALTY_ENGINE()">
+<p id="calcResult"></p></div>
+</div>
+
+<div class="player"><div id="nowPlaying">🎵 Choose song</div><div><button class="btn" onclick="togglePlay()">⏯</button> <button class="btn" onclick="DOWNLOAD_ENGINE()">⬇ Download</button></div></div>
+
 <script>
-const chambers=[
-["music","🎵 Music","<h2>🎵 Music</h2><div class='card'><h3>Top Songs from Busowa</h3><p>1. Wicky Anthem - Vixxon<br>2. From Busowa to the World<br>3. Dream Big</p><button onclick=\"alert('🎵 Playing Wicky Anthem... Turn up volume!')\">▶ Play Wicky Anthem</button><button onclick=\"alert('🎵 Playing Dream Big...')\">▶ Play Dream Big</button><p id='m'></p></div>"],
-["videos","🎬 Videos","<h2>🎬 Videos</h2><div class='card'><p>Watch Wicky AI Videos:</p><button onclick=\"alert('🎬 Opening Video: How I Built Wicky AI')\">▶ How I Built Wicky AI</button><br><button onclick=\"alert('🎬 Opening Video: Busowa Tour')\">▶ Busowa Tour</button><br><button onclick=\"alert('🎬 Opening Video: My Music')\">▶ My Music</button></div>"],
-["news","📰 News","<h2>📰 News</h2><div class='card'><p><b>TODAY IN UGANDA:</b><br>• Wicky AI launches! Boy from Busowa builds website<br>• Rain expected in Kampala<br>• Uganda Cranes training for next match</p><button onclick=\"this.parentElement.innerHTML+='<p>• NEW: Youth in Busowa learning coding!</p>'\">Load More News</button></div>"],
-["farming","🌾 Farming","<h2>🌾 Farming</h2><div class='card'><h3>Maize Calculator</h3>How many acres?<input id='ac' type='number' value='1'><button onclick=\"document.getElementById('fr').innerText='You need '+document.getElementById('ac').value*10+'kg of seeds. Expected harvest: '+document.getElementById('ac').value*800+'kg!'\">Calculate</button><p id='fr'></p><p>Tip: Space 75cm x 30cm. Use manure.</p></div>"],
-["health","🏥 Health","<h2>🏥 Health</h2><div class='card'><p>How do you feel?</p><button onclick=\"alert('Drink clean water, rest, eat fruits. If fever > 2 days, go to health centre!')\">🤒 Fever</button><button onclick=\"alert('Drink water, rest in dark room.')\">🤕 Headache</button><button onclick=\"alert('Eat oranges, drink water, rest.')\">🤧 Flu</button><p>Always tell a trusted adult if sick!</p></div>"],
-["edu","📚 Education","<h2>📚 Education</h2><div class='card'><h3>Maths: 7 x 8 = ?</h3><button onclick=\"quiz(this,1)\">56</button><button onclick=\"quiz(this,0)\">54</button><button onclick=\"quiz(this,0)\">48</button><p id='qr'>Pick answer! Score: <span id='sc'>0</span></p></div><div class='card'><b>Luganda:</b><br>Oli otya = How are you?<br>Webale = Thank you<br>Essomero = School</div>"],
-["business","💼 Business","<h2>💼 Business</h2><div class='card'><h3>Profit Calculator</h3>Selling Price<input id='sp' type='number' value='5000'>Cost Price<input id='cp' type='number' value='3000'><button onclick=\"document.getElementById('pr').innerText='Profit = '+(document.getElementById('sp').value-document.getElementById('cp').value)+' UGX. Good business!'\">Calculate Profit</button><p id='pr'></p></div>"],
-["games","🎮 Games","<h2>🎮 Games</h2><div class='card'><h3>Guess Number 1-10</h3><input id='g' type='number'><button onclick=\"guess()\">Guess!</button><p id='gr'>I am thinking...</p></div><div class='card'><h3>Rock Paper Scissors</h3><button onclick=\"rps('Rock')\">✊ Rock</button><button onclick=\"rps('Paper')\">✋ Paper</button><button onclick=\"rps('Scissors')\">✌️ Scissors</button><p id='rp'></p></div>"],
-["prayer","🙏 Prayer","<h2>🙏 Prayer</h2><div class='card'><button onclick=\"document.getElementById('pr2').innerText='Lord, bless my day, my family, Busowa and Uganda. Give me wisdom to build great things. Amen.'\">🙏 Get Today's Prayer</button><p id='pr2'></p><p>• Morning Prayer<br>• Thanks Prayer<br>• Night Prayer</p></div>"],
-["shop","🛍️ Shop","<h2>🛍️ Shop</h2><div class='card'><p>Wicky Shop:</p><button onclick=\"addShop('Wicky T-Shirt - 20000')\">👕 T-Shirt - 20,000</button><br><button onclick=\"addShop('Wicky Cap - 15000')\">🧢 Cap - 15,000</button><br><button onclick=\"addShop('Wicky Hoodie - 35000')\">🧥 Hoodie - 35,000</button><p id='cart'>Cart: Empty</p></div>"],
-["chat","💬 Chat","<h2>💬 Chat</h2><p>Ask in Luganda or English!</p><textarea id='q' placeholder='Ask Wicky AI...'></textarea><br><button onclick=\"ask()\">Ask Wicky AI</button><p id='a' style='text-align:left;background:#08331f;padding:12px;border-radius:10px'>Wicky AI: Oli otya?</p>"],
-["love","❤️ Love","<h2>❤️ Love</h2><div class='card'>Your Name<input id='n1'>Crush Name<input id='n2'><button onclick=\"document.getElementById('lv').innerText='❤️ '+document.getElementById('n1').value+' + '+document.getElementById('n2').value+' = '+Math.floor(Math.random()*40+60)+'% Love! True love is kindness and respect!'\">Check Love %</button><p id='lv'></p></div>"],
-["sports","⚽ Sports","<h2>⚽ Sports</h2><div class='card'><p>Uganda Cranes vs Kenya: 2-1 🎉<br>Arsenal vs Chelsea: 1-1<br>Man Utd vs Liverpool: 2-0</p><button onclick=\"alert('⚽ GOAL! Wicky scores for Busowa!')\">⚽ Score a Goal!</button></div>"],
-["weather","🌦️ Weather","<h2>🌦️ Weather</h2><div class='card'><button onclick=\"document.getElementById('w').innerText='🌦️ Kampala Today: 26°C, Rain in afternoon. Carry umbrella! Busowa: Sunny morning.'\">Check Kampala Weather</button><p id='w'></p></div>"],
-["jokes","😂 Jokes","<h2>😂 Jokes</h2><div class='card'><button onclick=\"joke()\">😂 Tell Me a Joke</button><p id='jk'>Tap button...</p></div>"],
-["cooking","🍳 Cooking","<h2>🍳 Cooking</h2><div class='card'><h3>Rolex Recipe:</h3><p>1. Fry eggs + cabbage<br>2. Put on chapati<br>3. Roll it. Enjoy!<br>Cost: ~3000 UGX</p><button onclick=\"alert('🍳 Rolex ready! Enjoy!')\">I Made Rolex!</button></div>"],
-["transport","🛵 Transport","<h2>🛵 Transport</h2><div class='card'>From<input id='from' value='Busowa'>To<input id='to' value='Kampala'>KM<input id='km' type='number' value='20'><button onclick=\"document.getElementById('tf').innerText='Boda fare: ~ '+(document.getElementById('km').value*1000)+' UGX. Taxi: ~ '+(document.getElementById('km').value*500)+' UGX.'\">Calculate Fare</button><p id='tf'></p></div>"],
-["jobs","💼 Jobs","<h2>💼 Jobs</h2><div class='card'><p>Job Ideas for Youth:<br>• Boda Rider<br>• Phone Repair<br>• Farming<br>• Content Creator<br>• Shop Keeper<br>• Coding - Like Wicky!</p><button onclick=\"alert('💼 Tip: Learn a skill, be honest, work hard!')\">Get Job Tip</button></div>"],
-["tech","📱 Tech","<h2>📱 Tech</h2><div class='card'><p>Tech Tips:<br>• Save battery: Lower brightness<br>• Free storage: Delete old videos<br>• Stay safe: Never share password!</p><button onclick=\"alert('📱 You can learn coding FREE on your phone! Like Wicky did!')\">Learn Coding Tip</button></div>"],
-["art","🎨 Art","<h2>🎨 Art</h2><div class='card'><p>Pick a Colour:</p><input type='color' id='col' onchange=\"document.body.style.background=this.value\"><p>Change background colour of site! Try it!</p><button onclick=\"document.body.style.background='#0b4d2e'\">Reset Green</button></div>"],
-["history","📜 History","<h2>📜 History</h2><div class='card'><p>Uganda Facts:<br>• Capital: Kampala<br>• Independence: 9 Oct 1962<br>• Pearl of Africa<br>• Busowa is in Bugiri District!</p><button onclick=\"alert('📜 Uganda got independence in 1962!')\">More Facts</button></div>"],
-["science","🔬 Science","<h2>🔬 Science</h2><div class='card'><button onclick=\"sci()\">🔬 Random Science Fact</button><p id='sc2'>Tap...</p></div>"],
-["motivation","💪 Motivation","<h2>💪 Motivation</h2><div class='card'><button onclick=\"mot()\">💪 Motivate Me!</button><p id='mo'>Tap...</p></div>"],
-["bible","📖 Bible","<h2>📖 Bible</h2><div class='card'><button onclick=\"document.getElementById('bv').innerText='📖 I can do all things through Christ who strengthens me. - Philippians 4:13'\">📖 Get Verse</button><p id='bv'></p></div>"],
-["money","💰 Money","<h2>💰 Money</h2><div class='card'>Save per week<input id='sv' type='number' value='5000'><button onclick=\"document.getElementById('mn').innerText='In 1 year you will save '+(document.getElementById('sv').value*52)+' UGX! Keep saving!'\">Calculate Savings</button><p id='mn'></p></div>"]
+// ===== DATABASE - Like Mdundo Database =====
+let DB=[
+{id:1,t:"Omukwano Gwo",a:"Vixxon Kalema",g:"AfroPop",plays:12500,dl:8500,days:2,img:"https://via.placeholder.com/55/e60023/fff?text=V",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+{id:2,t:"Busowa Boy",a:"Vixxon Kalema",g:"Hip Hop",plays:9800,dl:7200,days:1,img:"https://via.placeholder.com/55/111/fff?text=B",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+{id:3,t:"Nkwagala Nyo",a:"Vixxon Kalema",g:"Bongo",plays:8100,dl:6100,days:5,img:"https://via.placeholder.com/55/0082ff/fff?text=N",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+{id:4,t:"Money Hustle",a:"Vixxon Kalema",g:"Dancehall",plays:7600,dl:5400,days:3,img:"https://via.placeholder.com/55/ffaa00/fff?text=M",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
+{id:5,t:"Mukama Yebaale",a:"Vixxon Kalema",g:"Gospel",plays:6400,dl:4900,days:7,img:"https://via.placeholder.com/55/00aa66/fff?text=G",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"},
 ];
-let secret=Math.floor(Math.random()*10)+1, score=0, cart=[];
-let menu=document.getElementById('menu');
-chambers.forEach(c=>{let d=document.createElement('div');d.className='chamber';d.innerHTML=c[1];d.onclick=()=>openC(c[0]);menu.appendChild(d)});
-function openC(id){let c=chambers.find(x=>x[0]==id);document.getElementById('home').classList.add('hidden');document.getElementById('page').classList.remove('hidden');document.getElementById('content').innerHTML=c[2];window.scrollTo(0,0)}
-function goHome(){document.getElementById('page').classList.add('hidden');document.getElementById('home').classList.remove('hidden')}
-function guess(){let g=document.getElementById('g').value;if(g==secret){document.getElementById('gr').innerText='🎉 CORRECT! New number!';secret=Math.floor(Math.random()*10)+1}else if(g<secret)document.getElementById('gr').innerText='Too small! Go bigger ⬆️';else document.getElementById('gr').innerText='Too big! Go smaller ⬇️'}
-function rps(u){let c=['Rock','Paper','Scissors'][Math.floor(Math.random()*3)];let r=u==c?'Draw! Both '+c:(u=='Rock'&&c=='Scissors')||(u=='Paper'&&c=='Rock')||(u=='Scissors'&&c=='Paper')?'🎉 YOU WIN! You:'+u+' Wicky:'+c:'Wicky Wins! You:'+u+' Wicky:'+c;document.getElementById('rp').innerText=r}
-function ask(){let q=document.getElementById('q').value.toLowerCase();let a='';if(q.includes('oli otya')||q.includes('how are you'))a='Bulungi nyo! Ndi bulungi! Oli otya naawe?';else if(q.includes('maize')||q.includes('kasooli'))a='For maize: Plant at start of rains, space 75cm x 30cm, use manure. Harvest in 3 months!';else if(q.includes('school')||q.includes('study'))a='Study 30 mins daily, ask teacher questions, never give up! You are smart!';else if(q.includes('who')&&q.includes('built'))a='I was built by Kalema Wyclif from Busowa! Best developer!';else if(q.includes('hello')||q.includes('hi'))a='Hello! Oli otya? I am Wicky AI. How can I help?';else a='Great question! '+document.getElementById('q').value+' - Keep dreaming big. From Busowa to the World!';document.getElementById('a').innerText='Wicky AI: '+a}
-function quiz(el,ok){if(ok){score++;document.getElementById('qr').innerHTML='✅ CORRECT! Score: <span>'+score+'</span>'}else document.getElementById('qr').innerText='❌ Try again! Hint: 7x7=49'}
-function addShop(i){cart.push(i);document.getElementById('cart').innerText='Cart: '+cart.join(', ')}
-function joke(){let j=['Why did chicken cross road? To get to Busowa!','What do you call a smart boda? A Wicky Boda!','Why is maize funny? Because it is corny!','Knock knock... Who is there? Wicky! Wicky who? Wicky AI from Busowa!'];document.getElementById('jk').innerText=j[Math.floor(Math.random()*j.length)]}
-function sci(){let s=['Water is H2O','Plants make food from sun','Earth goes around Sun','Humans have 206 bones'];document.getElementById('sc2').innerText=s[Math.floor(Math.random()*s.length)]}
-function mot(){let m=['From Busowa to the World! You can do it!','Dream Big! Work Hard! Never Give Up!','Kalema built a website - So can you!','Every big developer started small!'];document.getElementById('mo').innerText=m[Math.floor(Math.random()*m.length)]}
+let cur=null, curSong=null, lastGenre="AfroPop";
+
+// ===== ENGINE 1: TRENDING ENGINE =====
+function TRENDING_ENGINE(list){return list.map(s=>({...s,score:(s.dl*2 + s.plays) / (s.days+1)})).sort((a,b)=>b.score-a.score)}
+
+// ===== ENGINE 2: SEARCH ENGINE =====
+function SEARCH_ENGINE(){let q=document.getElementById('search').value.toLowerCase().trim();if(!q){render(TRENDING_ENGINE(DB));return}let res=DB.filter(s=>(s.t+s.a+s.g).toLowerCase().includes(q));render(res)}
+
+// ===== ENGINE 3: RECOMMENDATION ENGINE =====
+function RECOMMENDATION_ENGINE(){let rec=DB.filter(s=>s.g==lastGenre);if(rec.length<2)rec=DB.slice(0,3);document.getElementById('recommended').innerHTML=rec.map(s=>`<div class="card"><img src="${s.img}" style="width:80px;height:80px;border-radius:10px"><br><b>${s.t}</b><br><span>${s.a}</span><br><button class="btn" onclick="PLAY_ENGINE(${s.id})">▶ Play</button></div>`).join('')}
+
+// ===== ENGINE 4: PLAYER ENGINE =====
+function PLAY_ENGINE(id){let s=DB.find(x=>x.id==id);if(!s)return;if(cur)cur.pause();cur=new Audio(s.url);cur.play();curSong=s;lastGenre=s.g;s.plays++;document.getElementById('nowPlaying').innerText="🎵 "+s.t+" - "+s.a;RECOMMENDATION_ENGINE();render(TRENDING_ENGINE(DB))}
+function togglePlay(){if(!cur)return;cur.paused?cur.play():cur.pause()}
+
+// ===== ENGINE 5: DOWNLOAD ENGINE =====
+function DOWNLOAD_ENGINE(){if(!curSong){alert('Play a song first!');return}curSong.dl++;let a=document.createElement('a');a.href=curSong.url;a.download=curSong.t+'.mp3';a.click();alert('✅ Downloaded FREE: '+curSong.t+'\nTotal downloads now: '+curSong.dl);ROYALTY_ENGINE();render(TRENDING_ENGINE(DB))}
+
+// ===== ENGINE 6: UPLOAD ENGINE =====
+function UPLOAD_ENGINE(){let n=document.getElementById('uName').value,t=document.getElementById('uTitle').value,p=document.getElementById('uPhone').value;if(!n||!t||!p){document.getElementById('uploadMsg').innerText="❌ ERROR: Fill Name, Phone, Title - All required like Mdundo!";return}document.getElementById('uploadMsg').innerText="✅ SUCCESS! Song '"+t+"' by "+n+" submitted. Our team will review in 24h. You get 50% revenue!"}
+
+// ===== ENGINE 7: ROYALTY ENGINE =====
+function ROYALTY_ENGINE(){let total=DB.reduce((sum,s)=>sum+s.dl,0);document.getElementById('totalDl').innerText=total;document.getElementById('earnings').innerText=(total*100*0.5).toLocaleString()+" UGX";let v=document.getElementById('calcDl').value;if(v)document.getElementById('calcResult').innerText="For "+v+" downloads you earn: "+(v*100*0.5).toLocaleString()+" UGX (50%)"}
+
+function render(list){document.getElementById('songList').innerHTML=list.map((s,i)=>`<div class="songRow"><b style="color:#e60023">${i+1}</b><img src="${s.img}"><div style="flex:1"><b>${s.t}</b><br><span>${s.a} • ${s.g} • ${s.dl} downloads • ${s.plays} plays • Score: ${Math.round(s.score||0)}</span></div><button class="btn" onclick="PLAY_ENGINE(${s.id})">▶</button><button class="btn2" onclick="PLAY_ENGINE(${s.id});setTimeout(DOWNLOAD_ENGINE,500)">⬇ Free</button></div>`).join('')}
+function showSection(x){document.getElementById('home').style.display=x=='home'?'block':'none';document.getElementById('upload').style.display=x=='upload'?'block':'none';document.getElementById('royalty').style.display=x=='royalty'?'block':'none';if(x=='trending')render(TRENDING_ENGINE(DB))}
+document.getElementById('genres').innerHTML=["AfroPop","Bongo","Gospel","Hip Hop","Dancehall","Rhumba"].map(g=>`<div class="card"><b>${g}</b><br><button class="btn" onclick="render(DB.filter(s=>s.g=='${g}'))">View</button></div>`).join('');
+document.getElementById('artists').innerHTML=[["Vixxon Kalema","V"],["Eddy Kenzo","E"],["Sheebah","S"]].map(a=>`<div class="card"><img src="https://via.placeholder.com/70/e60023/fff?text=${a[1]}" style="border-radius:50%"><br><b>${a[0]}</b><br><button class="btn">+ Follow</button></div>`).join('');
+let top=TRENDING_ENGINE(DB)[0];document.getElementById('heroText').innerText="🔥 #1 Today: "+top.t+" - "+top.a+" - "+top.dl+" downloads";
+render(TRENDING_ENGINE(DB));RECOMMENDATION_ENGINE();ROYALTY_ENGINE();
 </script>
 </body>
   </html>
