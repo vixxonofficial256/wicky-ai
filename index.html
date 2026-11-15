@@ -86,7 +86,7 @@ button{padding:12px 14px;border:0;border-radius:8px;font-weight:bold;cursor:poin
 <button onclick="showPage('profile')" id="n-profile">👤<br>Profile</button>
 </div>
 
-<script>
+
 let currentSong=null, songsCache=[], mySongs=JSON.parse(localStorage.getItem('vixxon_uploads')||'[]');
 function showPage(p){['home','search','internet','trending','artists','upload','royalties','profile'].forEach(x=>{document.getElementById('page-'+x).classList.add('hidden');document.getElementById('n-'+x).classList.remove('on')});document.getElementById('page-'+p).classList.remove('hidden');document.getElementById('n-'+p).classList.add('on');window.scrollTo(0,0);if(p==='upload')showUploads();if(p==='profile')showProfile();}
 function cardHTML(s){return `<div class="card"><img src="${s.artwork}"><div style="flex:1"><b>${s.title}</b><p>${s.artist} • ${s.genre}</p><button class="red" onclick="playSong(${s.id})">▶ Listen</button> <button class="greenbtn" onclick="dlSong(${s.id})">⬇ Download</button></div></div>`}
@@ -109,7 +109,5 @@ setTimeout(addPhotoUI,500);
 let oldUp2=doUpload;doUpload=function(){let t=document.getElementById('upTitle').value;let ar=document.getElementById('upArtist').value;if(!t||!ar){alert('Fill Song Title + Artist!');return}let f=document.getElementById('upFile').files[0];let cf=document.getElementById('upCover')?document.getElementById('upCover').files[0]:null;if(cf){let r=new FileReader();r.onload=e=>{let s={id:Date.now(),title:t,artist:ar,genre:document.getElementById('upGenre').value,artwork:e.target.result,preview:f?URL.createObjectURL(f):null};mySongs.push(s);localStorage.setItem('vixxon_uploads',JSON.stringify(mySongs));document.getElementById('upMsg').innerText='✅ Uploaded with cover!';showUploads()};r.readAsDataURL(cf)}else oldUp2()};
 let oldShowUp2=showUploads;showUploads=function(){let el=document.getElementById('myUploads');if(!mySongs.length){el.innerHTML='<p>No uploads yet.</p>';return}el.innerHTML=mySongs.map(s=>`<div class="card"><img src="${s.artwork}"><div style="flex:1"><b>${s.title}</b><p>${s.artist}</p><button class="red" onclick="playSong(${s.id})">▶ Listen</button></div></div>`).join('')};
 showProfile();showUploads();calcRoy();  <- line 106 now lower
-</script>
 </body></html>showProfile();showUploads();calcRoy();
-</script>
 </body></html>
