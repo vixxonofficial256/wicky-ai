@@ -103,9 +103,15 @@ function showUploads(){let el=document.getElementById('myUploads');if(!mySongs.l
 function saveProfile(){let n=document.getElementById('profName').value;let e=document.getElementById('profEmail').value;let ph=document.getElementById('profPhone').value;if(!n){alert('Fill Your Name!');return}localStorage.setItem('vixxon_profile',JSON.stringify({name:n,email:e,phone:ph}));document.getElementById('profMsg').innerText='✅ Saved!';showProfile()}
 function showProfile(){let p=JSON.parse(localStorage.getItem('vixxon_profile')||'null');if(p){document.getElementById('profName').value=p.name;document.getElementById('profEmail').value=p.email||'';document.getElementById('profPhone').value=p.phone||'';document.getElementById('profShow').innerHTML='<div class="box"><b>👤 '+p.name+'</b><p>'+(p.email||'')+'<br>'+(p.phone||'')+'</p></div>'}}
 function clearAll(){localStorage.clear();mySongs=[];alert('Cleared!');location.reload()}
-showProfile();showUploads();calcRoy();
+<script>
+let profPicData2=localStorage.getItem('vixxon_pic')||'';
+function addPhotoUI(){let prof=document.getElementById('profName');if(prof&&!document.getElementById('profPic')){let d=document.createElement('div');d.style.textAlign='center';d.innerHTML='<img id="profPic" src="'+(profPicData2||'https://via.placeholder.com/120?text=👤')+'" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid #e60023"><br><p style="color:#e60023;font-weight:bold">👆 TAP CIRCLE TO ADD PHOTO</p><input id="profFile" type="file" accept="image/*" style="display:none">';prof.parentNode.insertBefore(d,prof);document.getElementById('profPic').onclick=()=>document.getElementById('profFile').click();document.getElementById('profFile').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=x=>{profPicData2=x.target.result;document.getElementById('profPic').src=profPicData2;localStorage.setItem('vixxon_pic',profPicData2);alert('✅ Photo saved!')};r.readAsDataURL(f)}}let up=document.getElementById('upFile');if(up&&!document.getElementById('upCover')){let l=document.createElement('label');l.innerText='🖼️ Song Cover Photo:';let inp=document.createElement('input');inp.id='upCover';inp.type='file';inp.accept='image/*';up.parentNode.insertBefore(l,up.nextSibling);up.parentNode.insertBefore(inp,l.nextSibling)}}
+setTimeout(addPhotoUI,500);
+let oldUp2=doUpload;doUpload=function(){let t=document.getElementById('upTitle').value;let ar=document.getElementById('upArtist').value;if(!t||!ar){alert('Fill Song Title + Artist!');return}let f=document.getElementById('upFile').files[0];let cf=document.getElementById('upCover')?document.getElementById('upCover').files[0]:null;if(cf){let r=new FileReader();r.onload=e=>{let s={id:Date.now(),title:t,artist:ar,genre:document.getElementById('upGenre').value,artwork:e.target.result,preview:f?URL.createObjectURL(f):null};mySongs.push(s);localStorage.setItem('vixxon_uploads',JSON.stringify(mySongs));document.getElementById('upMsg').innerText='✅ Uploaded with cover!';showUploads()};r.readAsDataURL(cf)}else oldUp2()};
+let oldShowUp2=showUploads;showUploads=function(){let el=document.getElementById('myUploads');if(!mySongs.length){el.innerHTML='<p>No uploads yet.</p>';return}el.innerHTML=mySongs.map(s=>`<div class="card"><img src="${s.artwork}"><div style="flex:1"><b>${s.title}</b><p>${s.artist}</p><button class="red" onclick="playSong(${s.id})">▶ Listen</button></div></div>`).join('')};
+</script>
+showProfile();showUploads();calcRoy();  <- line 106 now lower
+</script>
+</body></html>showProfile();showUploads();calcRoy();
 </script>
 </body></html>
-
-<!-- ARTISTS -->
-<div id="page-artists" class="hidden"><div style="padding:10px"><h2>⭐ Artists</h2><input id="artistInput" placeholder="Search artist..." oninput="doSearch(this.value)"><p>Tap any artist name to see their songs.</p></div><div id="artistResults"></div></div>
