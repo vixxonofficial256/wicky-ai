@@ -1,114 +1,135 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VIXXON MUSIC</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#fff;color:#111;padding-bottom:110px}
-.top{text-align:center;padding:10px 10px 0}.top h1{color:#e60023;margin:0;font-size:30px}
-.green{background:#0a8a3a;color:#fff;padding:8px;font-weight:bold;margin:8px 10px;border-radius:6px}
-.box{background:#e8f6ff;margin:10px;padding:12px;border-radius:12px;text-align:center}
-input,select{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
-button{padding:12px 14px;border:0;border-radius:8px;font-weight:bold;cursor:pointer;font-size:15px}
-.red{background:#e60023;color:#fff}.black{background:#111;color:#fff}.greenbtn{background:#0a8a3a;color:#fff}
-.card{display:flex;gap:10px;background:#f5f5f5;margin:8px 10px;padding:8px;border-radius:10px;align-items:center}
-.card img{width:64px;height:64px;border-radius:8px;object-fit:cover}
-.card b{font-size:15px}.card p{margin:2px 0;color:#555;font-size:13px}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:2px solid #ddd;z-index:99}
-.nav button{flex:1;background:#fff;color:#111;font-size:11px;padding:8px 2px;border-radius:0}
-.nav button.on{background:#e60023;color:#fff}
-.player{position:fixed;bottom:52px;left:0;right:0;background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:8px 10px;z-index:98}
-.player button{padding:8px 12px;margin:2px}.hidden{display:none}
-.chip{display:inline-block;background:#fff;border:1px solid #ccc;padding:6px 10px;border-radius:20px;margin:3px;font-size:13px}
-</style></head>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#0f0f0f;color:#fff;padding-bottom:120px}
+header{background:#ff3b30;padding:12px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{font-size:24px}
+header p{font-size:12px;opacity:.9}
+nav{display:flex;gap:6px;padding:10px;background:#1a1a1a;position:sticky;top:58px;z-index:10;overflow-x:auto}
+nav button{white-space:nowrap;border:0;padding:10px 14px;border-radius:20px;background:#333;color:#fff;cursor:pointer;font-weight:bold}
+nav button.on{background:#ff3b30}
+.page{display:none;padding:12px}
+.page.active{display:block}
+.search-box{display:flex;gap:8px;margin:10px 0}
+.search-box input{flex:1;padding:13px;border-radius:10px;border:0;font-size:16px}
+.search-box button{padding:13px 16px;border:0;border-radius:10px;background:#ff3b30;color:#fff;font-weight:bold}
+.btns{display:flex;gap:8px;margin:10px 0}
+.btns button{flex:1;padding:12px;border:0;border-radius:10px;font-weight:bold;cursor:pointer}
+.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}
+.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:12px;margin-bottom:10px;align-items:center}
+.card img{width:70px;height:70px;border-radius:10px;object-fit:cover;background:#333}
+.card b{font-size:15px;display:block}
+.card small{color:#aaa}
+.card .actions{margin-top:6px;display:flex;gap:6px}
+.card .actions button{padding:7px 10px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+.banner{background:#e8f6ff;color:#111;padding:14px;border-radius:12px;text-align:center}
+.banner h3{margin-bottom:6px}
+.upload-box{background:#1e1e1e;padding:14px;border-radius:12px}
+.upload-box input,.upload-box select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#2a2a2a;color:#fff}
+.profile{text-align:center;background:#1e1e1e;padding:20px;border-radius:12px}
+.profile img{width:90px;height:90px;border-radius:50%;object-fit:cover;background:#333}
+#player{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;padding:10px;display:none;border-top:2px solid #ff3b30;z-index:20}
+#player .row{display:flex;gap:10px;align-items:center}
+#player img{width:50px;height:50px;border-radius:8px}
+#player audio{width:100%;margin-top:8px}
+</style>
+</head>
 <body>
-<div class="top"><h1>VIXXON MUSIC</h1><div>Free Music For The World - Full Songs!</div></div>
-<div class="green">⚡ VERY ACTIVE! Type = Search Instantly! Type = Calculate Instantly!</div>
-
-<!-- HOME -->
-<div id="page-home">
-<div class="box"><b>🎧 LISTEN INSIDE APP + ⬇ DOWNLOAD INSIDE APP</b><p>🍎 Apple • 🎵 Deezer • 🔊 Audius • MusicBrainz • Jamendo<br>⚡ Type to search instantly...</p><div id="status"><span class="chip">✅ Apple - READY</span><span class="chip">✅ Search - READY</span></div></div>
-<div style="padding:0 10px"><input id="homeSearch" placeholder="⚡ JUST TYPE... e.g Fik Famieca, Azawi" oninput="doSearch(this.value)"><br>
-<button class="red" onclick="doSearch(document.getElementById('homeSearch').value)">🌍 SEARCH NOW</button>
-<button class="black" onclick="showPage('trending');loadTrending()">🔥 TRENDING WORLD</button></div>
-<div id="homeResults"></div>
+<header>
+<h1>🎵 VIXXON MUSIC</h1>
+<p>Ugandan Music • Listen • Download • Upload</p>
+</header>
+<nav id="nav">
+<button class="on" onclick="showPage('home')">🏠 Home</button>
+<button onclick="showPage('search')">🔍 Search</button>
+<button onclick="showPage('library')">📚 Library</button>
+<button onclick="showPage('trending')">🔥 Trending</button>
+<button onclick="showPage('artists')">🎤 Artists</button>
+<button onclick="showPage('upload')">⬆️ Upload</button>
+<button onclick="showPage('profile')">👤 Profile</button>
+</nav>
+<div id="page-home" class="page active">
+<div class="banner"><h3>🎧 LISTEN INSIDE APP + DOWNLOAD INSIDE APP</h3><p>🍎 Apple • 🎵 Deezer • 🔊 Audius • MusicBrainz • Jamendo</p><p>⚡ Type to search instantly...</p></div>
+<div class="search-box"><input id="qHome" placeholder="⚡ JUST TYPE... e.g Fik Fameica, Azawi" oninput="quickSearch(this.value)"><button onclick="doSearch(document.getElementById('qHome').value)">SEARCH</button></div>
+<div class="btns"><button class="red" onclick="doSearch(document.getElementById('qHome').value||'Azawi')">🌍 SEARCH NOW</button><button class="dark" onclick="loadTrending()">🔥 TRENDING WORLD</button></div>
+<h3>🔥 Trending Now</h3><div id="homeList"></div>
 </div>
-
-<!-- SEARCH -->
-<div id="page-search" class="hidden">
-<div style="padding:10px"><h2>🔍 Search</h2><input id="searchInput" placeholder="Type artist or song..." oninput="doSearch(this.value)"><button class="red" onclick="doSearch(document.getElementById('searchInput').value)">SEARCH SONGS</button></div>
-<div id="searchResults"></div></div>
-
-<!-- INTERNET -->
-<div id="page-internet" class="hidden">
-<div style="padding:10px"><h2>🌍 Internet Search</h2><input id="netInput" placeholder="Type e.g Fik Famieca..." oninput="doSearch(this.value)"><button class="red" onclick="doSearch(document.getElementById('netInput').value)">SEARCH NOW</button><p id="netStatus">✅ Connected to Apple Music - Real Songs!</p></div>
-<div id="netResults"></div></div>
-
-<!-- TRENDING -->
-<div id="page-trending" class="hidden"><div style="padding:10px"><h2>🔥 Trending World</h2><button class="black" onclick="loadTrending()">REFRESH TRENDING</button></div><div id="trendResults"></div></div>
-  <!-- UPLOAD -->
-<div id="page-upload" class="hidden"><div style="padding:10px"><h2>🎤 Upload Your Song</h2>
-<input id="upTitle" placeholder="Song Title - e.g My Song">
-<input id="upArtist" placeholder="Artist Name - e.g Your Name">
-<select id="upGenre"><option>Afrobeat</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>Dancehall</option><option>Other</option></select>
-<input id="upFile" type="file" accept="audio/*">
-<button class="greenbtn" style="width:100%" onclick="doUpload()">⬆ UPLOAD SONG</button>
-<p id="upMsg"></p><h3>Your Uploaded Songs:</h3><div id="myUploads"></div></div></div>
-
-<!-- ROYALTIES -->
-<div id="page-royalties" class="hidden"><div style="padding:10px"><h2>💰 Royalties Calculator</h2>
-<label>Downloads</label><input id="royDown" type="number" value="0" placeholder="e.g 10000" oninput="calcRoy()">
-<label>Streams / Plays</label><input id="royPlay" type="number" value="0" placeholder="e.g 50000" oninput="calcRoy()">
-<button class="greenbtn" style="width:100%" onclick="calcRoy()">CALCULATE</button>
-<div id="royResult" style="background:#e8ffe8;padding:12px;border-radius:10px;margin-top:10px;font-weight:bold">Type numbers to calculate instantly!</div>
-<p>Rate: Downloads = 500 UGX each, Streams = 50 UGX each</p></div></div>
-
-<!-- PROFILE -->
-<div id="page-profile" class="hidden"><div style="padding:10px"><h2>👤 My Profile</h2>
-<input id="profName" placeholder="Your Name">
-<input id="profEmail" placeholder="Your Email">
-<input id="profPhone" placeholder="Your Phone e.g 0700000000">
-<button class="red" style="width:100%" onclick="saveProfile()">💾 SAVE PROFILE</button>
-<p id="profMsg"></p><div id="profShow"></div>
-<button class="black" style="width:100%;margin-top:10px" onclick="clearAll()">🗑 CLEAR MY DATA</button></div></div>
-
-<!-- PLAYER -->
-<div class="player"><div id="nowPlaying">🎵 Choose song - Tap ▶ Listen</div><div><button class="red" onclick="togglePlay()">⏯ Play/Pause</button><button class="greenbtn" onclick="downloadCurrent()">⬇ Download</button></div></div>
-<audio id="audio" preload="none"></audio>
-
-<!-- BOTTOM NAV -->
-<div class="nav">
-<button onclick="showPage('home')" id="n-home" class="on">🏠<br>Home</button>
-<button onclick="showPage('search')" id="n-search">🔍<br>Search</button>
-<button onclick="showPage('internet')" id="n-internet">🌍<br>Internet</button>
-<button onclick="showPage('trending')" id="n-trending">🔥<br>Trending</button>
-<button onclick="showPage('artists')" id="n-artists">⭐<br>Artists</button>
-<button onclick="showPage('upload')" id="n-upload">🎤<br>Upload</button>
-<button onclick="showPage('royalties')" id="n-royalties">💰<br>Royalties</button>
-<button onclick="showPage('profile')" id="n-profile">👤<br>Profile</button>
+<div id="page-search" class="page">
+<h2>🔍 Search Music</h2>
+<div class="search-box"><input id="qSearch" placeholder="Type artist or song..."><button onclick="doSearch(document.getElementById('qSearch').value)">SEARCH</button></div>
+<div id="searchList"><p style="color:#aaa">Type and search - results appear instantly.</p></div>
 </div>
-
-
-let currentSong=null, songsCache=[], mySongs=JSON.parse(localStorage.getItem('vixxon_uploads')||'[]');
-function showPage(p){['home','search','internet','trending','artists','upload','royalties','profile'].forEach(x=>{document.getElementById('page-'+x).classList.add('hidden');document.getElementById('n-'+x).classList.remove('on')});document.getElementById('page-'+p).classList.remove('hidden');document.getElementById('n-'+p).classList.add('on');window.scrollTo(0,0);if(p==='upload')showUploads();if(p==='profile')showProfile();}
-function cardHTML(s){return `<div class="card"><img src="${s.artwork}"><div style="flex:1"><b>${s.title}</b><p>${s.artist} • ${s.genre}</p><button class="red" onclick="playSong(${s.id})">▶ Listen</button> <button class="greenbtn" onclick="dlSong(${s.id})">⬇ Download</button></div></div>`}
-function render(list,el){document.getElementById(el).innerHTML=list.length?list.map(cardHTML).join(''):'<p style="padding:10px">No results. Try another name.</p>'}
-async function doSearch(q){if(!q||q.length<2)return;let status=document.getElementById('netStatus');if(status)status.innerText='🔍 Searching...';try{let r=await fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=20');let j=await r.json();songsCache=j.results.map((x,i)=>({id:i,title:x.trackName||'Unknown',artist:x.artistName||'Unknown',genre:x.primaryGenreName||'Music',artwork:(x.artworkUrl100||'').replace('100x100','200x200'),preview:x.previewUrl,download:x.previewUrl}));render(songsCache,'homeResults');render(songsCache,'searchResults');render(songsCache,'netResults');render(songsCache,'artistResults');if(status)status.innerText='✅ Found '+songsCache.length+' real songs!';}catch(e){if(status)status.innerText='❌ No internet. Check connection.'}}
-async function loadTrending(){let el=document.getElementById('trendResults');el.innerHTML='Loading trending...';try{let r=await fetch('https://itunes.apple.com/search?term=Afrobeats&media=music&limit=20');let j=await r.json();let list=j.results.map((x,i)=>({id:i,title:x.trackName,artist:x.artistName,genre:x.primaryGenreName,artwork:x.artworkUrl100,preview:x.previewUrl,download:x.previewUrl}));songsCache=list;render(list,'trendResults');}catch(e){el.innerHTML='No internet.'}}
-function playSong(id){let s=songsCache.find(x=>x.id===id)||mySongs.find(x=>x.id===id);if(!s)return;currentSong=s;document.getElementById('nowPlaying').innerText='🎵 Now: '+s.title+' - '+s.artist;let a=document.getElementById('audio');if(s.preview){a.src=s.preview;a.play()}else{alert('This is your uploaded song - saved locally!')}}
-function togglePlay(){let a=document.getElementById('audio');if(!currentSong){alert('Tap ▶ Listen on any song first!');return}if(a.paused)a.play();else a.pause()}
-function dlSong(id){let s=songsCache.find(x=>x.id===id);if(s&&s.download){let a=document.createElement('a');a.href=s.download;a.download=s.title+'.m4a';a.click();alert('Downloading '+s.title)}else alert('Download started!')}
-function downloadCurrent(){if(!currentSong){alert('Tap ▶ Listen first, then Download!');return}dlSong(currentSong.id)}
-function calcRoy(){let d=Number(document.getElementById('royDown').value||0);let p=Number(document.getElementById('royPlay').value||0);let total=d*500+p*50;document.getElementById('royResult').innerHTML='Downloads: '+d+' x 500 = '+(d*500).toLocaleString()+' UGX<br>Streams: '+p+' x 50 = '+(p*50).toLocaleString()+' UGX<br><br>💰 TOTAL: '+total.toLocaleString()+' UGX'}
-function doUpload(){let t=document.getElementById('upTitle').value;let ar=document.getElementById('upArtist').value;if(!t||!ar){alert('Fill Song Title + Artist Name!');return}let f=document.getElementById('upFile').files[0];let song={id:Date.now(),title:t,artist:ar,genre:document.getElementById('upGenre').value,artwork:'https://via.placeholder.com/200',preview:f?URL.createObjectURL(f):null,download:null};mySongs.push(song);localStorage.setItem('vixxon_uploads',JSON.stringify(mySongs));document.getElementById('upMsg').innerText='✅ Uploaded! '+t+' is now in your list!';showUploads();document.getElementById('upTitle').value='';document.getElementById('upArtist').value=''}
-function showUploads(){let el=document.getElementById('myUploads');if(!mySongs.length){el.innerHTML='<p>No uploads yet.</p>';return}el.innerHTML=mySongs.map(s=>`<div class="card"><div style="flex:1"><b>${s.title}</b><p>${s.artist}</p><button class="red" onclick="playSong(${s.id})">▶ Listen</button></div></div>`).join('')}
-function saveProfile(){let n=document.getElementById('profName').value;let e=document.getElementById('profEmail').value;let ph=document.getElementById('profPhone').value;if(!n){alert('Fill Your Name!');return}localStorage.setItem('vixxon_profile',JSON.stringify({name:n,email:e,phone:ph}));document.getElementById('profMsg').innerText='✅ Saved!';showProfile()}
-function showProfile(){let p=JSON.parse(localStorage.getItem('vixxon_profile')||'null');if(p){document.getElementById('profName').value=p.name;document.getElementById('profEmail').value=p.email||'';document.getElementById('profPhone').value=p.phone||'';document.getElementById('profShow').innerHTML='<div class="box"><b>👤 '+p.name+'</b><p>'+(p.email||'')+'<br>'+(p.phone||'')+'</p></div>'}}
-function clearAll(){localStorage.clear();mySongs=[];alert('Cleared!');location.reload()}
-let profPicData2=localStorage.getItem('vixxon_pic')||'';
-function addPhotoUI(){let prof=document.getElementById('profName');if(prof&&!document.getElementById('profPic')){let d=document.createElement('div');d.style.textAlign='center';d.innerHTML='<img id="profPic" src="'+(profPicData2||'https://via.placeholder.com/120?text=👤')+'" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid #e60023"><br><p style="color:#e60023;font-weight:bold">👆 TAP CIRCLE TO ADD PHOTO</p><input id="profFile" type="file" accept="image/*" style="display:none">';prof.parentNode.insertBefore(d,prof);document.getElementById('profPic').onclick=()=>document.getElementById('profFile').click();document.getElementById('profFile').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=x=>{profPicData2=x.target.result;document.getElementById('profPic').src=profPicData2;localStorage.setItem('vixxon_pic',profPicData2);alert('✅ Photo saved!')};r.readAsDataURL(f)}}let up=document.getElementById('upFile');if(up&&!document.getElementById('upCover')){let l=document.createElement('label');l.innerText='🖼️ Song Cover Photo:';let inp=document.createElement('input');inp.id='upCover';inp.type='file';inp.accept='image/*';up.parentNode.insertBefore(l,up.nextSibling);up.parentNode.insertBefore(inp,l.nextSibling)}}
-setTimeout(addPhotoUI,500);
-let oldUp2=doUpload;doUpload=function(){let t=document.getElementById('upTitle').value;let ar=document.getElementById('upArtist').value;if(!t||!ar){alert('Fill Song Title + Artist!');return}let f=document.getElementById('upFile').files[0];let cf=document.getElementById('upCover')?document.getElementById('upCover').files[0]:null;if(cf){let r=new FileReader();r.onload=e=>{let s={id:Date.now(),title:t,artist:ar,genre:document.getElementById('upGenre').value,artwork:e.target.result,preview:f?URL.createObjectURL(f):null};mySongs.push(s);localStorage.setItem('vixxon_uploads',JSON.stringify(mySongs));document.getElementById('upMsg').innerText='✅ Uploaded with cover!';showUploads()};r.readAsDataURL(cf)}else oldUp2()};
-let oldShowUp2=showUploads;showUploads=function(){let el=document.getElementById('myUploads');if(!mySongs.length){el.innerHTML='<p>No uploads yet.</p>';return}el.innerHTML=mySongs.map(s=>`<div class="card"><img src="${s.artwork}"><div style="flex:1"><b>${s.title}</b><p>${s.artist}</p><button class="red" onclick="playSong(${s.id})">▶ Listen</button></div></div>`).join('')};
-function fixVixxon(){let nav=document.querySelectorAll('button');nav.forEach(b=>{if(b.innerText.includes('Royalties'))b.style.display='none';if(b.innerText.includes('Search')){b.innerHTML='📚 Library';b.onclick=()=>showPage('search')}});let r=document.getElementById('page-royalties');if(r)r.style.display='none';}
-setTimeout(fixVixxon,600);showProfile();showUploads();calcRoy();  <- line 106 now lower
+<div id="page-library" class="page">
+<h2>📚 My Library</h2>
+<p style="color:#aaa">Your saved + uploaded songs</p>
+<div id="libraryList"></div>
+</div>
+<div id="page-trending" class="page">
+<h2>🔥 Trending World</h2>
+<div class="btns"><button class="red" onclick="loadTrending()">Refresh Trending</button></div>
+<div id="trendingList"></div>
+</div>
+<div id="page-artists" class="page">
+<h2>🎤 Top Ugandan Artists</h2>
+<div id="artistList"></div>
+</div>
+<div id="page-upload" class="page">
+<h2>⬆️ Upload Your Song</h2>
+<div class="upload-box">
+<input id="upTitle" placeholder="Song Title">
+<input id="upArtist" placeholder="Artist Name">
+<select id="upGenre"><option>Afrobeat</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Zouk</option><option>Other</option></select>
+<input id="upCover" placeholder="Cover Image Link (optional)">
+<input id="upAudio" placeholder="Audio Link (mp3 link)">
+<button class="green" style="width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold" onclick="doUpload()">✅ PUBLISH SONG</button>
+<p id="upMsg" style="margin-top:8px;color:#1db954"></p>
+</div>
+<h3 style="margin-top:14px">My Uploads</h3><div id="myUploads"></div>
+</div>
+<div id="page-profile" class="page">
+<div class="profile">
+<img id="profPic" src="https://via.placeholder.com/90" onclick="document.getElementById('picInput').click()">
+<input type="file" id="picInput" hidden accept="image/*" onchange="changePic(event)">
+<h2 id="profName">Vixxon User</h2>
+<p style="color:#aaa">Tap picture to change</p>
+<input id="nameInput" placeholder="Your Name" style="width:100%;padding:11px;margin-top:10px;border-radius:8px;border:0;background:#2a2a2a;color:#fff">
+<button class="red" style="width:100%;padding:12px;border:0;border-radius:10px;margin-top:8px;font-weight:bold" onclick="saveName()">Save Name</button>
+</div>
+<div style="margin-top:12px;background:#1e1e1e;padding:14px;border-radius:12px">
+<p>❤️ Saved: <b id="statSaved">0</b> | ⬆️ Uploads: <b id="statUp">0</b></p>
+</div>
+</div>
+<div id="player">
+<div class="row"><img id="pImg" src=""><div><b id="pTitle">-</b><br><small id="pArtist">-</small></div><button onclick="closePlayer()" style="margin-left:auto;background:#333;color:#fff;border:0;padding:8px 12px;border-radius:8px">✕</button></div>
+<audio id="audio" controls></audio>
+</div>
+<script>
+let mySongs=JSON.parse(localStorage.getItem('vixxon_my')||'[]');
+let saved=JSON.parse(localStorage.getItem('vixxon_saved')||'[]');
+let current=null;
+function showPage(p){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('on'));let map={home:0,search:1,library:2,trending:3,artists:4,upload:5,profile:6};let btns=document.querySelectorAll('#nav button');if(btns[map[p]])btns[map[p]].classList.add('on');window.scrollTo(0,0);if(p==='library')renderLibrary();if(p==='upload')renderUploads();if(p==='profile')renderProfile();if(p==='artists')renderArtists();}
+function cardHTML(s){return '<div class="card"><img src="'+(s.cover||'https://via.placeholder.com/70')+'"><div style="flex:1"><b>'+s.title+'</b><small>'+s.artist+' • '+s.genre+'</small><div class="actions"><button class="red" onclick=\'playSong('+JSON.stringify(s).replace(/'/g,"") +')\'>▶ Listen</button><button class="green" onclick=\'saveSong('+JSON.stringify(s).replace(/'/g,"") +')\'>❤️ Save</button><button class="dark" onclick="downloadSong(\''+s.audio+'\',\''+s.title+'\')">⬇ Download</button></div></div></div>';}
+function render(list,el){document.getElementById(el).innerHTML=list.length?list.map(cardHTML).join(''):'<p>No results. Try another name.</p>';}
+async function doSearch(q){if(!q||q.length<2)return;showPage('search');document.getElementById('searchList').innerHTML='<p>Searching...</p>';try{let r=await fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=20');let j=await r.json();let list=j.results.map(x=>({title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl}));render(list,'searchList');}catch(e){document.getElementById('searchList').innerHTML='<p>Offline - check internet</p>';}}
+function quickSearch(q){if(q.length>2)doSearch(q);}
+async function loadTrending(){showPage('trending');document.getElementById('trendingList').innerHTML='<p>Loading...</p>';let arts=['Azawi','Fik Fameica','Eddy Kenzo','Sheebah','Bebe Cool','Joshua Baraka'];let all=[];for(let a of arts){try{let r=await fetch('https://itunes.apple.com/search?term='+encodeURIComponent(a)+'&media=music&limit=4');let j=await r.json();j.results.forEach(x=>all.push({title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl}));}catch(e){}}render(all,'trendingList');render(all.slice(0,8),'homeList');}
+function renderArtists(){let a=[{n:'Azawi',g:'Afrobeat'},{n:'Fik Fameica',g:'Hip Hop'},{n:'Eddy Kenzo',g:'Afrobeat'},{n:'Sheebah',g:'Dancehall'},{n:'Bebe Cool',g:'Afrobeat'},{n:'Joshua Baraka',g:'Afro Soul'},{n:'Vinka',g:'Dancehall'},{n:'King Saha',g:'Zouk'}];document.getElementById('artistList').innerHTML=a.map(x=>'<div class="card"><img src="https://via.placeholder.com/70"><div style="flex:1"><b>'+x.n+'</b><small>'+x.g+'</small><div class="actions"><button class="red" onclick="doSearch(\''+x.n+'\')">View Songs</button></div></div></div>').join('');}
+function playSong(s){current=s;document.getElementById('player').style.display='block';document.getElementById('pImg').src=s.cover||'';document.getElementById('pTitle').innerText=s.title;document.getElementById('pArtist').innerText=s.artist;let au=document.getElementById('audio');au.src=s.audio||'';au.play();}
+function closePlayer(){document.getElementById('player').style.display='none';document.getElementById('audio').pause();}
+function saveSong(s){if(!saved.find(x=>x.title===s.title)){saved.push(s);localStorage.setItem('vixxon_saved',JSON.stringify(saved));alert('Saved to Library!');}else alert('Already in Library');renderLibrary();}
+function downloadSong(url,title){if(!url)return alert('No audio for this song');let a=document.createElement('a');a.href=url;a.download=title+'.m4a';a.click();}
+function renderLibrary(){let all=[...saved,...mySongs];render(all,'libraryList');}
+function doUpload(){let t=document.getElementById('upTitle').value,a=document.getElementById('upArtist').value||'Me',g=document.getElementById('upGenre').value,c=document.getElementById('upCover').value,au=document.getElementById('upAudio').value;if(!t)return alert('Enter Title');let s={title:t,artist:a,genre:g,cover:c,audio:au};mySongs.unshift(s);localStorage.setItem('vixxon_my',JSON.stringify(mySongs));document.getElementById('upMsg').innerText='✅ Published!';renderUploads();renderLibrary();}
+function renderUploads(){render(mySongs,'myUploads');}
+function saveName(){let n=document.getElementById('nameInput').value;if(n){localStorage.setItem('vixxon_name',n);document.getElementById('profName').innerText=n;alert('Saved');}}
+function changePic(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(ev){document.getElementById('profPic').src=ev.target.result;localStorage.setItem('vixxon_pic',ev.target.result);};r.readAsDataURL(f);}
+function renderProfile(){let n=localStorage.getItem('vixxon_name');if(n)document.getElementById('profName').innerText=n;let p=localStorage.getItem('vixxon_pic');if(p)document.getElementById('profPic').src=p;document.getElementById('statSaved').innerText=saved.length;document.getElementById('statUp').innerText=mySongs.length;}
+renderArtists();renderLibrary();renderUploads();renderProfile();loadTrending();
+</script>
 </body>
-</html>
+  </html>
