@@ -122,4 +122,112 @@ input[type=radio]{display:none}
 <div id="searchResults"></div>
 <h3 class="secTitle">📱 In This App - FULL Songs</h3><div id="songList"></div>
 </div>
-<!-- PART 2 CONTINUES HERE - DO NOT CLOSE BODY YET -->
+<!-- PART 2 cONTINUES HERE - DO NOT CLOSE BODY YET -->
+<div id="page-internet" class="page">
+<div class="pageTitle"><h2>🌍 INTERNET MUSIC <span style="font-size:13px;color:#0a7a2f"><span class="liveDot"></span>VERY ACTIVE</span></h2><p style="color:#666">⚡ JUST TYPE! 6 sources search at SAME time!</p></div>
+<div style="background:#e6f7ff;margin:10px;padding:12px;border-radius:12px;text-align:center"><b>🎧 LISTEN INSIDE APP + ⬇ DOWNLOAD INSIDE APP</b><br><span style="font-size:13px;color:#555">🍎 Apple • 🎵 Deezer • 🔊 Audius FULL • 🎼 MusicBrainz • 🎧 Jamendo</span><br><span id="netStatus" style="font-size:12px;color:#0a7a2f;font-weight:bold">⚡ Type to search instantly...</span></div>
+<div class="sourceRow"><span class="sourcePill" id="pillApple">🍎 Apple - Waiting...</span><span class="sourcePill" id="pillDeezer">🎵 Deezer - Waiting...</span><span class="sourcePill" id="pillAudius">🔊 Audius - Waiting...</span><span class="sourcePill" id="pillMB">🎼 MusicBrainz - Waiting...</span><span class="sourcePill" id="pillJamendo">🎧 Jamendo - Waiting...</span></div>
+<div style="display:flex;gap:6px;padding:10px"><button class="modeBtn on" id="modeSongsBtn" onclick="setNetMode('songs')">🎵 SEARCH SONGS</button><button class="modeBtn" id="modeArtistsBtn" onclick="setNetMode('artists')">👤 SEARCH ARTISTS</button></div>
+<div class="searchRow"><input id="netSearchInput" placeholder="⚡ JUST TYPE... e.g Fik Famieca, Azawi" oninput="doSearchNetLive()"></div>
+<div style="display:flex;gap:6px;padding:0 10px 10px"><button class="searchBtn" onclick="doSearchNet2()">🌍 SEARCH NOW</button><button class="searchBtn2" onclick="loadDiscover2('Afrobeats')">🔥 TRENDING WORLD</button></div>
+<div class="bgBox"><b>🎵 BACKGROUND PLAY: ON</b><br><span style="font-size:12px">Press Play, then minimize / lock phone - Music keeps playing!</span><br><button class="btn2" style="margin-top:6px" onclick="showAddToHome()">➕ ADD VIXXON TO HOME SCREEN</button><p id="addHomeMsg" style="font-size:12px"></p></div>
+<h3 class="secTitle">⭐ Artists Found - Tap View Songs!</h3>
+<div id="artistResults"><p style="padding:0 12px;color:#777">Type an artist name above - Artists appear here instantly!</p></div>
+<h3 class="secTitle">🔥 Discover World</h3>
+<div style="padding:0 10px"><button class="btn2" onclick="loadDiscover2('Afrobeats')">Afrobeats 🔥</button> <button class="btn2" onclick="loadDiscover2('Alien Skin')">Alien Skin</button> <button class="btn2" onclick="loadDiscover2('Azawi')">Azawi</button> <button class="btn2" onclick="loadDiscover2('Eddy Kenzo')">Eddy Kenzo</button> <button class="btn2" onclick="loadDiscover2('Fik Famieca')">Fik Famieca</button> <button class="btn2" onclick="loadDiscover2('Gospel')">Gospel 🙏</button> <button class="btn2" onclick="loadDiscover2('Amapiano')">Amapiano</button></div>
+<div id="discoverList"><p style="padding:0 12px;color:#777">Tap a button above to load World songs!</p></div>
+<h3 class="secTitle">🌍 World Results - Listen + Download Inside App</h3><div id="netList"><p style="padding:0 12px;color:#777">⚡ Just type above - Results come fast!</p></div>
+<h3 class="secTitle">🎼 Genres - World</h3><div id="genres"></div>
+</div>
+<div id="page-trending" class="page">
+<div class="pageTitle"><h2>🔥 TRENDING NOW</h2><p style="color:#666">Both App + World - Artists + Music - In ONE place!</p><p id="trendUpdated" style="font-size:12px;color:#999">Updated just now</p></div>
+<div class="trendSection"><h3>🔥 TRENDING IN APP - MUSIC</h3><p style="color:#666;font-size:13px;margin:0 0 8px">Most played + Most downloaded in this App</p><div id="trendPodium"></div><div id="trendList"></div></div>
+<div class="trendSection"><h3>⭐ TRENDING ARTISTS - IN APP</h3><p style="color:#666;font-size:13px;margin:0 0 8px">Artists with most plays in App</p><div id="trendAppArtists"></div></div>
+<div class="trendSection"><h3>🌍 TRENDING WORLD - MUSIC</h3><p style="color:#666;font-size:13px;margin:0 0 8px">From Apple + Deezer + Audius - Loads automatically!</p><div id="trendWorldMusic"><p style="color:#777">Loading World Trending Music...</p></div></div>
+<div class="trendSection"><h3>🌍⭐ TRENDING WORLD - ARTISTS</h3><p style="color:#666;font-size:13px;margin:0 0 8px">Top World Artists - Tap to see their songs!</p><div id="trendWorldArtists"><p style="color:#777">Loading World Trending Artists...</p></div></div>
+</div>
+<div id="page-artists" class="page"><div class="pageTitle"><h2>⭐ ALL ARTISTS</h2><p style="color:#666">Tap an artist to see their songs</p></div><div id="allArtists"></div><div id="artistView" style="padding:15px;text-align:center;display:none"><div id="profPic" style="width:90px;height:90px;border-radius:50%;background:#e60023;color:white;font-size:50px;display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden">🎤</div><h2 id="profName">Artist</h2><p id="profBio"></p><p id="profStats"></p><div id="profileSongs"></div></div></div>
+<div id="page-upload" class="page">
+<div class="pageTitle"><h2>🎤 UPLOAD</h2><p style="color:#666">Step 1: Cover → Step 2: Song Info → Step 3: Audio → Step 4: Upload!</p></div>
+<div class="box" style="border:2px solid #e60023">
+<h3 style="text-align:center;margin:0">🌍 UPLOAD FOR THE WORLD - FULL SONG!</h3>
+<span class="upLabel">1️⃣ SONG COVER</span>
+<div class="upPreview" id="coverPreview">🎵</div>
+<div class="upFileBox"><input type="file" id="uCover" accept="image/*"><div class="upFileName" id="coverFileName">No cover chosen yet</div></div>
+<button class="btn2" style="width:100%;margin-top:6px" onclick="document.getElementById('uCover').click()">🖼️ CHOOSE COVER PHOTO</button>
+<span class="upLabel">2️⃣ ARTIST NAME *</span><input id="uName" placeholder="Artist Name* e.g Vixxon Kalema">
+<span class="upLabel">3️⃣ SONG TITLE *</span><input id="uTitle" placeholder="Song Title* e.g Merry Christmas World">
+<span class="upLabel">4️⃣ GENRE</span><select id="uGenre"><option>AfroPop</option><option>Afrobeats</option><option>Bongo</option><option>Gospel</option><option>Hip Hop</option><option>Dancehall</option><option>Amapiano</option></select>
+<span class="upLabel">5️⃣ AUDIO - MP3 FULL SONG *</span>
+<div class="upFileBox"><input type="file" id="uFile" accept="audio/*"><div class="upFileName" id="audioFileName">No audio chosen yet</div><div id="audioInfo" style="font-size:13px;color:#333;margin-top:4px"></div><button class="btn2" id="audioPreviewBtn" style="display:none;margin-top:6px" onclick="previewAudio()">▶ PREVIEW MY AUDIO</button></div>
+<button class="btn2" style="width:100%;margin-top:6px" onclick="document.getElementById('uFile').click()">🎵 CHOOSE AUDIO MP3</button>
+<div class="upProgress" id="upProgress"><div class="upProgressBar" id="upProgressBar"></div></div>
+<p id="uploadMsg" style="font-weight:bold;text-align:center"></p>
+<div class="upSuccess" id="upSuccess"><b>✅ FINISHED! Your song is LIVE!</b><br><span id="upSuccessText"></span></div>
+<button class="upBtn" id="uploadBtn" onclick="uploadSong()">🌍 UPLOAD FULL SONG FOR THE WORLD</button>
+<p style="text-align:center;font-size:12px;color:#666">Fill Artist + Title + Choose Audio, then tap Upload!</p>
+</div>
+</div>
+<div id="page-royalties" class="page">
+<div class="pageTitle"><h2>💰 ROYALTIES <span style="font-size:13px;color:#0a7a2f"><span class="liveDot"></span>ACTIVE</span></h2><p style="color:#666">✋ MANUAL! You type everything! Tap CALCULATE button!</p></div>
+<div class="box" style="border:2px solid #0a7a2f;text-align:center"><h3 style="margin:0">💰 YOUR BALANCE - READY TO WITHDRAW</h3><div class="balanceBig" id="balanceBig">0 UGX</div><p style="color:#666;font-size:13px;margin:4px 0">From your real songs + Calculator. Minimum withdraw: 1,000 UGX</p><p id="balanceDetail" style="font-size:13px;color:#333">No earnings yet.</p></div>
+<div class="box"><h3>🧮 MANUAL CALCULATOR - You Type, You Calculate!</h3>
+<div class="calcRow"><label>⬇ Downloads (type):</label><input id="calcDl" type="number" placeholder="Type downloads... e.g 10000" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>▶ Plays / Streams (type):</label><input id="calcPlays" type="number" placeholder="Type plays... e.g 50000" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>💵 Price per Download (UGX):</label><input id="calcPrice" type="number" placeholder="50" value="50" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>🎵 Pay per Stream (UGX):</label><input id="calcStreamRate" type="number" placeholder="5" value="5" oninput="calcRoyalty()"></div>
+<div class="calcRow"><label>👤 Your Share %:</label><input id="calcShare" type="number" placeholder="50" value="50" min="0" max="100" oninput="calcRoyalty()"></div>
+<button class="calcBtn" onclick="calcRoyalty(true)">🧮 CALCULATE MY EARNINGS!</button>
+<button class="btn2" style="width:100%;margin-top:8px;padding:12px" onclick="useMyRealSongs()">📥 USE MY REAL SONGS</button>
+<button class="btn2" style="width:100%;margin-top:8px;padding:12px" onclick="addCalcToBalance()">➕ ADD THIS CALCULATION TO MY BALANCE</button>
+<div class="calcBox">
+<div class="calcLine"><span>⬇ Downloads: <span id="cDlShow">0</span> x <span id="cPriceShow">50</span> UGX</span><span id="cDlMoney">0 UGX</span></div>
+<div class="calcLine"><span>▶ Streams: <span id="cPlayShow">0</span> x <span id="cRateShow">5</span> UGX</span><span id="cStreamMoney">0 UGX</span></div>
+<div class="calcLine"><span>💰 Total Revenue (100%)</span><span id="cTotalRev">0 UGX</span></div>
+<div class="calcLine"><span>👤 YOU Earn (<span id="cShareShow">50</span>%)</span><span id="cYouEarn" style="color:#0a7a2f;font-weight:bold">0 UGX</span></div>
+<div class="calcLine"><span>🏢 VIXXON Keeps (<span id="cVixxonShare">50</span>%)</span><span id="cVixxonEarn">0 UGX</span></div>
+<div class="calcTotal"><span>✅ YOU TAKE HOME:</span><span id="calcResult">0 UGX</span></div>
+<div style="font-size:12px;color:#666;text-align:center" id="calcPer">Type Downloads + Plays above, then tap CALCULATE!</div>
+</div>
+<button class="btn" style="width:100%;margin-top:10px" onclick="clearCalc()">🗑 CLEAR - Back to 0</button>
+</div>
+<div class="withdrawBox">
+<h3 style="text-align:center;margin:0">💸 WITHDRAW TO MOBILE MONEY</h3>
+<span class="upLabel">1️⃣ Choose Withdraw Method:</span>
+<div class="withdrawMethod"><button id="mtnBtn" class="on" onclick="setWithdrawMethod('MTN MoMo')">📱 MTN MoMo</button><button id="airtelBtn" onclick="setWithdrawMethod('Airtel Money')">📱 Airtel Money</button></div>
+<p id="withdrawMethodShow" style="text-align:center;font-weight:bold;color:#e60023">Selected: MTN MoMo</p>
+<span class="upLabel">2️⃣ Your Mobile Number *</span><input id="withdrawNumber" placeholder="e.g 0771234567">
+<span class="upLabel">3️⃣ Amount to Withdraw (UGX) *</span><input id="withdrawAmount" type="number" placeholder="e.g 10000 - Min 1000 UGX">
+<span class="upLabel">4️⃣ Your Names (for MoMo)</span><input id="withdrawName" placeholder="e.g Vixxon Kalema">
+<div class="upProgress" id="withdrawProgress" style="display:none"><div class="upProgressBar" id="withdrawProgressBar"></div></div>
+<p id="withdrawMsg" style="font-weight:bold;text-align:center"></p>
+<button class="calcBtn2" id="withdrawBtn" onclick="doWithdraw()">💸 WITHDRAW NOW TO MOBILE!</button>
+<div id="withdrawSuccess" style="display:none;background:#e6ffe6;border:2px solid #0a7a2f;padding:12px;border-radius:12px;text-align:center;margin-top:10px"><b>✅ WITHDRAW REQUEST SENT!</b><br><span id="withdrawSuccessText"></span></div>
+</div>
+<div class="box"><h3>📋 MY WITHDRAW HISTORY</h3><div id="withdrawHistory"><p>No withdraw yet.</p></div></div>
+<h3 style="padding:0 15px">🏆 Earnings From Your Uploads</h3><div id="royaltyList"></div>
+</div>
+<div id="page-profile" class="page">
+<div style="padding:15px"><h2>👤 MY PROFILE</h2><p style="color:#666">Step 1: Photo → Step 2: Artist Info → Step 3: Save!</p>
+<div style="text-align:center"><div class="profilePicBig" id="myPicPreview">👤</div><p id="myProfileNameShow" style="font-weight:bold;font-size:18px">No profile yet - Fill below!</p><p id="myProfileStatsShow" style="color:#666"></p></div>
+<div class="profileCard" id="myProfileCard"><h3 style="margin:0">✅ MY ARTIST PROFILE - LIVE!</h3><div class="profilePicBig" id="myProfileCardPic" style="width:90px;height:90px;font-size:40px;margin:10px auto">👤</div><b id="myCardStage" style="font-size:20px;color:#e60023"></b><br><span id="myCardFull"></span><br><span id="myCardBio" style="color:#555"></span><br><span id="myCardCountry" style="color:#777"></span><br><span id="myCardContact" style="color:#777"></span></div>
+<div class="box"><h3>📸 1️⃣ PROFILE PICTURE - Select Photo!</h3><div class="upFileBox"><input type="file" id="myPic" accept="image/*"><div class="upFileName" id="myPicFileName">No photo chosen yet</div></div><button class="btn2" style="width:100%;margin-top:6px" onclick="document.getElementById('myPic').click()">📸 CHOOSE PROFILE PHOTO</button><div class="profileProgress" id="picProgress"><div class="profileProgressBar" id="picProgressBar"></div></div><p id="picMsg" style="font-weight:bold;text-align:center"></p><button class="btn" id="picUploadBtn" style="width:100%;padding:13px" onclick="uploadProfilePic()">⬆️ UPLOAD PROFILE PICTURE</button></div>
+<div class="box"><h3>✏️ 2️⃣ ARTIST INFORMATION</h3><span class="upLabel">Full Name *</span><input id="myName" placeholder="Full Name* e.g John Doe"><span class="upLabel">Stage Name *</span><input id="myStage" placeholder="Stage Name* e.g Alien Skin"><span class="upLabel">Bio</span><textarea id="myBio" placeholder="Bio... e.g I sing Afrobeats from Uganda!"></textarea><span class="upLabel">Country</span><input id="myCountry" placeholder="Country e.g Uganda"><span class="upLabel">Phone / WhatsApp</span><input id="myPhone" placeholder="Phone / WhatsApp e.g +256 700..."><span class="upLabel">MTN MoMo for Royalties</span><input id="myMomo" placeholder="MTN MoMo e.g +256 700..."><button class="btn" style="width:100%;padding:14px" onclick="saveProfile()">💾 SAVE MY PROFILE - FINISHED!</button><p id="myProfileMsg" style="font-weight:bold;text-align:center"></p></div>
+<div class="box"><h3>🎵 MY SONGS</h3><div id="mySongsList"><p>Upload a song to see it here!</p></div></div>
+<div class="box"><h3>💰 MY EARNINGS</h3><div id="myEarningsList"><p>No earnings yet.</p></div></div>
+<button class="btn2" style="width:100%;margin-top:8px" onclick="viewMyProfile()">👀 VIEW MY PROFILE AS FANS SEE IT</button>
+</div>
+</div>
+</div>
+<div class="player"><div id="nowPlaying">🎵 Choose song - Tap ▶ Listen</div><div><button class="btn" onclick="togglePlay()">⏯ Play/Pause</button> <button class="btn" onclick="doDownload()">⬇ Download</button></div></div>
+<div class="bottomNav">
+<label for="tab-home"><span>🏠</span>Home</label>
+<label for="tab-search"><span>🔍</span>Search</label>
+<label for="tab-internet"><span>🌍</span>Internet</label>
+<label for="tab-trending" id="trendingTabBtn"><span>🔥</span>Trending</label>
+<label for="tab-artists"><span>⭐</span>Artists</label>
+<label for="tab-upload"><span>🎤</span>Upload</label>
+<label for="tab-royalties"><span>💰</span>Royalties</label>
+<label for="tab-profile"><span>👤</span>Profile</label>
+</div>
+<!-- PART 3 CONTINUES HERE - DO NOT CLOSE BODY YET -->
