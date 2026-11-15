@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VIXXON MUSIC</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff3b30">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#0f0f0f;color:#fff;padding-bottom:120px}
@@ -131,5 +134,10 @@ function changePic(e){let f=e.target.files[0];if(!f)return;let r=new FileReader(
 function renderProfile(){let n=localStorage.getItem('vixxon_name');if(n)document.getElementById('profName').innerText=n;let p=localStorage.getItem('vixxon_pic');if(p)document.getElementById('profPic').src=p;document.getElementById('statSaved').innerText=saved.length;document.getElementById('statUp').innerText=mySongs.length;}
 renderArtists();renderLibrary();renderUploads();renderProfile();loadTrending();
 </script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+  </script>
 </body>
   </html>
