@@ -110,16 +110,19 @@ function dbGetAll(){return new Promise(res=>{if(!DB)return res([]);let tx=DB.tra
 
 let mySongs=[]; // loaded from IndexedDB
 let saved=JSON.parse(localStorage.getItem('vixxon_saved')||'[]');
+  let blocked=JSON.parse(localStorage.getItem('vixxon_blocked')||'[]');
 let tempList=[]; let current=null; let currentIndex=0;
 let pickedAudio='', pickedCover='';
 
 function showPage(p){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('on'));let map={home:0,search:1,library:2,trending:3,artists:4,upload:5,profile:6};let btns=document.querySelectorAll('#nav button');if(btns[map[p]])btns[map[p]].classList.add('on');window.scrollTo(0,0);if(p==='library')renderLibrary();if(p==='upload')renderUploads();if(p==='profile')renderProfile();if(p==='artists')renderArtists();}
 
-function cardHTML(s,i,from){return '<div class="card"><img src="'+(s.cover||'https://via.placeholder.com/70')+'"><div style="flex:1"><b>'+s.title+'</b><small>'+s.artist+' • '+s.genre+' <span class="badge">FULL</span></small><div class="actions"><button class="red" onclick="playFromList('+i+',\''+from+'\')">▶ Listen Full</button><button class="green" onclick="saveFromList('+i+',\''+from+'\')">❤️ Save</button><button class="dark" onclick="downloadFromList('+i+',\''+from+'\')">⬇ Download</button></div></div></div>';}
-function render(list,el,from){tempList=list;document.getElementById(el).innerHTML=list.length?list.map((s,i)=>cardHTML(s,i,from)).join(''):'<p>No results. Try another name.</p>';}
+function cardHTML(s,i,from){let isPreview=s.audio&&s.audio.includes('itunes');let label=isPreview?'30s PREVIEW':'FULL';let badgeColor=isPreview?'#ff9800':'#1db954';return '<div class="card"><img src="'+(s.cover||'https://via.placeholder.com/70')+'"><div style="flex:1"><b>'+s.title+'</b><small>'+s.artist+' • '+s.genre+' <span style="background:'+badgeColor+';color:#fff;font-size:10px;padding:2px 6px;border-radius:10px">'+label+'</span></small><div class="actions"><button class="red" onclick="playFromList('+i+',\''+from+'\')">▶ Listen</button><button class="green" onclick="saveFromList('+i+',\''+from+'\')">❤️ Save</button><button class="dark" onclick="saveFromList('+i+',\''+from+'\')">⬇ Download to Library</button><button style="background:#ff3b30;color:#fff;padding:7px 10px;border:0;border-radius:8px;font-weight:bold" onclick="deleteFromList('+i+',\''+from+'\')">🗑️ Delete</button></div></div></div>';}
+function render(list,el,from){let filtered=list.filter(s=>!blocked.find(b=>b.title===s.title&&b.artist===s.artist));tempList=filtered;document.getElementById(el).innerHTML=filtered.length?filtered.map((s,i)=>cardHTML(s,i,from)).join(''):'<p>No results. Try another name.</p>';}
 function playFromList(i,from){currentIndex=i;playSong(tempList[i]);}
 function saveFromList(i,from){let s=tempList[i];if(s)saveSong(s);}
-function downloadFromList(i,from){let s=tempList[i];if(s)downloadSong(s.audio,s.title);}
+function downloadFromList(i,from){let s=tempList[i];if(s)saveSong(s);} function saveSong(s){if(!saved.find(x=>x.title===s.title&&x.artist===s.artist)){saved.push(s);localStorage.setItem('vixxon_saved',JSON.stringify(saved));alert('⬇ Downloaded to Library! ✅');}else alert('Already in Library');renderLibrary();}
+function deleteFromList(i,from){let s=tempList[i];if(!s)return;if(!confirm('Delete / Hide "'+s.title+'"?'))return;mySongs=mySongs.filter(x=>x!==s);saved=saved.filter(x=>x.title!==s.title||x.artist!==s.artist);localStorage.setItem('vixxon_saved',JSON.stringify(saved));if(s.id)dbDelete(s.id);if(from==='search'||from==='trending'||from==='home'){if(!blocked.find(b=>b.title===s.title&&b.artist===s.artist)){blocked.push({title:s.title,artist:s.artist});localStorage.setItem('vixxon_blocked',JSON.stringify(blocked));}}renderLibrary();renderUploads();alert('Deleted / Hidden ✅');}
+function dbDelete(id){if(!DB)return;let tx=DB.transaction('songs','readwrite');tx.objectStore('songs').delete(id);}
 
 // ---------- SEARCH FULL SONGS: Audius (full) + Jamendo (full) + iTunes fallback ----------
 async function doSearch(q){if(!q||q.length<2)return;showPage('search');document.getElementById('searchList').innerHTML='<p>Searching full songs...</p>';
