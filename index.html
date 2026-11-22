@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON V29 - FIXED NAV</title>
-<style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:80px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.purple{background:#7b1fa2;color:#fff}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center}.card img{width:60px;height:60px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #ff3b30;display:flex;z-index:9999;height:62px}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:11px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}.coverPrev{width:90px;height:90px;border-radius:10px;object-fit:cover;display:none;margin:8px auto}#player{position:fixed;bottom:62px;left:0;right:0;background:#222;padding:8px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.paid{background:#1db954;color:#fff;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:bold}.pending{background:#FF9800;color:#000;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:bold}</style>
+<title>VIXXON V30 - UPLOAD FIXED</title>
+<style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:80px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.purple{background:#7b1fa2;color:#fff}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center}.card img{width:60px;height:60px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #ff3b30;display:flex;z-index:9999;height:62px}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:11px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}.coverPrev{width:120px;height:120px;border-radius:10px;object-fit:cover;display:none;margin:8px auto;border:2px solid #1db954}#player{position:fixed;bottom:62px;left:0;right:0;background:#222;padding:8px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.paid{background:#1db954;color:#fff;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:bold}.pending{background:#FF9800;color:#000;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:bold}.status{padding:10px;border-radius:8px;margin:8px 0;font-size:13px;display:none}.ok{background:#1db954}.err{background:#ff3b30}</style>
 <script>
-// NAV FIRST - BEFORE ANYTHING ELSE, SO IT CAN NEVER BREAK
 function go(p){
   try{
     var pages=['home','search','library','upload','earnings','profile','admin'];
@@ -12,7 +11,6 @@ function go(p){
     var navs=['home','search','library','upload','earnings','profile'];
     for(var j=0;j<navs.length;j++){var b=document.getElementById('nav-'+navs[j]); if(b) b.className=(navs[j]==p?'active':'');}
     window.scrollTo(0,0);
-    // Try to load content, but NEVER block nav if it fails
     try{ if(p=='library') showLib(); }catch(e){}
     try{ if(p=='upload') showMine(); }catch(e){}
     try{ if(p=='earnings') showEarn(); }catch(e){}
@@ -21,10 +19,11 @@ function go(p){
     try{ if(p=='admin') showAdmin(); }catch(e){}
   }catch(e){ alert('Nav error: '+e.message); }
 }
+function showMsg(id,txt,isErr){var e=document.getElementById(id); if(!e) return; e.style.display='block'; e.className='status '+(isErr?'err':'ok'); e.innerText=txt;}
 </script>
 </head>
 <body>
-<header><h1>🌍 VIXXON MUSIC</h1><p>V29 GLOBAL - Nav Fixed</p></header>
+<header><h1>🌍 VIXXON MUSIC</h1><p>V30 GLOBAL - Upload Fixed</p></header>
 
 <div id="page-home" class="page">
 <div class="box" style="background:linear-gradient(135deg,#ff3b30,#FF9800);text-align:center"><h3>🌍 ARTISTS FROM ALL OVER THE WORLD</h3><p style="font-size:13px">Shows + Fans + Ad Share 50/50 - Paid Every Friday</p><button class="btn gold" onclick="go('upload')">UPLOAD YOUR SONG → JOIN THE WORLD</button></div>
@@ -38,7 +37,7 @@ function go(p){
 </div>
 
 <div id="page-search" class="page">
-<h2>🔍 Search World - THIS BAR NOW WORKS</h2>
+<h2>🔍 Search World</h2>
 <div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">🌍 VIXXON ARTISTS</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET</button></div>
 <input id="q" placeholder="Artist, song, country, city..." oninput="onType()">
 <p id="count" style="color:#1db954">Vixxon World: 0 songs</p>
@@ -46,30 +45,39 @@ function go(p){
 <div id="searchList"></div><div id="netList"></div><p id="realResult" style="color:#FFC107;font-size:13px"></p>
 </div>
 
-<div id="page-library" class="page"><h2>📚 My Library - THIS BAR NOW WORKS</h2><p style="color:#aaa">Songs you saved with ❤️ Save</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No saved yet.</p></div></div>
+<div id="page-library" class="page"><h2>📚 My Library</h2><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No saved yet.</p></div></div>
 
 <div id="page-upload" class="page">
-<h2>⬆️ Upload - THIS BAR NOW WORKS</h2>
+<h2>⬆️ Upload - FIXED</h2>
 <div class="box">
 <input id="t" placeholder="Song Title *">
 <input id="a" placeholder="Artist Name *">
 <select id="country"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
-<input id="city" placeholder="Your City * e.g. Kampala, Lagos, Nairobi, London">
-<input id="wa" placeholder="WhatsApp for Bookings * e.g. 256700123456">
+<input id="city" placeholder="Your City * e.g. BUGIRI, Kampala, Lagos">
+<input id="wa" placeholder="WhatsApp for Bookings * e.g. 256705570948">
 <select id="payMethod"><option>MoMo - Uganda</option><option>M-Pesa - Kenya</option><option>Bank / OPay - Nigeria</option><option>PayPal - USA / UK / World</option><option>Other</option></select>
 <input id="momo" placeholder="Payout Number - MoMo / M-Pesa / PayPal Email">
 <select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Swahili Bongo</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
-<p style="font-size:13px;color:#aaa">🖼️ COVER ART</p>
+
+<p style="font-size:13px;color:#aaa">🖼️ COVER ART - Tap Choose File, photo will show below</p>
 <input type="file" id="coverFile" accept="image/*" onchange="pickCover(event)">
-<img id="coverPrev" class="coverPrev" src=""><p id="coverMsg" style="color:#1db954;font-size:12px;text-align:center"></p>
-<p style="font-size:13px;color:#aaa">🎵 SONG MP3</p>
-<input type="file" id="f" accept="audio/*" onchange="pickAudio(event)"><p id="audioMsg" style="color:#1db954;font-size:12px"></p>
-<button class="btn green" onclick="up()">✅ PUBLISH TO THE WORLD</button><p id="upMsg" style="color:#1db954"></p>
+<img id="coverPrev" class="coverPrev" src="">
+<p id="coverMsg" style="color:#1db954;font-size:13px;text-align:center"></p>
+<div id="coverStatus" class="status"></div>
+
+<p style="font-size:13px;color:#aaa">🎵 SONG MP3 - Tap Choose File</p>
+<input type="file" id="f" accept="audio/*" onchange="pickAudio(event)">
+<p id="audioMsg" style="color:#1db954;font-size:13px"></p>
+<div id="audioStatus" class="status"></div>
+
+<button class="btn green" onclick="up()">✅ PUBLISH TO THE WORLD</button>
+<div id="upStatus" class="status"></div>
+<p id="upMsg" style="color:#1db954"></p>
 </div><h3>My Uploads</h3><div id="myList"><p>No uploads yet.</p></div>
 </div>
 
 <div id="page-earnings" class="page">
-<h2>💰 Earnings - THIS BAR NOW WORKS</h2>
+<h2>💰 Earnings</h2>
 <div class="box" style="text-align:center"><h3>Your Downloads - World</h3><h2 id="earnTotal" style="color:#FFC107">0 Downloads</h2><p>Streams: <b id="earnStreams">0</b></p><p>Payout: <b id="earnMomo">Not Set</b></p><p id="payoutStatus" style="margin-top:8px"></p></div>
 <div class="box"><h3>💰 How You Get Paid - Every Friday</h3><p>✅ <b>Shows:</b> Fans book you via WhatsApp - You keep 100%</p><p>✅ <b>Ad Share:</b> 50% shared by downloads, paid Friday</p><button class="btn gold" onclick="withdraw()">💸 REQUEST FRIDAY PAYOUT</button><p id="wdMsg" style="color:#1db954"></p></div>
 <div class="box"><h3>Your Payout History</h3><div id="myPayoutList"><p>No payout requests yet.</p></div></div>
@@ -77,7 +85,7 @@ function go(p){
 </div>
 
 <div id="page-profile" class="page">
-<h2>👤 Profile - THIS BAR NOW WORKS</h2>
+<h2>👤 Profile</h2>
 <div class="box" style="text-align:center">
 <img id="profPic" class="profPic" src="https://via.placeholder.com/90/333/fff?text=+" onclick="document.getElementById('picInput').click()">
 <input type="file" id="picInput" hidden accept="image/*" onchange="changePic(event)">
@@ -112,11 +120,11 @@ function go(p){
 </div>
 <script>
 var ADMIN_WA='256700000000'; var ADMIN_PASS='vixxon123';
-var mine=[]; try{mine=JSON.parse(localStorage.getItem('v29_my')||'[]')}catch(e){}
-var saved=[]; try{saved=JSON.parse(localStorage.getItem('v29_lib')||'[]')}catch(e){}
-var earn={streams:0,downloads:0,per:{},dlPer:{}}; try{earn=JSON.parse(localStorage.getItem('v29_earn')||'{"streams":0,"downloads":0,"per":{},"dlPer":{}}')}catch(e){}
-var payouts=[]; try{payouts=JSON.parse(localStorage.getItem('v29_payouts')||'[]')}catch(e){}
-var list=[]; var netList=[]; var mode='local'; var pickedCover=''; var pickedAudio=''; var curFilter='ALL';
+var mine=[]; try{mine=JSON.parse(localStorage.getItem('v30_my')||'[]')}catch(e){mine=[];}
+var saved=[]; try{saved=JSON.parse(localStorage.getItem('v30_lib')||'[]')}catch(e){saved=[];}
+var earn={streams:0,downloads:0,per:{},dlPer:{}}; try{earn=JSON.parse(localStorage.getItem('v30_earn')||'{"streams":0,"downloads":0,"per":{},"dlPer":{}}')}catch(e){}
+var payouts=[]; try{payouts=JSON.parse(localStorage.getItem('v30_payouts')||'[]')}catch(e){payouts=[];}
+var list=[]; var netList=[]; var mode='local'; var pickedCover=''; var pickedAudio=''; var pickedAudioName=''; var curFilter='ALL';
 function flagFor(c){var m={'Uganda':'🇺🇬','Nigeria':'🇳🇬','Kenya':'🇰🇪','Tanzania':'🇹🇿','Ghana':'🇬🇭','South Africa':'🇿🇦','Ethiopia':'🇪🇹','USA':'🇺🇸','UK':'🇬🇧','Canada':'🇨🇦','Brazil':'🇧🇷','India':'🇮🇳','France':'🇫🇷','Germany':'🇩🇪'};return m[c]||'🌍';}
 function regionFor(c){if(['Uganda','Nigeria','Kenya','Tanzania','Ghana','South Africa','Ethiopia'].indexOf(c)>-1)return 'Africa';if(['USA','Canada','Brazil'].indexOf(c)>-1)return 'Americas';if(['UK','France','Germany'].indexOf(c)>-1)return 'Europe';if(['India'].indexOf(c)>-1)return 'Asia';return 'Other';}
 function openAdmin(){var pw=prompt('Enter Admin Password:');if(pw==ADMIN_PASS){go('admin');}else if(pw!==null){alert('Wrong password');}}
@@ -124,7 +132,7 @@ function setFilter(f){curFilter=f;var ids={'ALL':'fAll','Africa':'fAfrica','Euro
 function setMode(m){mode=m;document.getElementById('tabLocal').className=m=='local'?'on':'off';document.getElementById('tabNet').className=m=='net'?'on':'off';document.getElementById('netBtn').style.display=m=='net'?'block':'none';document.getElementById('netList').innerHTML='';document.getElementById('searchList').style.display=m=='local'?'block':'none';if(m=='local'){renderAll();}}
 function onType(){if(mode=='local')renderAll();}
 function bookArtist(wa,artist,country,city){if(!wa){alert('Artist did not add WhatsApp yet');return}var num=String(wa).replace(/[^0-9]/g,'');if(num.length==10&&num[0]=='0')num='256'+num.slice(1);window.open('https://wa.me/'+num+'?text='+encodeURIComponent('Hi '+artist+', I found you on Vixxon World. I want to book you!'),' _blank');}
-function downloadSong(i,from){var s=from=='net'?netList[i]:list[i];if(!s||!s.audio){alert('No audio');return}earn.downloads++;var k=s.title+' - '+s.artist;earn.dlPer[k]=(earn.dlPer[k]||0)+1;localStorage.setItem('v29_earn',JSON.stringify(earn));var a=document.createElement('a');a.href=s.audio;a.download=s.title+'.mp3';document.body.appendChild(a);a.click();a.remove();alert('⬇ Downloading '+s.title);showEarn();renderAll();}
+function downloadSong(i,from){var s=from=='net'?netList[i]:list[i];if(!s||!s.audio){alert('No audio to download - this song was uploaded in an old version. Re-upload it in V30.');return}earn.downloads++;var k=s.title+' - '+s.artist;earn.dlPer[k]=(earn.dlPer[k]||0)+1;try{localStorage.setItem('v30_earn',JSON.stringify(earn));}catch(e){}var a=document.createElement('a');a.href=s.audio;a.download=s.title+'.mp3';document.body.appendChild(a);a.click();a.remove();alert('⬇ Downloading '+s.title);showEarn();renderAll();}
 function adv(){window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent('Hi Vixxon, I want to advertise'),' _blank');}
 function closePlayer(){document.getElementById('player').style.display='none';document.getElementById('au').pause();}
 function card(s,i,from){var dl=(earn.dlPer[s.title+' - '+s.artist]||0);return '<div class="card"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><b>'+s.title+'</b> <span class="badge">⬇ '+dl+'</span><br><small>'+flagFor(s.country||'')+' '+s.artist+' • '+(s.city||'')+', '+(s.country||'')+' • '+(s.genre||s.src||'Music')+'</small><br><button class="mini red" onclick="play('+i+',\''+from+'\')">▶ Listen</button><button class="mini green" onclick="downloadSong('+i+',\''+from+'\')">⬇ Download</button><button class="mini gold" onclick="bookArtist(\''+(s.wa||'')+'\',\''+s.artist+'\',\''+(s.country||'')+'\',\''+(s.city||'')+'\')">📞 Book Artist</button><button class="mini dark" onclick="saveNet('+i+',\''+from+'\')">❤️ Save</button></div></div>';}
@@ -148,13 +156,10 @@ document.getElementById('realResult').innerHTML='🔍 Searching internet for "'+
 document.getElementById('netList').innerHTML='<p>Searching iTunes + Deezer...</p>';netList=[];var got=0;
 function showNet(arr,from){if(!arr.length)return;netList=netList.concat(arr);var h='';for(var i=0;i<netList.length;i++)h+=card(netList[i],i,'net');document.getElementById('netList').innerHTML=h;document.getElementById('count').innerHTML='Internet: Found '+netList.length+' songs';document.getElementById('realResult').innerHTML='✅ Found '+netList.length+' from '+from;got=1;}
 fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=15').then(function(r){return r.json()}).then(function(d){var arr=(d.results||[]).map(function(x){return{title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl,src:'iTunes',wa:'',country:'World',city:'World'}});showNet(arr,'iTunes');}).catch(function(){});
-window.v29cb=function(d){var arr=(d.data||[]).map(function(x){return{title:x.title,artist:x.artist.name,genre:'Music',cover:x.album.cover_medium,audio:x.preview,src:'Deezer',wa:'',country:'World',city:'World'}});showNet(arr,'Deezer');};
-var s=document.createElement('script');s.src='https://api.deezer.com/search?q='+encodeURIComponent(q)+'&output=jsonp&callback=v29cb';document.body.appendChild(s);
+window.v30cb=function(d){var arr=(d.data||[]).map(function(x){return{title:x.title,artist:x.artist.name,genre:'Music',cover:x.album.cover_medium,audio:x.preview,src:'Deezer',wa:'',country:'World',city:'World'}});showNet(arr,'Deezer');};
+var s=document.createElement('script');s.src='https://api.deezer.com/search?q='+encodeURIComponent(q)+'&output=jsonp&callback=v30cb';document.body.appendChild(s);
 setTimeout(function(){if(!got){document.getElementById('realResult').innerHTML='❌ Internet blocked. Try WiFi.';}},7000);
 }
-function play(i,from){var s=from=='net'?netList[i]:list[i];if(!s)return;document.getElementById('player').style.display='block';document.getElementById('pt').innerText=s.title;document.getElementById('pa').innerText=s.artist;var a=document.getElementById('au');a.src=s.audio;a.play();setTimeout(function(){earn.streams++;var k=s.title+' - '+s.artist;earn.per[k]=(earn.per[k]||0)+1;localStorage.setItem('v29_earn',JSON.stringify(earn));showEarn();},5000);}
-function saveNet(i,from){var s=from=='net'?netList[i]:list[i];if(!s)return;for(var j=0;j<saved.length;j++)if(saved[j].title==s.title){alert('Already saved');return}saved.push(s);localStorage.setItem('v29_lib',JSON.stringify(saved));alert('⬇ Saved! Go to Library.');showLib();}
-function showLib(){var h='';for(var i=0;i<saved.length;i++)h+='<div class="card"><img src="'+saved[i].cover+'"><div><b>'+saved[i].title+'</b><br><small>'+saved[i].artist+'</small></div></div>';document.getElementById('libList').innerHTML=h||'<p>No saved yet.</p>';}
-function clearLib(){saved=[];localStorage.setItem('v29_lib','[]');showLib();}
-function pickCover(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){pickedCover=ev.target.result;var img=document.getElementById('coverPrev');img.src=pickedCover;img.style.display='block';document.getElementById('coverMsg').innerText='✅ Cover ready';};r.readAsDataURL(f);}
-function pickAudio(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){pickedAudio=ev.ta
+function play(i,from){var s=from=='net'?netList[i]:list[i];if(!s||!s.audio){alert('No audio - re-upload this song in V30');return}document.getElementById('player').style.display='block';document.getElementById('pt').innerText=s.title;document.getElementById('pa').innerText=s.artist;var a=document.getElementById('au');a.src=s.audio;a.play();setTimeout(function(){earn.streams++;var k=s.title+' - '+s.artist;earn.per[k]=(earn.per[k]||0)+1;try{localStorage.setItem('v30_earn',JSON.stringify(earn));}catch(e){}showEarn();},5000);}
+function saveNet(i,from){var s=from=='net'?netList[i]:list[i];if(!s)return;for(var j=0;j<saved.length;j++)if(saved[j].title==s.title){alert('Already saved');return}saved.push({title:s.title,artist:s.artist,cover:s.cover,country:s.country});try{localStorage.setItem('v30_lib',JSON.stringify(saved));}catch(e){}alert('⬇ Saved! Go to Library.');showLib();}
+function showLib(){var h='';for(var i=0;i<saved.length;i++)h+='<div class="card"><img src="'+saved[i].cover+'"><div><b>'+saved[i].title+'</b><br><small>'+saved[i].artist+'</small></div></div>';document.getElementById('libList').innerHTML=h
