@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIXXON V16 - Real Deezer Engine</title>
+<title>VIXXON V17 - Real Search</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#0f0f0f;color:#fff;padding-bottom:220px}
@@ -30,11 +30,11 @@ button{cursor:pointer}
 </style>
 </head>
 <body>
-<header><h1>🎵 VIXXON MUSIC</h1><p>V16 - REAL Deezer Engine - No Fake Songs</p></header>
+<header><h1>🎵 VIXXON MUSIC</h1><p>V17 - Real Internet Search - Auto Loads</p></header>
 
 <div id="page-home" class="page">
 <div class="earn"><h3>💰 ARTISTS EARN 20 UGX PER STREAM</h3><p>Launch Promo - Upload Now</p><button class="btn gold" onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-upload').style.display='block';window.scrollTo(0,0)">UPLOAD & EARN →</button></div>
-<div class="banner"><h3>🎧 REAL INTERNET SEARCH</h3><p>Engine: Deezer API - Real songs, real covers, real previews<br>Your uploads: Vixxon App</p></div>
+<div class="banner"><h3>🎧 REAL SEARCH - AUTO LOADS</h3><p>Open Search = Songs appear. No TEST button needed.</p></div>
 <div style="display:flex;gap:8px;margin:10px 0"><input id="qHome" placeholder="Type artist or song..."><button class="red" style="width:110px;padding:13px;border:0;border-radius:10px;font-weight:bold;color:#fff" onclick="searchNow('qHome')">SEARCH</button></div>
 <div style="display:flex;gap:8px"><button class="btn red" onclick="searchNow('qHome')">🌍 SEARCH NOW</button><button class="btn dark" onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-trending').style.display='block';window.scrollTo(0,0);showTrending()">🔥 TRENDING</button></div>
 <h3 style="margin-top:10px">🔥 Your Uploads</h3><div id="homeList"><p>Your uploads will show here after you upload.</p></div>
@@ -42,19 +42,14 @@ button{cursor:pointer}
 </div>
 
 <div id="page-search" class="page">
-<h2>🔍 Search - REAL Engine - V16</h2>
-<div class="box" style="margin-top:0">
-<p style="font-size:12px"><b>Engine 1:</b> Deezer API - <a href="https://api.deezer.com/search?q=love" target="_blank" style="color:#1db954">Tap here to see raw Deezer JSON - Proof it's real</a></p>
-<p style="font-size:12px;margin-top:6px"><b>Engine 2:</b> iTunes API - Backup</p>
-<p id="sourceStatus" style="font-size:12px;color:#FFC107;margin-top:8px;background:#000;padding:8px;border-radius:8px">Status: Waiting... Tap TEST SEARCH</p>
-</div>
-<div style="display:flex;gap:8px;margin:10px 0"><input id="qSearch" placeholder="Type artist or song..."><button class="red" style="width:110px;padding:13px;border:0;border-radius:10px;font-weight:bold;color:#fff" onclick="searchNow('qSearch')">SEARCH</button></div>
-<button class="btn gold" onclick="document.getElementById('qSearch').value='love';searchNow('qSearch')">🧪 TEST REAL ENGINE - Search "love"</button>
-<div id="searchList"><p style="color:#aaa">Tap TEST. If engine works, real Deezer songs appear with real covers. If it shows 0, your network is blocking Deezer - not fake words.</p></div>
+<h2>🔍 Search - V17 Real Engine</h2>
+<div class="box" style="margin-top:0"><p id="sourceStatus" style="font-size:13px;color:#FFC107">Loading real songs...</p></div>
+<div style="display:flex;gap:8px;margin:10px 0"><input id="qSearch" placeholder="Type artist or song..." value="love"><button class="red" style="width:110px;padding:13px;border:0;border-radius:10px;font-weight:bold;color:#fff" onclick="searchNow('qSearch')">SEARCH</button></div>
+<div id="searchList"><p>Loading real songs from internet...</p></div>
 </div>
 
 <div id="page-library" class="page"><h2>📚 My Library</h2><p style="color:#aaa">Songs you Saved / Downloaded</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libraryList"><p>No saved songs yet.</p></div></div>
-<div id="page-trending" class="page"><h2>🔥 Trending - Real Deezer</h2><button class="btn red" onclick="showTrending()">Refresh Trending</button><div id="trendingList"><p>Tap Refresh - Real Deezer trending.</p></div></div>
+<div id="page-trending" class="page"><h2>🔥 Trending - Real Internet</h2><button class="btn red" onclick="showTrending()">Refresh Trending</button><div id="trendingList"><p>Loading trending...</p></div></div>
 
 <div id="page-upload" class="page">
 <h2>⬆️ Upload & Earn</h2>
@@ -96,7 +91,7 @@ button{cursor:pointer}
 
 <div class="bottom-nav">
 <button onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-home').style.display='block';window.scrollTo(0,0);showHome()"><span>🏠</span>Home</button>
-<button onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-search').style.display='block';window.scrollTo(0,0)"><span>🔍</span>Search</button>
+<button onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-search').style.display='block';window.scrollTo(0,0);doAutoSearch()"><span>🔍</span>Search</button>
 <button onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-library').style.display='block';window.scrollTo(0,0);showLibrary()"><span>📚</span>Library</button>
 <button onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-trending').style.display='block';window.scrollTo(0,0);showTrending()"><span>🔥</span>Trending</button>
 <button onclick="var a=document.querySelectorAll('.page');for(var i=0;i<a.length;i++)a[i].style.display='none';document.getElementById('page-upload').style.display='block';window.scrollTo(0,0);showMy()"><span>⬆️</span>Upload</button>
@@ -108,7 +103,7 @@ button{cursor:pointer}
 var mySongs=[]; try{mySongs=JSON.parse(localStorage.getItem('vixxon_my')||'[]');}catch(e){mySongs=[];}
 var saved=[]; try{saved=JSON.parse(localStorage.getItem('vixxon_saved')||'[]');}catch(e){saved=[];}
 var earn={streams:0,downloads:0,total:0,perSong:{}}; try{earn=JSON.parse(localStorage.getItem('vixxon_earn')||'{"streams":0,"downloads":0,"total":0,"perSong":{}}');}catch(e){}
-var list=[]; var lastApp=[]; var lastNet=[]; var lastQuery='';
+var list=[]; var lastApp=[]; var lastNet=[]; var lastQuery='love';
 var idx=0; var pickedAudio=''; var pickedCover=''; var timer=null;
 function setStatus(t){ var el=document.getElementById('sourceStatus'); if(el) el.innerHTML=t; }
 function restoreOld(){
@@ -128,7 +123,7 @@ function restoreOld(){
 }
 function card(s,i){
   var srcName = s.source==='app' ? '📱 VIXXON APP' : s.source==='deezer' ? '🎵 DEEZER - REAL' : '🌍 iTunes - REAL';
-  var badge = s.source==='app' ? '<span style="background:#1db954;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px">FULL</span>' : '<span style="background:#ff9800;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px">30s PREVIEW - REAL</span>';
+  var badge = s.source==='app' ? '<span style="background:#1db954;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px">FULL</span>' : '<span style="background:#ff9800;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px">PREVIEW - Tap Listen</span>';
   return '<div class="card"><img src="'+(s.cover||'https://via.placeholder.com/70')+'"><div style="flex:1"><b>'+s.title+'</b><small>'+s.artist+'</small><br><span style="background:#000;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px">'+srcName+'</span> '+badge+'<div><button class="mini red" onclick="playSong('+i+')">▶ Listen</button><button class="mini green" onclick="saveSong('+i+')">❤️ Save</button><button class="mini dark" onclick="dlSong('+i+')">⬇ Download</button></div></div></div>';
 }
 function render(arr,el){
@@ -139,115 +134,57 @@ function render(arr,el){
   box.innerHTML=h;
 }
 function showHome(){try{render(mySongs.slice(0,10),'homeList');}catch(e){}}
-function showTrending(){
-  setStatus('Trending: Calling Deezer API...');
-  document.getElementById('trendingList').innerHTML='<p>Calling Deezer API for trending...</p>';
-  window.vixxonTrend=function(data){
-    var dz=[];
-    (data.data||[]).forEach(function(x){dz.push({title:x.title,artist:x.artist?x.artist.name:'Unknown',genre:'Music',cover:x.album?x.album.cover_medium:'https://via.placeholder.com/70',audio:x.preview,source:'deezer'});});
-    if(dz.length){ setStatus('Deezer returned '+dz.length+' REAL songs'); render(dz.concat(mySongs),'trendingList'); }
-    else { setStatus('Deezer returned 0 - Network blocked Deezer'); document.getElementById('trendingList').innerHTML='<p>Deezer returned 0. Network blocked.</p>'; }
-  };
-  var s=document.createElement('script'); s.src='https://api.deezer.com/search?q=music&output=jsonp&callback=vixxonTrend'; s.onerror=function(){ setStatus('ERROR: Deezer blocked by network'); }; document.body.appendChild(s);
-}
+function showTrending(){ searchDeezer('music','trendingList','Trending'); }
 function showLibrary(){try{render(saved.concat(mySongs),'libraryList');}catch(e){}}
 function showMy(){try{render(mySongs,'myUploads');}catch(e){}}
-function searchNow(inputId){
-  var q=document.getElementById(inputId).value.trim();
-  if(q.length<1){alert('Type something');return;}
-  lastQuery=q;
-  var a=document.querySelectorAll('.page'); for(var i=0;i<a.length;i++) a[i].style.display='none';
-  document.getElementById('page-search').style.display='block'; window.scrollTo(0,0);
-  document.getElementById('qSearch').value=q;
-  document.getElementById('searchList').innerHTML='<p>🔍 Calling REAL Deezer API for "'+q+'"...</p>';
-  setStatus('Step 1: Calling https://api.deezer.com/search?q='+q+' ... Waiting for Deezer to answer...');
+function doAutoSearch(){
+  var q=document.getElementById('qSearch').value.trim() || 'love';
+  searchDeezer(q,'searchList','Search');
+}
+// REAL ENGINE - FETCH VIA PROXY, NOT JSONP - THIS IS THE FIX
+function searchDeezer(q, targetId, label){
+  var box=document.getElementById(targetId);
+  if(box) box.innerHTML='<p>🔍 Loading real songs for "'+q+'" from Deezer...</p>';
+  setStatus('Calling Deezer via proxy for "'+q+'" ...');
   var low=q.toLowerCase();
   lastApp=mySongs.filter(function(s){return (s.title+' '+s.artist).toLowerCase().indexOf(low)!==-1;}).map(function(s){s.source='app'; return s;});
   lastNet=[];
-  // REAL ENGINE 1 - DEEZER JSONP
-  window.vixxonDeezer=function(data){
+  lastQuery=q;
+  // Try 1: Direct Deezer fetch via AllOrigins proxy (bypasses CORS + JSONP block)
+  var url1='https://api.allorigins.win/raw?url='+encodeURIComponent('https://api.deezer.com/search?q='+encodeURIComponent(q));
+  fetch(url1).then(function(r){return r.json();}).then(function(data){
     var arr=[];
     (data.data||[]).forEach(function(x){ arr.push({title:x.title,artist:x.artist?x.artist.name:'Unknown',genre:'Music',cover:x.album?x.album.cover_medium:'https://via.placeholder.com/70',audio:x.preview,source:'deezer'}); });
     if(arr.length){
-      lastNet = lastNet.concat(arr);
-      render(lastApp.concat(lastNet),'searchList');
-      setStatus('✅ SUCCESS: Deezer returned '+arr.length+' REAL songs for "'+q+'". Tap ▶ Listen to play preview.');
-    } else {
-      setStatus('Deezer returned 0 for "'+q+'". Trying iTunes...');
+      lastNet=arr;
+      render(lastApp.concat(lastNet),targetId);
+      setStatus('✅ SUCCESS: Deezer returned '+arr.length+' REAL songs for "'+q+'". Tap ▶ Listen.');
+      return;
     }
-  };
-  var sc1=document.createElement('script');
-  sc1.src='https://api.deezer.com/search?q='+encodeURIComponent(q)+'&output=jsonp&callback=vixxonDeezer';
-  sc1.onerror=function(){ setStatus('❌ ERROR: Deezer BLOCKED by your network (MTN/Airtel). Try WiFi or VPN. iTunes trying...'); };
-  document.body.appendChild(sc1);
-  // REAL ENGINE 2 - iTunes
-  window.vixxonSearch=function(data){
-    var arr=[];
-    (data.results||[]).forEach(function(x){ arr.push({title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl,source:'itunes'}); });
-    if(arr.length){
-      lastNet = lastNet.concat(arr);
-      render(lastApp.concat(lastNet),'searchList');
-      setStatus('✅ SUCCESS: iTunes returned '+arr.length+' REAL songs. Total: '+lastNet.length);
-    }
-  };
-  var sc2=document.createElement('script');
-  sc2.src='https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=15&callback=vixxonSearch';
-  document.body.appendChild(sc2);
-  setTimeout(function(){
-    if(lastNet.length===0 && lastApp.length===0){
-      setStatus('❌ FAILED: Both Deezer + iTunes returned 0. Your network is blocking them. Try WiFi.');
-      document.getElementById('searchList').innerHTML='<p>❌ Both real engines returned 0.<br><br>Proof: Tap the green link at top "Tap here to see raw Deezer JSON" - If that page also shows error, your network blocks Deezer, not my code.<br><br>Fix: Try WiFi, not MTN data, or use VPN.</p>';
-    }
-  }, 8000);
-}
-function playSong(i){
-  var s=list[i]; if(!s) return;
-  idx=i;
-  document.getElementById('player').style.display='block';
-  document.getElementById('pImg').src=s.cover||'';
-  document.getElementById('pTitle').innerText=s.title;
-  document.getElementById('pArtist').innerText=s.artist;
-  var au=document.getElementById('audio'); au.src=s.audio; au.play().catch(function(){alert('Audio cannot play. Try another song.');});
-  clearTimeout(timer);
-  timer=setTimeout(function(){
-    earn.streams++; earn.total+=20;
-    var k=s.title+' - '+s.artist; earn.perSong[k]=earn.perSong[k]||{streams:0,downloads:0}; earn.perSong[k].streams++;
-    localStorage.setItem('vixxon_earn',JSON.stringify(earn)); showEarn();
-  },5000);
-}
-function saveSong(i){
-  var s=list[i]; if(!s) return;
-  var ex=false; for(var j=0;j<saved.length;j++) if(saved[j].title===s.title) ex=true;
-  if(ex){alert('Already in Library');return;}
-  saved.push(s); localStorage.setItem('vixxon_saved',JSON.stringify(saved));
-  alert('⬇ Saved to Library! ✅'); showLibrary();
-}
-function dlSong(i){
-  var s=list[i]; if(!s) return;
-  var already=false; for(var j=0;j<saved.length;j++) if(saved[j].title===s.title) already=true;
-  if(!already){ saved.push(s); localStorage.setItem('vixxon_saved',JSON.stringify(saved)); }
-  earn.downloads++; earn.total+=50;
-  var k=s.title+' - '+s.artist; earn.perSong[k]=earn.perSong[k]||{streams:0,downloads:0}; earn.perSong[k].downloads++;
-  localStorage.setItem('vixxon_earn',JSON.stringify(earn));
-  alert('⬇ Downloaded to Library! +50 UGX for '+s.artist); showLibrary();
-}
-function clearLib(){ if(!confirm('Clear all saved?')) return; saved=[]; localStorage.setItem('vixxon_saved','[]'); showLibrary(); alert('Library cleared ✅'); }
-function pickCover(e){var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){pickedCover=ev.target.result;}; r.readAsDataURL(f);}
-function pickAudio(e){var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){pickedAudio=ev.target.result; document.getElementById('audioInfo').innerText='Ready: '+f.name;}; r.readAsDataURL(f);}
-function publish(){
-  var t=document.getElementById('upTitle').value.trim();
-  var a=document.getElementById('upArtist').value.trim()||'Me';
-  var m=document.getElementById('upMomo').value.trim();
-  var g=document.getElementById('upGenre').value;
-  var c=pickedCover||document.getElementById('upCover').value.trim()||'https://via.placeholder.com/70';
-  var au=pickedAudio||document.getElementById('upAudio').value.trim();
-  if(!t){alert('Enter Title');return;}
-  if(!m){alert('Enter MoMo Number!');return;}
-  if(!au){alert('Choose MP3 OR paste Audio Link!');return;}
-  mySongs.unshift({title:t,artist:a,genre:g,cover:c,audio:au,momo:m,source:'app'});
-  localStorage.setItem('vixxon_my',JSON.stringify(mySongs));
-  localStorage.setItem('vixxon_momo',m);
-  document.getElementById('upMsg').innerText='✅ Published!';
-  document.getElementById('upTitle').value=''; document.getElementById('upAudio').value=''; document.getElementById('upCover').value='';
-  pickedAudio=''; pickedCover=''; document.getElementById('audioInfo').innerText='';
-  showMy(); showLibrary(); showHome(
+    throw new Error('Deezer empty');
+  }).catch(function(){
+    setStatus('Deezer proxy failed, trying iTunes proxy...');
+    // Try 2: iTunes via proxy
+    var url2='https://api.allorigins.win/raw?url='+encodeURIComponent('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=15');
+    fetch(url2).then(function(r){return r.json();}).then(function(data){
+      var arr=[];
+      (data.results||[]).forEach(function(x){ arr.push({title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl,source:'itunes'}); });
+      if(arr.length){
+        lastNet=arr;
+        render(lastApp.concat(lastNet),targetId);
+        setStatus('✅ SUCCESS: iTunes returned '+arr.length+' REAL songs for "'+q+'".');
+      } else {
+        setStatus('❌ Both engines returned 0. Try WiFi.');
+        if(box) box.innerHTML='<p>❌ No songs found for "'+q+'". Try WiFi or different word.</p>';
+      }
+    }).catch(function(){
+      // Try 3: Direct iTunes JSONP as last resort
+      setStatus('Trying direct iTunes...');
+      var sc=document.createElement('script');
+      window.vixxonFallback=function(data){
+        var arr=[];
+        (data.results||[]).forEach(function(x){ arr.push({title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl,source:'itunes'}); });
+        if(arr.length){ lastNet=arr; render(lastApp.concat(lastNet),targetId); setStatus('✅ SUCCESS: iTunes direct returned '+arr.length+' songs.'); }
+        else { setStatus('❌ All engines failed. Check internet.'); if(box) box.innerHTML='<p>❌ Internet blocked. Try WiFi.</p>'; }
+      };
+      sc.src='https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=15&callback=v
