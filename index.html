@@ -7,11 +7,14 @@
 <meta name="description" content="VIXXON Uganda Free Music App. Search songs from Vixxon App and Internet. Listen, Download to Library. Artists earn 20 UGX per stream.">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#0f0f0f;color:#fff;padding-bottom:160px}
+body{background:#0f0f0f;color:#fff;padding-bottom:220px}
 header{background:#ff3b30;padding:14px;text-align:center;position:sticky;top:0;z-index:20}
-nav{display:flex;gap:6px;padding:10px;background:#1a1a1a;position:sticky;top:60px;z-index:20;overflow-x:auto}
-nav button{white-space:nowrap;border:0;padding:11px 15px;border-radius:20px;background:#333;color:#fff;font-weight:bold}
-nav button.on{background:#ff3b30}
+header h1{font-size:26px} header p{font-size:12px}
+/* BOTTOM NAV - LIKE SPOTIFY */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:2px solid #ff3b30;display:flex;overflow-x:auto;z-index:50;padding:6px 4px 8px;gap:4px}
+.bottom-nav button{flex:1;min-width:68px;border:0;background:transparent;color:#aaa;padding:8px 4px;border-radius:10px;font-size:11px;font-weight:bold;line-height:1.2}
+.bottom-nav button span{display:block;font-size:22px;margin-bottom:2px}
+.bottom-nav button.on{background:#ff3b30;color:#fff}
 .page{display:none;padding:12px}.page.active{display:block}
 input,select{width:100%;padding:13px;margin:6px 0;border-radius:10px;border:0;background:#2a2a2a;color:#fff;font-size:15px}
 button{cursor:pointer}
@@ -24,22 +27,13 @@ button{cursor:pointer}
 .banner{background:#fff;color:#111;padding:14px;border-radius:12px;text-align:center}
 .earn{background:linear-gradient(135deg,#ff3b30,#FF9800);padding:16px;border-radius:12px;text-align:center;margin:10px 0}
 .box{background:#1e1e1e;padding:14px;border-radius:12px;margin-top:10px}
-#player{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:30}
+/* PLAYER SITS JUST ABOVE BOTTOM NAV */
+#player{position:fixed;bottom:72px;left:0;right:0;background:#222;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:40}
 #player audio{width:100%;margin-top:8px}
 </style>
 </head>
 <body>
 <header><h1>🎵 VIXXON MUSIC</h1><p>Uganda Free Music • Artists Earn 20 UGX / Stream</p></header>
-<nav>
-<button class="on" id="b-home" onclick="go('home')">🏠 Home</button>
-<button id="b-search" onclick="go('search')">🔍 Search</button>
-<button id="b-library" onclick="go('library')">📚 Library</button>
-<button id="b-trending" onclick="go('trending')">🔥 Trending</button>
-<button id="b-artists" onclick="go('artists')">🎤 Artists</button>
-<button id="b-upload" onclick="go('upload')">⬆️ Upload</button>
-<button id="b-earnings" onclick="go('earnings')">💰 Earnings</button>
-<button id="b-profile" onclick="go('profile')">👤 Profile</button>
-</nav>
 
 <div id="page-home" class="page active">
 <div class="earn"><h3>💰 ARTISTS EARN 20 UGX PER STREAM</h3><p>Launch Promo - Upload Now</p><button class="btn gold" onclick="go('upload')">UPLOAD & EARN →</button></div>
@@ -99,6 +93,18 @@ button{cursor:pointer}
 <audio id="audio" controls playsinline></audio>
 </div>
 
+<!-- BOTTOM NAV - ALL BARS HERE, ALWAYS VISIBLE -->
+<div class="bottom-nav">
+<button id="b-home" class="on" onclick="go('home')"><span>🏠</span>Home</button>
+<button id="b-search" onclick="go('search')"><span>🔍</span>Search</button>
+<button id="b-library" onclick="go('library')"><span>📚</span>Library</button>
+<button id="b-trending" onclick="go('trending')"><span>🔥</span>Trending</button>
+<button id="b-artists" onclick="go('artists')"><span>🎤</span>Artists</button>
+<button id="b-upload" onclick="go('upload')"><span>⬆️</span>Upload</button>
+<button id="b-earnings" onclick="go('earnings')"><span>💰</span>Earnings</button>
+<button id="b-profile" onclick="go('profile')"><span>👤</span>Profile</button>
+</div>
+
 <script>
 var mySongs=[]; try{mySongs=JSON.parse(localStorage.getItem('vixxon_my')||'[]');}catch(e){mySongs=[];}
 var saved=[]; try{saved=JSON.parse(localStorage.getItem('vixxon_saved')||'[]');}catch(e){saved=[];}
@@ -107,9 +113,13 @@ var list=[]; var lastApp=[]; var lastNet=[]; var lastQuery='';
 var idx=0; var pickedAudio=''; var pickedCover=''; var timer=null; var searchTimeout=null;
 
 function go(p){
-  var pages=document.querySelectorAll('.page');
-  for(var i=0;i<pages.length;i++) pages[i].classList.remove('active');
-  document.getElementById('page-'+p).classList.add('active');
+  // Hide all pages
+  var pages=document.getElementsByClassName('page');
+  for(var i=0;i<pages.length;i++) pages[i].style.display='none';
+  // Show one page - THIS IS THE FIX, works even if class fails
+  var el=document.getElementById('page-'+p);
+  if(el){ el.style.display='block'; el.classList.add('active'); }
+  // Highlight bottom button
   var ids=['home','search','library','trending','artists','upload','earnings','profile'];
   for(var j=0;j<ids.length;j++){var b=document.getElementById('b-'+ids[j]); if(b) b.classList.toggle('on', ids[j]===p);}
   window.scrollTo(0,0);
@@ -271,12 +281,4 @@ function publish(){
 }
 function saveProfile(){
   var n=document.getElementById('nameInput').value; var m=document.getElementById('momoInput').value;
-  if(n){localStorage.setItem('vixxon_name',n); document.getElementById('profName').innerText=n;}
-  if(m){localStorage.setItem('vixxon_momo',m);}
-  alert('Saved ✅'); showEarn();
-}
-function changePic(e){var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){document.getElementById('profPic').src=ev.target.result; localStorage.setItem('vixxon_pic',ev.target.result);}; r.readAsDataURL(f);}
-function showProfile(){
-  var n=localStorage.getItem('vixxon_name'); if(n) document.getElementById('profName').innerText=n;
-  var p=localStorage.getItem('vixxon_pic'); if(p) document.getElementById('profPic').src=p;
-  document.getElementById('statSaved
+  if(n){localStorage.set
