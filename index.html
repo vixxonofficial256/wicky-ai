@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON V35 - CLEAN</title>
+<title>VIXXON V36 - INTERNET SEARCH</title>
 <style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:180px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center;cursor:pointer}.card img{width:65px;height:65px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #ff3b30;display:flex;z-index:9999;height:62px}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:11px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}#coverPrev{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto;border:3px solid #1db954}#player{position:fixed;bottom:62px;left:0;right:0;background:#1e1e1e;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}#player img{width:55px;height:55px;border-radius:8px;object-fit:cover}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.status{padding:12px;border-radius:8px;margin:8px 0;font-size:14px;font-weight:bold}.tagUp{background:#ff3b30;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.tagNet{background:#2196F3;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}</style>
 <script>
 var pickedCover=''; var pickedAudio=''; var pickedAudioName='';
@@ -45,14 +45,13 @@ function up(){
       var cover=pickedCover||'https://via.placeholder.com/150/ff3b30/fff?text='+encodeURIComponent(t.charAt(0));
       var newSong={title:t,artist:a,genre:g,cover:cover,audio:pickedAudio,audioName:pickedAudioName,wa:wa,momo:m,country:country,city:city,isUploaded:true};
       mine.unshift(newSong);
-      // UPLOADED ONLY -> LIBRARY. Internet songs NEVER go here.
       var already=false; for(var k=0;k<saved.length;k++){ if(saved[k].title==t && saved[k].artist==a) already=true; }
       if(!already) saved.unshift(newSong);
       st.style.background='#1db954'; st.innerHTML='✅ PUBLISHED! '+t+' - Now in HOME + LIBRARY ONLY!';
       try{showMine();}catch(e){} try{renderAll();}catch(e){} try{showLib();}catch(e){}
       pickedCover=''; pickedAudio=''; pickedAudioName='';
       try{document.getElementById('coverPrev').style.display='none'; document.getElementById('coverFile').value=''; document.getElementById('f').value='';}catch(e){}
-      alert('✅ SUCCESS! '+t+' is now in HOME + LIBRARY. Internet songs will never mix in.');
+      alert('✅ SUCCESS! '+t+' is now in HOME + LIBRARY.');
       go('library');
     }catch(err){ st.style.background='#ff3b30'; st.innerHTML='❌ Error: '+err.message; }
   },50);
@@ -60,131 +59,8 @@ function up(){
 function showMine(){ var h=''; for(var i=0;i<mine.length;i++){ h+=cardUploaded(mine[i],i,'mine'); } var el=document.getElementById('myList'); if(el) el.innerHTML=h||'<p>No uploads yet.</p>'; }
 function flagFor(c){var m={'Uganda':'🇺🇬','Nigeria':'🇳🇬','Kenya':'🇰🇪','Tanzania':'🇹🇿','Ghana':'🇬🇭','South Africa':'🇿🇦','Ethiopia':'🇪🇹','USA':'🇺🇸','UK':'🇬🇧','Canada':'🇨🇦','Brazil':'🇧🇷','India':'🇮🇳','France':'🇫🇷','Germany':'🇩🇪'};return m[c]||'🌍';}
 function regionFor(c){if(['Uganda','Nigeria','Kenya','Tanzania','Ghana','South Africa','Ethiopia'].indexOf(c)>-1)return 'Africa';if(['USA','Canada','Brazil'].indexOf(c)>-1)return 'Americas';if(['UK','France','Germany'].indexOf(c)>-1)return 'Europe';if(['India'].indexOf(c)>-1)return 'Asia';return 'Other';}
-// HOME / LIBRARY CARD - ONLY UPLOADED
 function cardUploaded(s,i,from){
   var dl=(earn.dlPer[s.title+' - '+s.artist]||0);
-  var saveBtn = from=='lib' ? '' : '<button class="mini dark" onclick="event.stopPropagation();saveUploaded('+i+')">❤️ Save to Library</button>';
+  var saveBtn = from=='lib' ? '' : '<button class="mini dark" onclick="event.stopPropagation();saveUploaded('+i+')">❤️ Save</button>';
   var bookBtn = s.wa ? '<button class="mini gold" onclick="event.stopPropagation();bookArtist(\''+s.wa+'\')">📞 Book</button>' : '';
-  return '<div class="card" onclick="playSong('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>'+s.title+'</b> <span class="badge">⬇ '+dl+'</span><br><small>'+flagFor(s.country||'')+' '+s.artist+' • '+(s.city||'')+', '+(s.country||'')+' • '+(s.genre||'Music')+'</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\''+from+'\')">▶ Play</button>'+saveBtn+bookBtn+'<button class="mini green" onclick="event.stopPropagation();downloadSong('+i+',\''+from+'\')">⬇ Download</button></div></div>';
-}
-// INTERNET CARD - SEPARATE, NO SAVE TO LIBRARY, NO BOOK, NO DOWNLOAD OF FULL SONG
-function cardInternet(s,i){
-  return '<div class="card" onclick="playSong('+i+',\'net\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagNet">🌍 INTERNET</span> <b>'+s.title+'</b><br><small>'+s.artist+' • '+s.genre+' • 30-sec preview</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\'net\')">▶ Play Preview</button><button class="mini dark" onclick="event.stopPropagation();alert(\'Library is only for UPLOADED songs. Internet songs stay here in Search.\')">ℹ️ Not in Library</button></div></div>';
-}
-function renderAll(){
-  var q=document.getElementById('q'); var qv=q?q.value.toLowerCase():'';
-  var cfEl=document.getElementById('countryFilter'); var cf=cfEl?cfEl.value:'ALL';
-  // ONLY uploaded songs - mine[] - never netList[]
-  var filtered=mine.filter(function(s){ var okQ=(s.title+' '+s.artist+' '+(s.country||'')+' '+(s.city||'')).toLowerCase().indexOf(qv)>-1; var okC=cf=='ALL'||s.country==cf; var okR=curFilter=='ALL'||regionFor(s.country||'')==curFilter; return okQ&&okC&&okR; });
-  list=filtered;
-  var h=''; for(var i=0;i<filtered.length;i++){ h+=cardUploaded(filtered[i], mine.indexOf(filtered[i]), 'mine'); }
-  var hl=document.getElementById('homeList'); if(hl) hl.innerHTML=h||'<p>No uploaded songs yet. Upload to be first.</p>';
-  var tr=document.getElementById('trendingList'); if(tr) tr.innerHTML=h||'<p>No uploaded songs yet.</p>';
-  var sl=document.getElementById('searchList'); if(sl) sl.innerHTML=h||'<p>No uploaded songs yet.</p>';
-  var cnt=document.getElementById('count'); if(cnt) cnt.innerHTML='Vixxon Uploaded: '+filtered.length+' songs - HOME & LIBRARY = Uploaded Only';
-}
-function saveUploaded(i){
-  var s=mine[i]; if(!s) return;
-  for(var j=0;j<saved.length;j++){ if(saved[j].title==s.title && saved[j].artist==s.artist){ alert('Already in Library'); go('library'); return; } }
-  saved.unshift(s); alert('❤️ Saved to Library!'); try{showLib();}catch(e){}
-}
-function showLib(){
-  // ONLY uploaded songs - filter out any internet songs if old version saved them
-  saved=saved.filter(function(s){ return s.isUploaded || s.wa; });
-  var h=''; for(var i=0;i<saved.length;i++){ h+=cardUploaded(saved[i],i,'lib'); }
-  var el=document.getElementById('libList'); if(el) el.innerHTML=h||'<p>No uploaded songs in Library yet. Upload a song - it auto-goes here.</p>';
-  var c=document.getElementById('libCount'); if(c) c.innerHTML='Library: '+saved.length+' uploaded songs - No internet songs here';
-}
-function clearLib(){ saved=[]; showLib(); }
-function bookArtist(wa){ if(!wa){alert('No WhatsApp');return} var num=String(wa).replace(/[^0-9]/g,''); window.open('https://wa.me/'+num+'?text='+encodeURIComponent('Hi, I found you on Vixxon. I want to book you!'),' _blank'); }
-function downloadSong(i,from){ var s=from=='lib'?saved[i]:mine[i]; if(!s||!s.audio){alert('No audio');return} earn.downloads++; var k=s.title+' - '+s.artist; earn.dlPer[k]=(earn.dlPer[k]||0)+1; var a=document.createElement('a'); a.href=s.audio; a.download=s.title+'.mp3'; document.body.appendChild(a); a.click(); a.remove(); alert('⬇ Downloading '+s.title); try{showEarn();renderAll();}catch(e){} }
-</script>
-</head>
-<body>
-<header><h1>🌍 VIXXON MUSIC</h1><p>V35 - Home & Library = Uploaded Only + Internet Search Separate</p></header>
-
-<div id="page-home" class="page">
-<div class="box" style="background:linear-gradient(135deg,#ff3b30,#FF9800);text-align:center"><h3>⬆️ HOME = UPLOADED SONGS ONLY</h3><p style="font-size:13px">Only Vixxon artists who uploaded here. No internet songs. 👆 Tap song to play.</p><button class="btn gold" onclick="go('upload')">UPLOAD YOUR SONG →</button></div>
-<h3>🌍 Filter By World</h3>
-<div class="tab"><button class="on" id="fAll" onclick="setFilter('ALL')">🌍 ALL WORLD</button><button class="off" id="fAfrica" onclick="setFilter('Africa')">🌍 AFRICA</button><button class="off" id="fEurope" onclick="setFilter('Europe')">🇪🇺 EUROPE</button><button class="off" id="fAmericas" onclick="setFilter('Americas')">🇺🇸 AMERICAS</button><button class="off" id="fAsia" onclick="setFilter('Asia')">🌏 ASIA</button></div>
-<select id="countryFilter" onchange="renderAll()"><option value="ALL">All Countries</option><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
-<h3 style="margin-top:10px">🔥 Trending - Uploaded Only</h3><div id="trendingList"><p style="color:#aaa">No uploaded songs yet.</p></div>
-<h3>🎵 All Uploaded Artists - 👆 Tap Song To Play</h3><div id="homeList"><p style="color:#aaa">No uploaded songs yet.</p></div>
-</div>
-
-<div id="page-search" class="page">
-<h2>🔍 Search</h2>
-<div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">⬆️ VIXXON ARTISTS - Uploaded</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET - iTunes</button></div>
-<input id="q" placeholder="Artist, song, country, city..." oninput="onType()">
-<p id="count" style="color:#1db954">Vixxon Uploaded: 0 songs</p>
-<button class="btn red" id="netBtn" style="display:none" onclick="doNetSearch()">🌍 SEARCH INTERNET NOW</button>
-<div id="searchList"></div>
-<div id="netList"></div>
-<p id="realResult" style="color:#FFC107;font-size:13px"></p>
-<div class="box"><h3>How Search Works Now</h3><p><b>⬆️ VIXXON ARTISTS:</b> Only uploaded songs. Tap ❤️ Save → Goes to Library.</p><p><b>🌍 INTERNET:</b> Only iTunes previews. Tap to play 30-sec. They NEVER go to Home or Library.</p></div>
-</div>
-
-<div id="page-library" class="page"><h2>📚 My Library - Uploaded Only</h2><p id="libCount" style="color:#1db954">Library: 0 uploaded songs</p><p style="color:#aaa;font-size:13px">✅ Uploaded songs auto-go here. ✅ Tap ❤️ Save on uploaded songs to add here. ❌ Internet songs NEVER go here.</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No uploaded songs in Library yet.</p></div></div>
-
-<div id="page-upload" class="page">
-<h2>⬆️ Upload - Goes to HOME + LIBRARY ONLY</h2>
-<div class="box">
-<input id="t" placeholder="Song Title" value="How I Feel">
-<input id="a" placeholder="Artist Name" value="Vixxon Kalema">
-<select id="country"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
-<input id="city" placeholder="Your City" value="BUGIRI">
-<input id="wa" placeholder="WhatsApp" value="256705570948">
-<select id="payMethod"><option>MoMo - Uganda</option><option>M-Pesa - Kenya</option><option>Bank / OPay - Nigeria</option><option>PayPal - USA / UK / World</option><option>Other</option></select>
-<input id="momo" placeholder="Payout Number" value="256705570948">
-<select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Swahili Bongo</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
-<p style="font-size:14px;font-weight:bold">🖼️ STEP 1: COVER ART</p>
-<input type="file" id="coverFile" accept="image/*" onchange="pickCover(this)">
-<img id="coverPrev" src="">
-<p id="coverMsg" style="color:#1db954;font-size:14px;text-align:center"></p>
-<div id="coverStatus" class="status" style="background:#333">Waiting for cover...</div>
-<p style="font-size:14px;font-weight:bold">🎵 STEP 2: SONG MP3</p>
-<input type="file" id="f" accept="audio/*" onchange="pickAudio(this)">
-<p id="audioMsg" style="color:#1db954;font-size:14px"></p>
-<div id="audioStatus" class="status" style="background:#333">Waiting for song...</div>
-<button class="btn green" style="font-size:18px;padding:16px" onclick="up()">✅ PUBLISH TO HOME + LIBRARY</button>
-<div id="upStatus" class="status" style="background:#333">Waiting to publish...</div>
-</div><h3>My Uploads - Uploaded Only</h3><div id="myList"><p>No uploads yet.</p></div>
-</div>
-
-<div id="page-earnings" class="page">
-<h2>💰 Earnings</h2>
-<div class="box" style="text-align:center"><h3>Your Downloads - Uploaded Only</h3><h2 id="earnTotal" style="color:#FFC107">0 Downloads</h2><p>Streams: <b id="earnStreams">0</b></p></div>
-<div class="box"><button class="btn gold" onclick="withdraw()">💸 REQUEST FRIDAY PAYOUT</button><p id="wdMsg" style="color:#1db954"></p></div>
-<div class="box"><h3>Your Songs</h3><div id="earnList"><p>No downloads yet.</p></div></div>
-</div>
-
-<div id="page-profile" class="page">
-<h2>👤 Profile</h2>
-<div class="box" style="text-align:center">
-<img id="profPic" class="profPic" src="https://via.placeholder.com/90/333/fff?text=+" onclick="document.getElementById('picInput').click()">
-<input type="file" id="picInput" hidden accept="image/*" onchange="changePic(this)">
-<p style="color:#aaa;font-size:13px">👆 Tap photo to change</p>
-<h3 id="profNameShow">Vixxon User</h3>
-<input id="nameIn" placeholder="Your Name">
-<input id="waIn" placeholder="WhatsApp">
-<input id="momoIn" placeholder="MoMo / M-Pesa / PayPal">
-<button class="btn red" onclick="saveProfile()">Save Profile</button>
-</div>
-<div class="box"><p>Saved: <b id="statSaved">0</b> | Uploads: <b id="statUp">0</b> | Downloads: <b id="statEarn">0</b></p></div>
-<div class="box" style="background:#7b1fa2"><h3>🔐 Admin?</h3><button class="btn dark" onclick="openAdmin()">🔐 OPEN ADMIN</button></div>
-</div>
-
-<div id="page-admin" class="page">
-<h2>🔐 ADMIN - Uploaded Only</h2>
-<div class="box"><p>Total Uploaded Songs: <b id="adminTotalSongs">0</b></p></div>
-<div class="box"><h3>🎵 All Uploaded Songs</h3><div id="adminSongs"><p>No songs.</p></div></div>
-<button class="btn red" onclick="go('profile')">← Back To Profile</button>
-</div>
-
-<div id="player">
-<div style="display:flex;gap:10px;align-items:center"><img id="pImg" src="https://via.placeholder.com/55"><div style="flex:1"><b id="pt">-</b><br><small id="pa">-</small><br><small id="pStatus" style="color:#1db954">Tap a song to play</small></div><button class="btn green" style="width:auto;padding:10px 16px" onclick="togglePlay()">⏯ Play / Pause</button><button class="btn dark" style="width:auto;padding:10px" onclick="closePlayer()">✖</button></div>
-<audio id="au" controls></audio>
-</div>
-
-<div class="nav">
-<button id="nav-home" class="active" onclick=
+  return '<div class="card" onclick="playSong('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>'+s.title+'</b> <span class="badge">
