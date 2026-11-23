@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON - FOR LISTENERS</title>
+<title>VIXXON V36.1 - BOTTOM NAV</title>
 <style>
-body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:90px}
+body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:160px}
 header{background:#ff3b30;padding:12px;text-align:center}
-.top{display:flex;flex-wrap:wrap;gap:5px;padding:8px;background:#1a1a1a}
-.top button{flex:1;min-width:80px;padding:12px;border:0;border-radius:8px;background:#333;color:#fff;font-weight:bold}
-.top button.on{background:#ff3b30}
 .page{display:none;padding:12px}.show{display:block}
 input,select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff;box-sizing:border-box}
 .btn{width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;margin:6px 0;background:#ff3b30;color:#fff}
@@ -14,9 +11,13 @@ input,select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;bac
 .card{background:#1e1e1e;padding:10px;border-radius:10px;margin:8px 0;display:flex;gap:10px;align-items:center}
 .card img{width:60px;height:60px;border-radius:8px;object-fit:cover}
 .box{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
-#player{position:fixed;bottom:0;left:0;right:0;background:#222;padding:10px;border-top:3px solid #ff3b30}
+#player{position:fixed;bottom:68px;left:0;right:0;background:#222;padding:10px;border-top:3px solid #ff3b30;z-index:9998}
 #player audio{width:100%}
 .pPic{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto}
+/* BOTTOM NAV - LIKE SPOTIFY */
+.bottomnav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #ff3b30;display:flex;z-index:9999;height:68px}
+.bottomnav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:12px;font-weight:bold}
+.bottomnav button.on{color:#fff;background:#ff3b30}
 </style>
 <script>
 var saved=[]; var net=[]; var trending=[];
@@ -24,12 +25,11 @@ function go(id){
   var p=document.querySelectorAll('.page');
   for(var i=0;i<p.length;i++) p[i].classList.remove('show');
   document.getElementById('page-'+id).classList.add('show');
-  var b=document.querySelectorAll('.top button');
+  var b=document.querySelectorAll('.bottomnav button');
   for(var j=0;j<b.length;j++) b[j].classList.remove('on');
   document.getElementById('btn-'+id).classList.add('on');
   window.scrollTo(0,0);
   if(id=='library') showLib();
-  if(id=='profile') showMyProfile();
 }
 function oneCard(s,i,from){
   return '<div class="card"><img src="'+s.cover+'"><div style="flex:1"><b>'+s.title+'</b><br><small>'+s.artist+'</small><br><button onclick="playIt('+i+',\''+from+'\')">▶ PLAY</button> <button onclick="saveIt('+i+',\''+from+'\')">❤️ SAVE</button></div></div>';
@@ -69,7 +69,6 @@ function loadTrending(){
     document.getElementById('trendStatus').innerHTML='🔥 Trending Now - Tap ▶ PLAY';
   }).catch(function(){ document.getElementById('trendStatus').innerHTML='Check WiFi for trending'; });
 }
-// --- USER PROFILE - FOR LISTENERS, NOT ARTISTS ---
 function pickProfilePic(el){ var f=el.files[0]; if(!f) return; var url=URL.createObjectURL(f); document.getElementById('myPic').src=url; document.getElementById('myPic2').src=url; document.getElementById('picMsg').innerHTML='✅ Photo chosen: '+f.name; }
 function saveUserProfile(){
   var name=document.getElementById('uName').value || 'Vixxon Fan';
@@ -83,29 +82,22 @@ function saveUserProfile(){
   document.getElementById('profMsg').innerHTML='✅ Profile Saved! Hello, '+name+' 👋';
   alert('✅ Profile Saved! Welcome '+name);
 }
-function showMyProfile(){ /* profile stays as saved */ }
-function goArtist(){ alert('Artist App is separate. Open your Artist Website to upload songs and see Earnings. This app is only for listeners.'); }
+function goArtist(){ alert('Artist App is separate. Open Artist Website to upload songs. This app is only for listeners.'); }
 </script>
 </head>
 <body>
-<header><h1>🌍 VIXXON MUSIC</h1><p>V36 - FOR LISTENERS / FANS - Listen, Search, Save</p></header>
-<div class="top">
-<button id="btn-home" class="on" onclick="go('home')">🏠 Home</button>
-<button id="btn-search" onclick="go('search')">🔍 Search</button>
-<button id="btn-library" onclick="go('library')">📚 Library</button>
-<button id="btn-profile" onclick="go('profile')">👤 My Profile</button>
-</div>
+<header><h1>🌍 VIXXON MUSIC</h1><p>V36.1 - FOR LISTENERS - Bottom Nav</p></header>
 
 <div id="page-home" class="page show">
-<div class="box" style="background:#ff3b30;text-align:center"><h3>🎧 Welcome Listener!</h3><p>Listen to any song in the world. No upload, no earnings here. Just music.</p><button class="btnY btn" onclick="go('search')">🔍 SEARCH MUSIC →</button></div>
+<div class="box" style="background:#ff3b30;text-align:center"><h3>🎧 Welcome Listener!</h3><p>Listen to any song in the world. Just music.</p><button class="btnY btn" onclick="go('search')">🔍 SEARCH MUSIC →</button></div>
 <div class="box"><h3>🔥 Trending Now</h3><p id="trendStatus"></p><button class="btn" onclick="loadTrending()">Load Trending Songs</button><div id="trendList"><p>Tap Load Trending to see hot songs.</p></div></div>
-<div class="box"><h3>🎵 Are You An Artist?</h3><p>This app is for listeners. Artists use the separate Artist Website to upload songs + see Earnings.</p><button class="btn" onclick="goArtist()">🎤 I AM AN ARTIST → Go To Artist Website</button></div>
+<div class="box"><h3>🎵 Are You An Artist?</h3><p>This app is for listeners. Artists use the separate Artist Website.</p><button class="btn" onclick="goArtist()">🎤 I AM AN ARTIST →</button></div>
 </div>
 
 <div id="page-search" class="page">
 <h2>🔍 Search Music</h2>
-<div class="box" style="background:#2196F3"><h3>🌍 Search Any Artist In The World</h3><p>Type artist, tap SEARCH, tap ▶ PLAY to listen, ❤️ SAVE to keep in Library.</p></div>
-<input id="qNet" placeholder="Type artist - e.g. Fik Fameica, Bebe Cool, Eddy Kenzo">
+<div class="box" style="background:#2196F3"><h3>🌍 Search Any Artist</h3><p>Type artist, tap SEARCH, tap ▶ PLAY, ❤️ SAVE to Library.</p></div>
+<input id="qNet" placeholder="Type artist - e.g. Fik Fameica, Bebe Cool">
 <button class="btn btnB" onclick="searchNet()">🌍 SEARCH NOW</button>
 <div style="display:flex;gap:5px"><button class="btn" style="flex:1" onclick="document.getElementById('qNet').value='Fik Fameica';searchNet()">Fik Fameica</button><button class="btn" style="flex:1" onclick="document.getElementById('qNet').value='Bebe Cool';searchNet()">Bebe Cool</button><button class="btn" style="flex:1" onclick="document.getElementById('qNet').value='Sheebah';searchNet()">Sheebah</button></div>
 <p id="netStatus"></p><div id="netList"></div>
@@ -127,22 +119,24 @@ function goArtist(){ alert('Artist App is separate. Open your Artist Website to 
 <p><b>🖼️ Your Profile Photo:</b></p>
 <input type="file" id="picFile" accept="image/*" onchange="pickProfilePic(this)">
 <p id="picMsg" style="color:#1db954"></p>
-<p><b>Your Name:</b></p>
-<input id="uName" placeholder="Your Name" value="Vixxon Kalema">
-<p><b>Your Country:</b></p>
-<select id="uCountry"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
-<p><b>Your City:</b></p>
-<input id="uCity" placeholder="Your City" value="BUGIRI">
-<p><b>Favourite Music:</b></p>
-<select id="uGenre"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
-<p><b>WhatsApp (Optional):</b></p>
-<input id="uWa" placeholder="WhatsApp - e.g. 256705570948" value="256705570948">
+<p><b>Your Name:</b></p><input id="uName" placeholder="Your Name" value="Vixxon Kalema">
+<p><b>Your Country:</b></p><select id="uCountry"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
+<p><b>Your City:</b></p><input id="uCity" placeholder="Your City" value="BUGIRI">
+<p><b>Favourite Music:</b></p><select id="uGenre"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
+<p><b>WhatsApp (Optional):</b></p><input id="uWa" placeholder="WhatsApp" value="256705570948">
 <button class="btn btnG" onclick="saveUserProfile()">✅ SAVE MY PROFILE</button>
 <p id="profMsg" style="color:#1db954"></p>
 </div>
-<div class="box"><h3>👀 Your Profile Photo Preview</h3><img id="myPic2" class="pPic" src="https://via.placeholder.com/110/ff3b30/fff?text=+"><p style="text-align:center">This is how your profile looks to you.</p></div>
-<div class="box"><p>Saved Songs: <b id="profSaved">See Library</b></p><p>This profile is for <b>listeners</b>. Artists use the Artist Website to upload songs.</p></div>
+<div class="box"><h3>👀 Your Profile Photo Preview</h3><img id="myPic2" class="pPic" src="https://via.placeholder.com/110/ff3b30/fff?text=+"><p style="text-align:center">This is how your profile looks.</p></div>
 </div>
 
 <div id="player"><b id="now">No song playing - Tap ▶ PLAY on any song</b><audio id="au" controls></audio></div>
+
+<!-- BOTTOM NAV - FIXED AT BOTTOM -->
+<div class="bottomnav">
+<button id="btn-home" class="on" onclick="go('home')">🏠<br>Home</button>
+<button id="btn-search" onclick="go('search')">🔍<br>Search</button>
+<button id="btn-library" onclick="go('library')">📚<br>Library</button>
+<button id="btn-profile" onclick="go('profile')">👤<br>Profile</button>
+</div>
 </body></html>
