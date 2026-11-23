@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON V35 SIMPLE</title>
+<title>VIXXON - FOR LISTENERS</title>
 <style>
 body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:90px}
 header{background:#ff3b30;padding:12px;text-align:center}
@@ -16,9 +16,10 @@ input,select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;bac
 .box{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
 #player{position:fixed;bottom:0;left:0;right:0;background:#222;padding:10px;border-top:3px solid #ff3b30}
 #player audio{width:100%}
+.pPic{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto}
 </style>
 <script>
-var mine=[]; var saved=[]; var net=[]; var pickedCover=''; var pickedAudio=''; var pickedName='';
+var saved=[]; var net=[]; var trending=[];
 function go(id){
   var p=document.querySelectorAll('.page');
   for(var i=0;i<p.length;i++) p[i].classList.remove('show');
@@ -27,105 +28,120 @@ function go(id){
   for(var j=0;j<b.length;j++) b[j].classList.remove('on');
   document.getElementById('btn-'+id).classList.add('on');
   window.scrollTo(0,0);
-  if(id=='home') showHome();
   if(id=='library') showLib();
-  if(id=='upload') showMine();
-}
-function pickCover(el){ var f=el.files[0]; if(!f) return; pickedCover=URL.createObjectURL(f); document.getElementById('coverPrev').src=pickedCover; document.getElementById('coverPrev').style.display='block'; document.getElementById('coverMsg').innerHTML='✅ Cover OK: '+f.name; }
-function pickAudio(el){ var f=el.files[0]; if(!f) return; pickedAudio=URL.createObjectURL(f); pickedName=f.name; document.getElementById('audioMsg').innerHTML='✅ MP3 OK: '+f.name; var t=document.getElementById('t'); if(t && !t.value) t.value=f.name.replace('.mp3',''); }
-function up(){
-  var t=document.getElementById('t').value || pickedName || 'How I Feel';
-  var a=document.getElementById('a').value || 'Vixxon Kalema';
-  if(!pickedAudio){ document.getElementById('upMsg').innerHTML='❌ Choose MP3 first'; return; }
-  var s={title:t,artist:a,cover:pickedCover||'https://via.placeholder.com/60',audio:pickedAudio,wa:'256705570948'};
-  mine.unshift(s); saved.unshift(s);
-  document.getElementById('upMsg').innerHTML='✅ PUBLISHED: '+t;
-  pickedCover=''; pickedAudio='';
-  showHome(); showLib(); showMine();
-  alert('✅ Published: '+t);
-  go('home');
+  if(id=='profile') showMyProfile();
 }
 function oneCard(s,i,from){
   return '<div class="card"><img src="'+s.cover+'"><div style="flex:1"><b>'+s.title+'</b><br><small>'+s.artist+'</small><br><button onclick="playIt('+i+',\''+from+'\')">▶ PLAY</button> <button onclick="saveIt('+i+',\''+from+'\')">❤️ SAVE</button></div></div>';
 }
-function showHome(){ var h=''; for(var i=0;i<mine.length;i++) h+=oneCard(mine[i],i,'mine'); document.getElementById('homeList').innerHTML=h||'<p>No uploads yet. Go to Upload.</p>'; }
-function showMine(){ var h=''; for(var i=0;i<mine.length;i++) h+=oneCard(mine[i],i,'mine'); document.getElementById('myList').innerHTML=h||'<p>No uploads yet.</p>'; }
-function showLib(){ var h=''; for(var i=0;i<saved.length;i++) h+=oneCard(saved[i],i,'lib'); document.getElementById('libList').innerHTML=h||'<p>No saved yet.</p>'; }
-function saveIt(i,from){ var s=from=='net'?net[i]:from=='lib'?saved[i]:mine[i]; if(!s) return; for(var k=0;k<saved.length;k++){ if(saved[k].title==s.title) {alert('Already saved'); return;} } saved.unshift(s); alert('❤️ Saved to Library'); showLib(); }
 function playIt(i,from){
-  var s=from=='net'?net[i]:from=='lib'?saved[i]:mine[i];
-  if(!s||!s.audio){ alert('No audio'); return; }
+  var s=from=='net'?net[i]:from=='trend'?trending[i]:saved[i];
+  if(!s||!s.audio){ alert('No audio - check WiFi'); return; }
   var au=document.getElementById('au'); au.pause(); au.src=s.audio;
   document.getElementById('now').innerHTML='▶ Now Playing: '+s.title+' - '+s.artist;
   au.play();
 }
+function saveIt(i,from){
+  var s=from=='net'?net[i]:from=='trend'?trending[i]:saved[i];
+  if(!s) return;
+  for(var k=0;k<saved.length;k++){ if(saved[k].title==s.title){ alert('Already in Library'); return; } }
+  saved.unshift(s); alert('❤️ Saved to Library'); showLib();
+}
+function showLib(){ var h=''; for(var i=0;i<saved.length;i++) h+=oneCard(saved[i],i,'lib'); document.getElementById('libList').innerHTML=h||'<p>No saved yet. Search internet, tap ❤️ SAVE.</p>'; document.getElementById('libCount').innerHTML='Library: '+saved.length+' songs saved'; }
 function searchNet(){
   var q=document.getElementById('qNet').value.trim();
   if(!q){ alert('Type artist'); return; }
   document.getElementById('netStatus').innerHTML='🔍 Searching for '+q+'...';
   document.getElementById('netList').innerHTML='<p>Searching...</p>';
-  fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=10').then(function(r){return r.json()}).then(function(d){
+  fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=12').then(function(r){return r.json()}).then(function(d){
     net=(d.results||[]).map(function(x){return{title:x.trackName,artist:x.artistName,cover:x.artworkUrl100,audio:x.previewUrl}});
     var h=''; for(var i=0;i<net.length;i++) h+=oneCard(net[i],i,'net');
     document.getElementById('netList').innerHTML=h||'<p>No results</p>';
-    document.getElementById('netStatus').innerHTML='✅ Found '+net.length+' songs. Tap ▶ PLAY';
+    document.getElementById('netStatus').innerHTML='✅ Found '+net.length+' songs. Tap ▶ PLAY or ❤️ SAVE';
   }).catch(function(){ document.getElementById('netStatus').innerHTML='❌ No internet. Check WiFi.'; });
 }
+function loadTrending(){
+  document.getElementById('trendStatus').innerHTML='🔍 Loading trending...';
+  fetch('https://itunes.apple.com/search?term=Afrobeat&media=music&limit=10').then(function(r){return r.json()}).then(function(d){
+    trending=(d.results||[]).map(function(x){return{title:x.trackName,artist:x.artistName,cover:x.artworkUrl100,audio:x.previewUrl}});
+    var h=''; for(var i=0;i<trending.length;i++) h+=oneCard(trending[i],i,'trend');
+    document.getElementById('trendList').innerHTML=h;
+    document.getElementById('trendStatus').innerHTML='🔥 Trending Now - Tap ▶ PLAY';
+  }).catch(function(){ document.getElementById('trendStatus').innerHTML='Check WiFi for trending'; });
+}
+// --- USER PROFILE - FOR LISTENERS, NOT ARTISTS ---
+function pickProfilePic(el){ var f=el.files[0]; if(!f) return; var url=URL.createObjectURL(f); document.getElementById('myPic').src=url; document.getElementById('myPic2').src=url; document.getElementById('picMsg').innerHTML='✅ Photo chosen: '+f.name; }
+function saveUserProfile(){
+  var name=document.getElementById('uName').value || 'Vixxon Fan';
+  var country=document.getElementById('uCountry').value;
+  var city=document.getElementById('uCity').value || '';
+  var genre=document.getElementById('uGenre').value;
+  var wa=document.getElementById('uWa').value || '';
+  document.getElementById('showName').innerHTML=name;
+  document.getElementById('showInfo').innerHTML=(city?city+', ':'')+country+' • Loves '+genre;
+  document.getElementById('showWa').innerHTML=wa?'WhatsApp: '+wa:'';
+  document.getElementById('profMsg').innerHTML='✅ Profile Saved! Hello, '+name+' 👋';
+  alert('✅ Profile Saved! Welcome '+name);
+}
+function showMyProfile(){ /* profile stays as saved */ }
+function goArtist(){ alert('Artist App is separate. Open your Artist Website to upload songs and see Earnings. This app is only for listeners.'); }
 </script>
 </head>
 <body>
-<header><h1>🌍 VIXXON MUSIC</h1><p>V35 SIMPLE - Fixed</p></header>
+<header><h1>🌍 VIXXON MUSIC</h1><p>V36 - FOR LISTENERS / FANS - Listen, Search, Save</p></header>
 <div class="top">
 <button id="btn-home" class="on" onclick="go('home')">🏠 Home</button>
 <button id="btn-search" onclick="go('search')">🔍 Search</button>
 <button id="btn-library" onclick="go('library')">📚 Library</button>
-<button id="btn-upload" onclick="go('upload')">⬆️ Upload</button>
-<button id="btn-earnings" onclick="go('earnings')">💰 Earnings</button>
-<button id="btn-profile" onclick="go('profile')">👤 Profile</button>
+<button id="btn-profile" onclick="go('profile')">👤 My Profile</button>
 </div>
 
 <div id="page-home" class="page show">
-<div class="box" style="background:#ff3b30;text-align:center"><h3>🌍 VIXXON ARTISTS</h3><button class="btnY btn" onclick="go('upload')">UPLOAD YOUR SONG →</button></div>
-<h3>🎵 Uploaded Songs - Tap ▶ PLAY</h3><div id="homeList"><p>No uploads yet. Go to Upload.</p></div>
+<div class="box" style="background:#ff3b30;text-align:center"><h3>🎧 Welcome Listener!</h3><p>Listen to any song in the world. No upload, no earnings here. Just music.</p><button class="btnY btn" onclick="go('search')">🔍 SEARCH MUSIC →</button></div>
+<div class="box"><h3>🔥 Trending Now</h3><p id="trendStatus"></p><button class="btn" onclick="loadTrending()">Load Trending Songs</button><div id="trendList"><p>Tap Load Trending to see hot songs.</p></div></div>
+<div class="box"><h3>🎵 Are You An Artist?</h3><p>This app is for listeners. Artists use the separate Artist Website to upload songs + see Earnings.</p><button class="btn" onclick="goArtist()">🎤 I AM AN ARTIST → Go To Artist Website</button></div>
 </div>
 
 <div id="page-search" class="page">
-<h2>🔍 Search</h2>
-<div class="box"><h3>⬆️ Vixxon Uploaded</h3><p>Your uploaded songs are on Home. Search them there.</p><button class="btn" onclick="go('home')">GO TO HOME</button></div>
-<div class="box" style="background:#2196F3"><h3>🌍 INTERNET SEARCH</h3><p>Type any artist, tap SEARCH. Tap ▶ PLAY to listen.</p></div>
-<input id="qNet" placeholder="Type artist - e.g. Fik Fameica">
-<button class="btn btnB" onclick="searchNet()">🌍 SEARCH INTERNET NOW</button>
-<button class="btn" onclick="document.getElementById('qNet').value='Fik Fameica';searchNet()">Try: Fik Fameica</button>
+<h2>🔍 Search Music</h2>
+<div class="box" style="background:#2196F3"><h3>🌍 Search Any Artist In The World</h3><p>Type artist, tap SEARCH, tap ▶ PLAY to listen, ❤️ SAVE to keep in Library.</p></div>
+<input id="qNet" placeholder="Type artist - e.g. Fik Fameica, Bebe Cool, Eddy Kenzo">
+<button class="btn btnB" onclick="searchNet()">🌍 SEARCH NOW</button>
+<div style="display:flex;gap:5px"><button class="btn" style="flex:1" onclick="document.getElementById('qNet').value='Fik Fameica';searchNet()">Fik Fameica</button><button class="btn" style="flex:1" onclick="document.getElementById('qNet').value='Bebe Cool';searchNet()">Bebe Cool</button><button class="btn" style="flex:1" onclick="document.getElementById('qNet').value='Sheebah';searchNet()">Sheebah</button></div>
 <p id="netStatus"></p><div id="netList"></div>
 </div>
 
-<div id="page-library" class="page"><h2>📚 Library</h2><p>Uploaded + Saved songs. Tap ▶ PLAY.</p><div id="libList"><p>No saved yet.</p></div></div>
-
-<div id="page-upload" class="page">
-<h2>⬆️ Upload</h2>
-<div class="box">
-<input id="t" placeholder="Song Title" value="How I Feel">
-<input id="a" placeholder="Artist Name" value="Vixxon Kalema">
-<p><b>🖼️ COVER - Tap Choose File:</b></p>
-<input type="file" accept="image/*" onchange="pickCover(this)">
-<img id="coverPrev" style="width:150px;height:150px;object-fit:cover;display:none;border-radius:10px;margin:10px auto">
-<p id="coverMsg"></p>
-<p><b>🎵 MP3 - Tap Choose File:</b></p>
-<input type="file" accept="audio/*" onchange="pickAudio(this)">
-<p id="audioMsg"></p>
-<button class="btn btnG" onclick="up()">✅ PUBLISH</button>
-<p id="upMsg"></p>
-</div><h3>My Uploads</h3><div id="myList"><p>No uploads yet.</p></div>
-</div>
-
-<div id="page-earnings" class="page">
-<h2>💰 Earnings</h2>
-<div class="box"><h3>Vixxon Kalema - BUGIRI, Uganda</h3><p>Uploads: <b id="eUp">0</b> | Saved: <b id="eSaved">0</b></p><p>MoMo: 256705570948</p><p>Share your songs. When fans download, you earn. Need 5 downloads to request payout.</p><button class="btn btnY" onclick="alert('You need 5 downloads. Upload and share first.')">💸 REQUEST PAYOUT</button></div>
-</div>
+<div id="page-library" class="page"><h2>📚 My Library - Saved Songs</h2><p id="libCount">Library: 0 songs saved</p><p>Tap ❤️ SAVE on any song to keep it here.</p><div id="libList"><p>No saved yet. Go to Search, find a song, tap ❤️ SAVE.</p></div></div>
 
 <div id="page-profile" class="page">
-<h2>👤 Profile</h2>
-<div class="box" style="text-align:center"><h3>Vixxon Kalema</h3><p>BUGIRI, Uganda • Artist</p><p>WhatsApp: 256705570948</p><p>MoMo: 256705570948</p><input placeholder="Your Name" value="Vixxon Kalema"><input placeholder="WhatsApp" value="256705570948"><button class="btn" onclick="alert('Saved ✅')">Save Profile</button></div>
+<h2>👤 My Profile - For Listeners</h2>
+<div class="box" style="text-align:center">
+<img id="myPic" class="pPic" src="https://via.placeholder.com/110/ff3b30/fff?text=+" onclick="document.getElementById('picFile').click()">
+<p style="color:#aaa;font-size:13px">👆 Tap photo to change your profile photo</p>
+<h3 id="showName">Vixxon Fan</h3>
+<p id="showInfo" style="color:#FFC107">BUGIRI, Uganda • Loves Afrobeat</p>
+<p id="showWa"></p>
+</div>
+<div class="box">
+<h3>✏️ Upload / Edit Your Profile Information</h3>
+<p><b>🖼️ Your Profile Photo:</b></p>
+<input type="file" id="picFile" accept="image/*" onchange="pickProfilePic(this)">
+<p id="picMsg" style="color:#1db954"></p>
+<p><b>Your Name:</b></p>
+<input id="uName" placeholder="Your Name" value="Vixxon Kalema">
+<p><b>Your Country:</b></p>
+<select id="uCountry"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
+<p><b>Your City:</b></p>
+<input id="uCity" placeholder="Your City" value="BUGIRI">
+<p><b>Favourite Music:</b></p>
+<select id="uGenre"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
+<p><b>WhatsApp (Optional):</b></p>
+<input id="uWa" placeholder="WhatsApp - e.g. 256705570948" value="256705570948">
+<button class="btn btnG" onclick="saveUserProfile()">✅ SAVE MY PROFILE</button>
+<p id="profMsg" style="color:#1db954"></p>
+</div>
+<div class="box"><h3>👀 Your Profile Photo Preview</h3><img id="myPic2" class="pPic" src="https://via.placeholder.com/110/ff3b30/fff?text=+"><p style="text-align:center">This is how your profile looks to you.</p></div>
+<div class="box"><p>Saved Songs: <b id="profSaved">See Library</b></p><p>This profile is for <b>listeners</b>. Artists use the Artist Website to upload songs.</p></div>
 </div>
 
 <div id="player"><b id="now">No song playing - Tap ▶ PLAY on any song</b><audio id="au" controls></audio></div>
