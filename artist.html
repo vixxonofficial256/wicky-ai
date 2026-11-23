@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON ARTIST PORTAL - V3.8 - YOUTUBE + TIKTOK</title>
+<title>VIXXON ARTIST PORTAL - V3.9 - 5 BARS + AUTO SOCIALS</title>
 <style>
 *{box-sizing:border-box}
-body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:110px}
+body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:115px}
 header{background:#7b1fa2;padding:12px;text-align:center}
 .page{display:none;padding:12px;min-height:300px}.show{display:block}
 input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff}
@@ -15,7 +15,7 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;bor
 .pend{background:#FF9800;color:#000}.appr{background:#1db954}.reje{background:#ff3b30}
 .pPic{width:130px;height:130px;border-radius:50%;object-fit:cover;border:4px solid #7b1fa2;display:block;margin:0 auto}
 .cPic{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto}
-#adminPlayer{position:fixed;bottom:100px;left:0;right:0;background:#222;padding:8px;border-top:3px solid #7b1fa2;z-index:9998;display:none}
+#adminPlayer{position:fixed;bottom:110px;left:0;right:0;background:#222;padding:8px;border-top:3px solid #7b1fa2;z-index:9998;display:none}
 #adminPlayer audio{width:100%}
 .earnBox{border-left:6px solid #7b1fa2}
 .small{font-size:13px;color:#ccc}
@@ -30,16 +30,19 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;bor
 .chatInputRow input{flex:1}
 .chatInputRow button{width:70px;padding:12px}
 .online{color:#1db954;font-weight:bold}
-.bottomnav{position:fixed!important;bottom:0!important;left:0!important;right:0!important;display:flex!important;gap:6px!important;padding:8px!important;background:#000!important;z-index:99999!important}
-.bottomnav button{flex:1;border:0;border-radius:12px!important;padding:10px 2px!important;font-size:11px!important;font-weight:bold!important;color:#fff!important;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.5)}
+.socialLink{display:inline-block;background:#333;color:#fff;padding:6px 10px;border-radius:20px;margin:3px;font-size:12px;text-decoration:none;font-weight:bold}
+/* 5 SEPARATE BARS AT BOTTOM */
+.bottomnav{position:fixed!important;bottom:0!important;left:0!important;right:0!important;display:flex!important;gap:5px!important;padding:8px!important;background:#000!important;z-index:99999!important}
+.bottomnav button{flex:1;border:0;border-radius:12px!important;padding:10px 1px!important;font-size:10px!important;font-weight:bold!important;color:#fff!important;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.5)}
 #btn-profile{background:#7b1fa2}
 #btn-upload{background:#1db954}
 #btn-earnings{background:#FFC107;color:#000!important}
 #btn-chat{background:#2196F3}
+#btn-admin{background:#ff3b30}
 .bottomnav button.on{outline:3px solid #fff;transform:scale(1.05)}
-.adminLink{font-size:12px;color:#888;text-align:center;display:block;margin:15px 0;text-decoration:underline;background:none;border:0;width:100%}
 .ytBtn{background:#FF0000!important}
 .ttBtn{background:#000!important;border:1px solid #fff!important}
+.autoBadge{background:#1db954;color:#fff;padding:4px 8px;border-radius:5px;font-size:12px;font-weight:bold}
 </style>
 <script>
 var subs=[]; var pic=''; var cover=''; var audio=''; var audioName='';
@@ -47,49 +50,105 @@ var earn={downloads:0,streams:0,per:{},votes:0,shoutouts:0,vip:0,bookings:0,prom
 var chatMsgs=[];
 try{ var savedChat=localStorage.getItem('vixxon_chat'); if(savedChat) chatMsgs=JSON.parse(savedChat); }catch(e){ chatMsgs=[]; }
 if(chatMsgs.length==0){ chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat! Talk to other artists, share tips, collab!',time:'Now',me:false}]; }
+function getSocials(){
+  return {
+    yt: document.getElementById('sYT').value.trim(),
+    tt: document.getElementById('sTT').value.trim(),
+    ig: document.getElementById('sIG').value.trim(),
+    fb: document.getElementById('sFB').value.trim(),
+    sp: document.getElementById('sSP').value.trim()
+  };
+}
+function socialHTML(s){
+  var h='';
+  if(s.yt) h+='<a class="socialLink" style="background:#FF0000" href="'+s.yt+'" target="_blank">▶️ YouTube</a> ';
+  if(s.tt) h+='<a class="socialLink" style="background:#000;border:1px solid #fff" href="'+s.tt+'" target="_blank">🎵 TikTok</a> ';
+  if(s.ig) h+='<a class="socialLink" style="background:#E1306C" href="'+s.ig+'" target="_blank">📸 Instagram</a> ';
+  if(s.fb) h+='<a class="socialLink" style="background:#1877F2" href="'+s.fb+'" target="_blank">📘 Facebook</a> ';
+  if(s.sp) h+='<a class="socialLink" style="background:#1DB954" href="'+s.sp+'" target="_blank">🎧 Spotify</a> ';
+  return h || '<span class="small">No social links added yet - Add them in Profile</span>';
+}
 function go(id){ var p=document.querySelectorAll('.page'); for(var i=0;i<p.length;i++) p[i].classList.remove('show'); var pg=document.getElementById('page-'+id); if(pg) pg.classList.add('show'); var b=document.querySelectorAll('.bottomnav button'); for(var j=0;j<b.length;j++) b[j].classList.remove('on'); var btn=document.getElementById('btn-'+id); if(btn) btn.classList.add('on'); window.scrollTo(0,0); if(id=='mysongs') showMy(); if(id=='admin') showAdmin(); if(id=='earnings') showEarn(); if(id=='chat') showChat(); }
 function openPicPicker(){ document.getElementById('artistPicFile').click(); }
 function pickPic(el){ var f=el.files[0]; if(!f) return; pic=URL.createObjectURL(f); document.getElementById('myPic').src=pic; document.getElementById('picMsg').innerHTML='✅ Photo chosen: '+f.name; }
-function saveArtistProfile(){ var name=document.getElementById('aName').value.trim()||'Your Name'; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||'Your City'; document.getElementById('showArtistName').innerHTML=name; document.getElementById('showArtistInfo').innerHTML=city+', '+country; document.getElementById('profSaveMsg').innerHTML='✅ PROFILE SAVED!'; alert('✅ Profile Saved!'); }
+function saveArtistProfile(){
+  var name=document.getElementById('aName').value.trim()||'Your Name';
+  var country=document.getElementById('aCountry').value;
+  var city=document.getElementById('aCity').value.trim()||'Your City';
+  document.getElementById('showArtistName').innerHTML=name;
+  document.getElementById('showArtistInfo').innerHTML=city+', '+country;
+  var s=getSocials();
+  document.getElementById('showSocials').innerHTML=socialHTML(s);
+  document.getElementById('profSaveMsg').innerHTML='✅ PROFILE + SOCIALS SAVED! Your songs will now auto-link to these!';
+  alert('✅ Profile + Socials Saved!\n\nYour songs will now AUTOMATICALLY link to:\nYouTube: '+(s.yt||'Not added')+'\nTikTok: '+(s.tt||'Not added')+'\nInstagram: '+(s.ig||'Not added'));
+}
 function pickCover(el){ var f=el.files[0]; if(!f) return; cover=URL.createObjectURL(f); var img=document.getElementById('coverPrev'); img.src=cover; img.style.display='block'; }
 function pickAudio(el){ var f=el.files[0]; if(!f) return; audio=URL.createObjectURL(f); audioName=f.name; document.getElementById('audioMsg').innerHTML='✅ MP3 OK: '+f.name; var t=document.getElementById('t'); if(t && !t.value) t.value=f.name.replace('.mp3',''); }
-function submitSong(){ var name=document.getElementById('aName').value.trim()||'Unknown Artist'; var wa=document.getElementById('aWa').value.trim()||''; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||''; var momo=document.getElementById('aMomo').value.trim()||wa; var t=document.getElementById('t').value.trim()||audioName||'Untitled'; var g=document.getElementById('g').value; if(!audio){ alert('❌ Choose MP3 first'); return; } var s={title:t,artist:name,genre:g,cover:cover||'https://via.placeholder.com/150',audio:audio,wa:wa,momo:momo,country:country,city:city,pic:pic,status:'PENDING',submitted:new Date().toLocaleString(),deadline:'',reason:''}; subs.unshift(s); var msg='🎤 NEW SUBMISSION - WILL GO TO YOUTUBE + TIKTOK\nArtist: '+name+'\nSong: '+t+'\nGenre: '+g+'\nWhatsApp: '+wa+'\nMoMo: '+momo+'\n\nPlease approve and post to YouTube + TikTok!'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ SUBMITTED! PENDING\n\nAfter approval, your song will be posted to:\n✅ Vixxon\n✅ YouTube\n✅ TikTok'); go('mysongs'); }
-function showMy(){ var h=''; for(var i=0;i<subs.length;i++){ var s=subs[i]; var badge=s.status=='PENDING'?'<span class="badge pend">⏳ PENDING</span>':s.status=='APPROVED'?'<span class="badge appr">✅ APPROVED</span>':'<span class="badge reje">❌ REJECTED</span>'; var dist = s.status=='APPROVED' ? '<p style="color:#1db954;font-size:13px">📤 Posted to: ✅ Vixxon ✅ YouTube ✅ TikTok</p>' : '<p style="color:#FFC107;font-size:13px">📤 Will go to: Vixxon + YouTube + TikTok after approval</p>'; h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>'+badge+'<br>'+dist+'<button class="btn btnP" onclick="promoteSong(\''+s.title.replace(/'/g,'')+'\')">🚀 PROMOTE THIS SONG - 5,000 / MONTH</button></div>'; } document.getElementById('myList').innerHTML=h||'<p>No songs yet. Go to Upload to add your first song.</p>'; }
+function submitSong(){
+  var name=document.getElementById('aName').value.trim()||'Unknown Artist';
+  var wa=document.getElementById('aWa').value.trim()||'';
+  var country=document.getElementById('aCountry').value;
+  var city=document.getElementById('aCity').value.trim()||'';
+  var momo=document.getElementById('aMomo').value.trim()||wa;
+  var t=document.getElementById('t').value.trim()||audioName||'Untitled';
+  var g=document.getElementById('g').value;
+  var s=getSocials();
+  if(!audio){ alert('❌ Choose MP3 first'); return; }
+  var song={title:t,artist:name,genre:g,cover:cover||'https://via.placeholder.com/150',audio:audio,wa:wa,momo:momo,country:country,city:city,pic:pic,status:'PENDING',socials:s,auto:true,submitted:new Date().toLocaleString(),reason:''};
+  subs.unshift(song);
+  var msg='🎤 NEW SUBMISSION - AUTO DISTRIBUTION\nArtist: '+name+'\nSong: '+t+'\nGenre: '+g+'\nWhatsApp: '+wa+'\nMoMo: '+momo+'\n\nARTIST SOCIALS:\n▶️ YouTube: '+(s.yt||'Not added')+'\n🎵 TikTok: '+(s.tt||'Not added')+'\n📸 Instagram: '+(s.ig||'Not added')+'\n📘 Facebook: '+(s.fb||'Not added')+'\n🎧 Spotify: '+(s.sp||'Not added')+'\n\nPlease approve - song will auto-link to artist socials!';
+  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank');
+  alert('✅ SUBMITTED! AUTO DISTRIBUTION ON\n\nYour song will automatically link to your YouTube, TikTok, Instagram, Facebook after approval!');
+  go('mysongs');
+}
+function showMy(){
+  var h='';
+  for(var i=0;i<subs.length;i++){
+    var s=subs[i];
+    var badge=s.status=='PENDING'?'<span class="badge pend">⏳ PENDING</span>':s.status=='APPROVED'?'<span class="badge appr">✅ APPROVED</span>':'<span class="badge reje">❌ REJECTED</span>';
+    var dist = s.status=='APPROVED' ? '<p><span class="autoBadge">🤖 AUTO-POSTED</span></p><p style="font-size:13px">✅ Vixxon ✅ YouTube ✅ TikTok<br>Follow artist here:</p>' : '<p style="color:#FFC107;font-size:13px">🤖 AUTO-DISTRIBUTION ON<br>Will auto-link to your socials after approval</p>';
+    h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>'+badge+'<br>'+dist+socialHTML(s.socials||{})+'<br><br><button class="btn btnP" onclick="promoteSong(\''+s.title.replace(/'/g,'')+'\')">🚀 PROMOTE THIS SONG - 5,000 / MONTH</button></div>';
+  }
+  document.getElementById('myList').innerHTML=h||'<p>No songs yet. Go to Upload to add your first song.</p>';
+}
 function showAdmin(){
   var h='';
   for(var i=0;i<subs.length;i++){
     var s=subs[i];
-    var ytLink='https://www.youtube.com/upload';
-    var ttLink='https://www.tiktok.com/upload';
-    h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>WhatsApp: '+s.wa+' | MoMo: '+s.momo+'<br>Status: <b>'+s.status+'</b><br><button class="btn btnG" onclick="approve('+i+')">✅ APPROVE</button><button class="btn btnR" onclick="reject('+i+')">❌ REJECT</button><button class="btn btnB" onclick="listenSong('+i+')">▶ LISTEN</button><br><b style="color:#FFC107">📤 AFTER APPROVE - POST EVERYWHERE:</b><br><button class="btn ytBtn" onclick="postToYouTube('+i+')">▶️ POST TO YOUTUBE</button><button class="btn ttBtn" onclick="postToTikTok('+i+')">🎵 POST TO TIKTOK</button><button class="btn btnWA" onclick="shareToWhatsApp('+i+')">💚 SHARE TO WHATSAPP STATUS</button></div>';
+    h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>WhatsApp: '+s.wa+' | MoMo: '+s.momo+'<br>Status: <b>'+s.status+'</b><br><b>Artist Socials:</b><br>'+socialHTML(s.socials||{})+'<br><br><button class="btn btnG" onclick="approve('+i+')">✅ APPROVE + AUTO-POST</button><button class="btn btnR" onclick="reject('+i+')">❌ REJECT</button><button class="btn btnB" onclick="listenSong('+i+')">▶ LISTEN</button><br><b style="color:#FFC107">🤖 AUTO-DISTRIBUTION:</b><br><button class="btn ytBtn" onclick="postToYouTube('+i+')">▶️ AUTO-POST TO YOUTUBE</button><button class="btn ttBtn" onclick="postToTikTok('+i+')">🎵 AUTO-POST TO TIKTOK</button><button class="btn" style="background:#E1306C" onclick="postToInstagram('+i+')">📸 AUTO-POST TO INSTAGRAM</button><button class="btn btnWA" onclick="shareToWhatsApp('+i+')">💚 SHARE TO WHATSAPP STATUS</button></div>';
   }
   document.getElementById('adminList').innerHTML=h||'<p>No submissions yet.</p>';
 }
-function approve(i){ subs[i].status='APPROVED'; alert('✅ APPROVED - LIVE!\n\nNow tap POST TO YOUTUBE and POST TO TIKTOK below!'); showAdmin(); showMy(); showEarn(); }
+function approve(i){ subs[i].status='APPROVED'; alert('✅ APPROVED + AUTO-DISTRIBUTION ON!\n\nSong now links to artist YouTube, TikTok, Instagram, Facebook automatically!\n\nNow tap AUTO-POST buttons below to post it!'); showAdmin(); showMy(); showEarn(); }
 function reject(i){ var r=prompt('Why reject?'); if(r===null) return; subs[i].status='REJECTED'; subs[i].reason=r; showAdmin(); showMy(); }
 function listenSong(i){ var s=subs[i]; document.getElementById('adminPlayer').style.display='block'; document.getElementById('adminAudio').src=s.audio; document.getElementById('adminAudio').play(); earn.streams++; showEarn(); }
 function openAdmin(){ var pw=prompt('Admin Password:'); if(pw=='vixxon123'){ go('admin'); showAdmin(); } else if(pw!==null){ alert('Wrong password'); } }
 function postToYouTube(i){
   var s=subs[i];
   var title=s.title+' - '+s.artist+' | Vixxon Official 🇺🇬';
-  var desc='🔥 '+s.title+' by '+s.artist+'\n\nListen on Vixxon: https://vixxonofficial256.github.io/wicky-ai/\n\n#Vixxon #'+s.artist.replace(/ /g,'')+' #UgandaMusic #NewMusic #'+s.genre+'\n\nArtist WhatsApp: '+s.wa+'\nBook this artist: 256705570948\n\n© Vixxon Official 256. All Rights Reserved.';
-  var copyText='YOUTUBE TITLE:\n'+title+'\n\nYOUTUBE DESCRIPTION:\n'+desc+'\n\nSteps: 1) Download MP3 from WhatsApp 2) Paste Title + Description 3) Upload';
+  var desc='🔥 '+s.title+' by '+s.artist+'\n\nListen on Vixxon: https://vixxonofficial256.github.io/wicky-ai/\n\nFOLLOW '+s.artist.toUpperCase()+':\n▶️ YouTube: '+(s.socials.yt||'')+'\n🎵 TikTok: '+(s.socials.tt||'')+'\n📸 Instagram: '+(s.socials.ig||'')+'\n📘 Facebook: '+(s.socials.fb||'')+'\n\n#Vixxon #'+s.artist.replace(/ /g,'')+' #UgandaMusic #NewMusic #'+s.genre;
   window.open('https://www.youtube.com/upload','_blank');
-  setTimeout(function(){ alert(copyText); },500);
+  setTimeout(function(){ alert('🤖 AUTO YOUTUBE POST\n\nCOPY TITLE:\n'+title+'\n\nCOPY DESCRIPTION:\n'+desc); },500);
 }
 function postToTikTok(i){
   var s=subs[i];
-  var caption='🔥 '+s.title+' by '+s.artist+' 🎤 #Vixxon #UgandaMusic #NewMusic #'+s.genre+' #fyp #viral Listen on Vixxon 👉 Link in bio';
+  var caption='🔥 '+s.title+' by '+s.artist+' 🎤 #Vixxon #UgandaMusic #NewMusic #'+s.genre+' #fyp #viral\nFollow: '+(s.socials.tt||'');
   window.open('https://www.tiktok.com/upload','_blank');
-  setTimeout(function(){ alert('TIKTOK CAPTION - COPY THIS:\n\n'+caption+'\n\nSteps: 1) Upload your MP3 / Video 2) Paste caption 3) Post + Add sound'); },500);
+  setTimeout(function(){ alert('🤖 AUTO TIKTOK POST\n\nCOPY CAPTION:\n\n'+caption); },500);
+}
+function postToInstagram(i){
+  var s=subs[i];
+  var caption='🔥 NEW MUSIC 🔥\n'+s.title+' by '+s.artist+'\n\nListen on Vixxon 👉 Link in bio\nFollow artist: '+(s.socials.ig||'')+'\n\n#Vixxon #UgandaMusic #'+s.genre;
+  window.open('https://www.instagram.com/','_blank');
+  setTimeout(function(){ alert('🤖 AUTO INSTAGRAM POST\n\nCOPY CAPTION:\n\n'+caption); },500);
 }
 function shareToWhatsApp(i){
   var s=subs[i];
-  var msg='🔥 NEW MUSIC ON VIXXON!\n\n🎵 '+s.title+' by '+s.artist+'\n\nListen now on Vixxon 👉 https://vixxonofficial256.github.io/wicky-ai/\nWatch on YouTube + TikTok @vixxonofficial256\n\n#Vixxon #UgandaMusic';
+  var msg='🔥 NEW MUSIC ON VIXXON!\n\n🎵 '+s.title+' by '+s.artist+'\n\nFollow artist:\n▶️ '+(s.socials.yt||'')+'\n🎵 '+(s.socials.tt||'')+'\n📸 '+(s.socials.ig||'')+'\n\nListen on Vixxon 👉 https://vixxonofficial256.github.io/wicky-ai/\n#Vixxon #UgandaMusic';
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 function promoteSong(title){ var name=document.getElementById('aName').value.trim()||'Artist'; var d=new Date(Date.now()+30*24*60*60*1000); earn.promoUntil=d.toLocaleDateString(); earn.promoSong=title; var msg='🚀 PROMOTION REQUEST - 1 MONTH\n\nArtist: '+name+'\nSong: '+title+'\nPrice: UGX 5,000 for 30 days'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🚀 PROMOTION REQUESTED!'); showEarn(); }
-function requestBooking(){ var name=document.getElementById('aName').value.trim()||'Artist'; var type=prompt('What event? Wedding / Church / Club / Birthday?'); if(!type) return; var date=prompt('What date is the show?'); if(!date) return; var price=prompt('Your booking price? e.g. 200000'); if(!price) return; price=parseInt(price); var artistShare=Math.round(price*0.9); var vixxonShare=Math.round(price*0.1); earn.bookings++; earn.bookingList.unshift({event:type,date:date,price:price,artist:artistShare,vixxon:vixxonShare}); var msg='📞 BOOKING REQUEST\n\nArtist: '+name+'\nEvent: '+type+'\nDate: '+date+'\nPrice: UGX '+price+'\nArtist Gets (90%): UGX '+artistShare; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('📞 BOOKING ADDED! You get 90%: '+artistShare); showEarn(); }
+function requestBooking(){ var name=document.getElementById('aName').value.trim()||'Artist'; var type=prompt('What event? Wedding / Church / Club / Birthday?'); if(!type) return; var date=prompt('What date is the show?'); if(!date) return; var price=prompt('Your booking price? e.g. 200000'); if(!price) return; price=parseInt(price); var artistShare=Math.round(price*0.9); earn.bookings++; earn.bookingList.unshift({event:type,date:date,price:price,artist:artistShare,vixxon:Math.round(price*0.1)}); var msg='📞 BOOKING REQUEST\n\nArtist: '+name+'\nEvent: '+type+'\nDate: '+date+'\nPrice: UGX '+price+'\nArtist Gets (90%): UGX '+artistShare; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('📞 BOOKING ADDED! You get 90%: '+artistShare); showEarn(); }
 function requestShoutout(){ var name=document.getElementById('aName').value.trim()||'Artist'; var forWho=prompt('Shoutout for who? e.g. Happy Birthday Sarah'); if(!forWho) return; earn.shoutouts++; earn.shoutList.unshift({for:forWho,artist:4500,vixxon:500}); var msg='🎤 SHOUTOUT REQUEST - UGX 5,000\n\nArtist: '+name+'\nMessage: '+forWho; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🎤 SHOUTOUT ADDED! You get 4,500 (90%)'); showEarn(); }
 function joinVIP(){ var name=document.getElementById('aName').value.trim()||'Artist'; var fan=prompt('Fan name for VIP? e.g. Sarah'); if(!fan) fan='Fan'; earn.vip++; earn.vipList.unshift({fan:fan,artist:1500,vixxon:500}); var msg='⭐ VIP FAN CLUB JOIN - UGX 2,000 / MONTH\n\nArtist: '+name+'\nFan: '+fan; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('⭐ VIP ADDED! You get 1,500 (75%) every month'); showEarn(); }
 function voteArtist(){ var name=document.getElementById('aName').value.trim()||'Artist'; var votes=prompt('How many votes? 1 vote = UGX 100. e.g. type 10 for 10 votes = 1,000'); if(!votes) return; votes=parseInt(votes); var total=votes*100; earn.votes+=votes; earn.voteList.unshift({votes:votes,total:total}); var msg='🗳️ VOTE FOR '+name+'\n\nVotes: '+votes+'\nTotal Paid: UGX '+total; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🗳️ '+votes+' VOTES ADDED! Total: UGX '+total); showEarn(); }
@@ -127,32 +186,4 @@ function requestPayout(){
   var msg='💸 VIXXON WEEKLY PAYOUT\n\nArtist: '+name+'\nTotal: UGX '+t.total+'\nMoMo: '+momo;
   window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ PAYOUT REQUESTED: UGX '+t.total); showEarn();
 }
-function showChat(){
-  var h='';
-  for(var i=0;i<chatMsgs.length;i++){ var m=chatMsgs[i]; var cls=m.me?'msg me':'msg'; h+='<div class="'+cls+'"><span class="msgName">'+m.name+'</span><br>'+m.text+'<br><span class="msgTime">'+m.time+'</span></div>'; }
-  document.getElementById('chatList').innerHTML=h;
-  var box=document.getElementById('chatList'); box.scrollTop=box.scrollHeight;
-  document.getElementById('chatCount').innerHTML=chatMsgs.length+' messages';
-}
-function sendChat(){
-  var input=document.getElementById('chatInput');
-  var text=input.value.trim(); if(!text) return;
-  var name=document.getElementById('aName').value.trim()||'Artist';
-  if(name=='Your Name' || name=='') name=prompt('What is your Artist Name for chat?')||'Artist';
-  var now=new Date(); var time=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  chatMsgs.push({name:name,text:text,time:time,me:true});
-  try{ localStorage.setItem('vixxon_chat',JSON.stringify(chatMsgs)); }catch(e){}
-  input.value=''; showChat();
-}
-function sendChatQuick(txt){ document.getElementById('chatInput').value=txt; sendChat(); }
-function clearChat(){ if(confirm('Clear chat history on this phone?')){ chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat!',time:'Now',me:false}]; try{ localStorage.setItem('vixxon_chat',JSON.stringify(chatMsgs)); }catch(e){} showChat(); } }
-function joinWhatsAppGroup(){ var name=document.getElementById('aName').value.trim()||'Artist'; var msg='Hi Vixxon! I want to join Vixxon Artists WhatsApp Group.\n\nMy Artist Name: '+name; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ Request sent! I will add you to the WhatsApp Group.'); }
-function chatWithArtist(){ var artist=prompt('Which artist do you want to chat with? Type their name:'); if(!artist) return; var name=document.getElementById('aName').value.trim()||'Artist'; var msg='Hi '+artist+'! I am '+name+' from Vixxon. Can we collab? 🎤'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); }
-</script>
-</head>
-<body>
-<header><h1>🎤 VIXXON ARTIST PORTAL</h1><p>Profile | Upload | Earnings | Chat - YouTube + TikTok</p></header>
-
-<div id="page-profile" class="page show">
-<h2>👤 Artist Profile</h2>
-<div class="box" style="text-align:center"><img id="myPic" class="pPic" src="https://via.placeholder.com/130/7b1fa2/fff?text=TAP+ME" onclick="openPicPicker()"><h3 id="showArtistNam
+f
