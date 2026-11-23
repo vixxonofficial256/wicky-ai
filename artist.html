@@ -1,100 +1,185 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON ARTIST PORTAL V3.9 FIXED</title>
+<title>VIXXON - SIMPLE</title>
 <style>
-*{box-sizing:border-box}
-body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:115px}
-header{background:#7b1fa2;padding:12px;text-align:center}
+body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:90px}
+header{background:#7b1fa2;padding:15px;text-align:center}
 .page{display:none;padding:12px}.show{display:block}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff}
-.btn{width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;margin:6px 0;background:#7b1fa2;color:#fff}
-.btnG{background:#1db954}.btnR{background:#ff3b30}.btnY{background:#FFC107;color:#000}.btnB{background:#2196F3}.btnP{background:#E91E63}.btnOrange{background:#FF9800}.btnWA{background:#25D366;color:#000}
-.card{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
+input,select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff}
+button{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:6px 0;color:#fff;background:#7b1fa2}
+.g{background:#1db954}.y{background:#FFC107;color:#000}.b{background:#2196F3}.r{background:#ff3b30}.p{background:#E91E63}.o{background:#FF9800}
 .box{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
-.badge{padding:3px 8px;border-radius:5px;font-size:12px;font-weight:bold}
-.pend{background:#FF9800;color:#000}.appr{background:#1db954}.reje{background:#ff3b30}
-.pPic{width:130px;height:130px;border-radius:50%;object-fit:cover;border:4px solid #7b1fa2;display:block;margin:0 auto}
-.cPic{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto}
-#adminPlayer{position:fixed;bottom:110px;left:0;right:0;background:#222;padding:8px;border-top:3px solid #7b1fa2;z-index:9998;display:none}
-#adminPlayer audio{width:100%}
-.small{font-size:13px;color:#ccc}
-.split{font-size:13px;color:#FFC107;font-weight:bold}
-.history{font-size:13px;background:#111;padding:8px;border-radius:8px;margin-top:8px}
-.chatBox{background:#111;border-radius:10px;padding:10px;min-height:250px;max-height:400px;overflow-y:auto}
-.msg{background:#222;padding:10px;border-radius:10px;margin:8px 0}
-.msg.me{background:#7b1fa2}
-.msgName{font-size:12px;color:#FFC107;font-weight:bold}
-.msgTime{font-size:11px;color:#aaa}
-.chatInputRow{display:flex;gap:6px;margin-top:8px}
-.chatInputRow input{flex:1}
-.chatInputRow button{width:70px;padding:12px}
-.socialLink{display:inline-block;background:#333;color:#fff;padding:6px 10px;border-radius:20px;margin:3px;font-size:12px;text-decoration:none;font-weight:bold}
-.bottomnav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:5px;padding:8px;background:#000;z-index:99999}
-.bottomnav button{flex:1;border:0;border-radius:12px;padding:10px 1px;font-size:10px;font-weight:bold;color:#fff}
-#btn-profile{background:#7b1fa2}
-#btn-upload{background:#1db954}
-#btn-earnings{background:#FFC107;color:#000}
-#btn-chat{background:#2196F3}
-#btn-admin{background:#ff3b30}
-.bottomnav button.on{outline:3px solid #fff}
-</style>
-</head>
+.pic{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid #7b1fa2;display:block;margin:0 auto}
+.chatBox{background:#000;padding:10px;border-radius:10px;min-height:200px}
+.msg{background:#222;padding:8px;border-radius:8px;margin:6px 0}
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:5px;padding:8px;background:#000}
+.nav button{flex:1;padding:10px 1px;font-size:11px;border-radius:12px}
+#n1{background:#7b1fa2}#n2{background:#1db954}#n3{background:#FFC107;color:#000}#n4{background:#2196F3}#n5{background:#ff3b30}
+.nav button.on{outline:3px solid #fff}
+a{color:#FFC107}
+</style></head>
 <body>
-<header><h1>🎤 VIXXON ARTIST PORTAL</h1><p>V3.9 FIXED - Profile | Upload | Earnings | Chat | Admin</p></header>
+<header><h1>🎤 VIXXON</h1><p>Simple - Everything Works</p></header>
 
-<div id="page-profile" class="page show">
-<h2>👤 Artist Profile</h2>
-<div class="box" style="text-align:center"><img id="myPic" class="pPic" src="https://via.placeholder.com/130/7b1fa2/fff?text=TAP+ME" onclick="openPicPicker()"><h3 id="showArtistName">Your Name</h3><p id="showArtistInfo" style="color:#FFC107">Your City, Uganda</p><p id="voteCount" style="color:#FFC107">0 Votes</p><div id="showSocials"><span class="small">No social links yet</span></div></div>
-<div class="box"><button class="btn" onclick="openPicPicker()">📸 TAP TO UPLOAD PHOTO</button><input type="file" id="artistPicFile" accept="image/*" onchange="pickPic(this)" style="display:none"><p id="picMsg" style="color:#1db954"></p><input id="aName" placeholder="Your Artist Name"><input id="aWa" placeholder="Your WhatsApp - e.g. 256700000000"><select id="aCountry"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Other</option></select><input id="aCity" placeholder="Your City - e.g. Kampala"><input id="aMomo" placeholder="Your MoMo Number"></div>
-<div class="box" style="border:2px solid #1db954"><h3>🔗 YOUR SOCIAL MEDIA LINKS - AUTO</h3><p class="small">Paste once. Every song will auto-link to these!</p><input id="sYT" placeholder="▶️ YouTube Link"><input id="sTT" placeholder="🎵 TikTok Link"><input id="sIG" placeholder="📸 Instagram Link"><input id="sFB" placeholder="📘 Facebook Link"><input id="sSP" placeholder="🎧 Spotify Link"><button class="btn btnG" onclick="saveArtistProfile()">✅ SAVE PROFILE + SOCIALS</button><p id="profSaveMsg" style="color:#1db954"></p></div>
-<div class="box" style="background:#7b1fa2;text-align:center"><h3>💰 Quick Balance</h3><p id="profileEarnBalance">Balance: UGX 0</p><button class="btn btnY" onclick="go('earnings')">💰 OPEN EARNINGS</button><button class="btn btnG" onclick="go('chat')">💬 OPEN CHAT</button><button class="btn btnB" onclick="go('mysongs')">🎵 VIEW MY MUSIC</button></div>
+<!-- PROFILE -->
+<div id="p-profile" class="page show">
+<h2>👤 Profile</h2>
+<div class="box" style="text-align:center">
+<img id="myPic" class="pic" src="https://via.placeholder.com/120/7b1fa2/fff?text=TAP+ME" onclick="document.getElementById('pf').click()">
+<h3 id="showName">Your Name</h3><p id="showCity" style="color:#FFC107">Your City, Uganda</p>
+<p id="showSocials">No social links yet</p>
+</div>
+<div class="box">
+<input type="file" id="pf" accept="image/*" onchange="pickPic(this)" style="display:none">
+<button onclick="document.getElementById('pf').click()">📸 TAP TO UPLOAD PHOTO</button>
+<input id="aName" placeholder="Your Artist Name">
+<input id="aCity" placeholder="Your City">
+<input id="aWa" placeholder="WhatsApp - e.g. 256700000000">
+<input id="aMomo" placeholder="MoMo Number">
+</div>
+<div class="box" style="border:2px solid #1db954">
+<h3>🔗 Your Social Links</h3>
+<p>Paste once - all songs auto-link to these</p>
+<input id="sYT" placeholder="▶️ YouTube Link">
+<input id="sTT" placeholder="🎵 TikTok Link">
+<input id="sIG" placeholder="📸 Instagram Link">
+<input id="sFB" placeholder="📘 Facebook Link">
+<button class="g" onclick="saveProfile()">✅ SAVE PROFILE</button>
+<p id="saveMsg" style="color:#1db954"></p>
+</div>
+<div class="box" style="background:#7b1fa2;text-align:center">
+<h3>💰 Balance: <span id="bal1">UGX 0</span></h3>
+<button class="y" onclick="go('earnings')">💰 OPEN EARNINGS</button>
+<button class="b" onclick="go('mysongs')">🎵 MY MUSIC</button>
+</div>
 </div>
 
-<div id="page-upload" class="page"><h2>⬆️ Upload Song</h2><div class="box"><input id="t" placeholder="Song Title"><select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>Other</option></select><input type="file" accept="image/*" onchange="pickCover(this)"><img id="coverPrev" class="cPic"><input type="file" accept="audio/*" onchange="pickAudio(this)"><p id="audioMsg" style="color:#1db954"></p><div class="box" style="background:#1db954;text-align:center"><b>🤖 AUTO-DISTRIBUTION: ON</b><p class="small">Your song will auto-link to your YouTube, TikTok, Instagram, Facebook!</p></div><button class="btn btnG" onclick="submitSong()">✅ SUBMIT + AUTO-POST</button><button class="btn btnB" onclick="go('mysongs')">🎵 VIEW MY MUSIC</button></div></div>
+<!-- UPLOAD -->
+<div id="p-upload" class="page">
+<h2>⬆️ Upload Song</h2>
+<div class="box">
+<input id="t" placeholder="Song Title">
+<select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option></select>
+<p>Cover Photo:</p><input type="file" accept="image/*" onchange="pickCover(this)">
+<img id="coverPrev" style="width:120px;display:none;border-radius:10px;margin:5px auto">
+<p>MP3 Song:</p><input type="file" accept="audio/*" onchange="pickAudio(this)">
+<p id="audioMsg" style="color:#1db954"></p>
+<div class="box" style="background:#1db954;text-align:center"><b>🤖 AUTO: Will link to your YouTube, TikTok, Instagram, Facebook</b></div>
+<button class="g" onclick="submitSong()">✅ SUBMIT SONG</button>
+<button class="b" onclick="go('mysongs')">🎵 VIEW MY MUSIC</button>
+</div>
+</div>
 
-<div id="page-mysongs" class="page"><h2>🎵 My Music</h2><div id="myList"><p>No songs yet.</p></div><div class="box" style="background:#FF0000;text-align:center"><h3>📤 WHERE YOUR SONG GOES - AUTOMATIC</h3><p>✅ Vixxon<br>✅ YouTube - Your Link<br>✅ TikTok - Your Link<br>✅ Instagram - Your Link<br>✅ Facebook - Your Link</p></div><div class="box" style="background:#E91E63;text-align:center"><h3>🎤 SHOUTOUT - UGX 5,000</h3><p>You get 4,500 (90%)</p><button class="btn btnY" onclick="requestShoutout()">🎤 REQUEST SHOUTOUT</button><p id="shoutCount">0 Shoutouts</p></div><div class="box" style="background:#FF9800;text-align:center"><h3>⭐ VIP - UGX 2,000 / MONTH</h3><p>You get 1,500 (75%)</p><button class="btn" onclick="joinVIP()">⭐ JOIN VIP</button><p id="vipCount">0 VIP Fans</p></div><div class="box" style="background:#1db954;text-align:center"><h3>📞 BOOK ME</h3><p>You get 90%</p><button class="btn btnY" onclick="requestBooking()">📞 BOOK THIS ARTIST</button></div></div>
+<!-- MY SONGS -->
+<div id="p-mysongs" class="page">
+<h2>🎵 My Music</h2>
+<div id="myList"><p>No songs yet. Upload one!</p></div>
+<div class="box" style="background:#E91E63;text-align:center"><h3>🎤 SHOUTOUT - 5,000</h3><p>You get 4,500</p><button class="y" onclick="addMoney(4500,'Shoutout')">🎤 ADD SHOUTOUT</button></div>
+<div class="box" style="background:#FF9800;text-align:center"><h3>⭐ VIP - 2,000 / MONTH</h3><p>You get 1,500</p><button onclick="addMoney(1500,'VIP')">⭐ ADD VIP FAN</button></div>
+<div class="box" style="background:#1db954;text-align:center"><h3>📞 BOOKING</h3><p>You get 90%</p><button class="y" onclick="addBooking()">📞 ADD BOOKING</button></div>
+</div>
 
-<div id="page-earnings" class="page"><h2>💰 Earnings - All 6 Ways</h2><div class="box" style="text-align:center"><h2 id="earnTotal" style="color:#1db954">Total Balance: UGX 0</h2><p id="earnBreak" style="text-align:left">No earnings yet.</p></div><div class="box"><button class="btn btnY" onclick="requestPayout()">💸 REQUEST WEEKLY PAYOUT</button></div><div class="box"><h3>⬇️ 1. DOWNLOADS</h3><p class="split">Fan pays 100 - You get 50</p><div id="earnList"><p>No approved songs yet.</p></div></div><div class="box"><h3>🚀 2. PROMOTION</h3><p class="split">You pay 5,000 - Promoted 30 DAYS</p><div class="history" id="promoStruct">Not Active</div><button class="btn btnP" onclick="go('mysongs')">🚀 PROMOTE - 5,000</button></div><div class="box"><h3>📞 3. BOOKING</h3><p class="split">You get 90% | Vixxon 10%</p><div class="history" id="bookingStruct">No bookings yet.</div><p id="bookingTotal">Your Booking Earnings: UGX 0</p><button class="btn btnG" onclick="requestBooking()">📞 ADD BOOKING</button></div><div class="box"><h3>🎤 4. SHOUTOUT</h3><p class="split">Fan pays 5,000 - You get 4,500</p><div class="history" id="shoutStruct">No shoutouts yet.</div><p id="shoutTotal">Your Shoutout Earnings: UGX 0</p><button class="btn btnP" onclick="requestShoutout()">🎤 ADD SHOUTOUT</button></div><div class="box"><h3>⭐ 5. VIP FAN CLUB</h3><p class="split">Fan pays 2,000 / MONTH - You get 1,500</p><div class="history" id="vipStruct">No VIP fans yet.</div><p id="vipTotal">Your VIP Earnings: UGX 0 / month</p><button class="btn btnOrange" onclick="joinVIP()">⭐ ADD VIP FAN</button></div><div class="box"><h3>🗳️ 6. VOTING</h3><p class="split">Fan pays 100 / VOTE - Winner gets 50%</p><div class="history" id="voteStruct">No votes yet.</div><p id="voteTotal">Your Votes: 0</p><button class="btn btnB" onclick="voteArtist()">🗳️ ADD VOTES - 100 EACH</button></div></div>
+<!-- EARNINGS -->
+<div id="p-earnings" class="page">
+<h2>💰 Earnings</h2>
+<div class="box" style="text-align:center"><h2 id="bal2" style="color:#1db954">UGX 0</h2><p id="earnDetail">No earnings yet</p></div>
+<div class="box"><h3>⬇️ Downloads - You get 50 per download</h3><p>Fans pay 100, you get 50</p><div id="dlList"><p>No approved songs yet</p></div></div>
+<div class="box"><h3>🚀 Promotion - 5,000 / 30 Days</h3><button class="p" onclick="go('mysongs')">🚀 PROMOTE A SONG</button></div>
+<div class="box"><h3>🗳️ Votes - 100 per vote</h3><button class="b" onclick="addVotes()">🗳️ ADD VOTES</button></div>
+<div class="box"><button class="y" onclick="payout()">💸 REQUEST PAYOUT</button></div>
+</div>
 
-<div id="page-chat" class="page"><h2>💬 Artist Chat</h2><div class="box" style="background:#1db954;text-align:center"><p>● Vixxon Artists Online</p><p id="chatCount">0 messages</p></div><div class="box"><div class="chatBox" id="chatList"></div><div class="chatInputRow"><input id="chatInput" placeholder="Type message..."><button class="btn btnG" onclick="sendChat()">Send</button></div></div><div class="box"><button class="btn" onclick="sendChatQuick('Hi everyone! Who wants to collab? 🎤')">🎤 Who wants to collab?</button><button class="btn btnB" onclick="sendChatQuick('I just dropped a new song! 🔥')">🔥 I just dropped a new song!</button></div><div class="box"><button class="btn btnWA" onclick="joinWhatsAppGroup()">💚 JOIN WHATSAPP GROUP</button><button class="btn" onclick="chatWithArtist()">👤 CHAT 1-TO-1</button><button class="btn btnR" onclick="clearChat()">🗑️ CLEAR CHAT</button></div></div>
+<!-- CHAT -->
+<div id="p-chat" class="page">
+<h2>💬 Chat</h2>
+<div class="box"><div class="chatBox" id="chatList"></div><input id="chatInput" placeholder="Type message..."><button class="g" onclick="sendChat()">Send</button></div>
+<div class="box"><button onclick="quickChat('Hi everyone! Who wants to collab? 🎤')">🎤 Who wants to collab?</button><button class="b" onclick="quickChat('I just dropped a new song! 🔥')">🔥 I just dropped a new song!</button><button class="p" onclick="quickChat('Please vote for me! 🗳️')">🗳️ Please vote for me!</button></div>
+<div class="box"><button style="background:#25D366;color:#000" onclick="joinWA()">💚 JOIN WHATSAPP GROUP</button></div>
+</div>
 
-<div id="page-admin" class="page"><h2>🔐 ADMIN - AUTO DISTRIBUTION</h2><p class="small">Password: vixxon123</p><div id="adminList"><p>No submissions yet.</p></div></div>
-<div id="adminPlayer"><b>🔊 Verification Player</b><audio id="adminAudio" controls></audio></div>
+<!-- ADMIN -->
+<div id="p-admin" class="page">
+<h2>🔐 Admin</h2>
+<p>Password: vixxon123 - You are the admin. Approve songs here.</p>
+<div id="adminList"><p>No songs yet.</p></div>
+</div>
 
-<div class="bottomnav">
-<button id="btn-profile" class="on" onclick="go('profile')">👤<br>Profile</button>
-<button id="btn-upload" onclick="go('upload')">⬆️<br>Upload</button>
-<button id="btn-earnings" onclick="go('earnings')">💰<br>Earnings</button>
-<button id="btn-chat" onclick="go('chat')">💬<br>Chat</button>
-<button id="btn-admin" onclick="openAdmin()">🔐<br>Admin</button>
+<!-- 5 SEPARATE BARS -->
+<div class="nav">
+<button id="n1" class="on" onclick="go('profile')">👤<br>Profile</button>
+<button id="n2" onclick="go('upload')">⬆️<br>Upload</button>
+<button id="n3" onclick="go('earnings')">💰<br>Earnings</button>
+<button id="n4" onclick="go('chat')">💬<br>Chat</button>
+<button id="n5" onclick="go('admin')">🔐<br>Admin</button>
 </div>
 
 <script>
-var subs=[]; var pic=''; var cover=''; var audio=''; var audioName='';
-var earn={downloads:0,per:{},votes:0,shoutouts:0,vip:0,bookings:0,promoUntil:'',promoSong:'',bookingList:[],shoutList:[],vipList:[],voteList:[]};
-var chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat!',time:'Now',me:false}];
-try{ var sc=localStorage.getItem('vixxon_chat'); if(sc) chatMsgs=JSON.parse(sc); }catch(e){}
-function getSocials(){ return {yt:document.getElementById('sYT').value.trim(),tt:document.getElementById('sTT').value.trim(),ig:document.getElementById('sIG').value.trim(),fb:document.getElementById('sFB').value.trim(),sp:document.getElementById('sSP').value.trim()}; }
-function socialHTML(s){ s=s||{}; var h=''; if(s.yt) h+='<a class="socialLink" style="background:#FF0000" href="'+s.yt+'" target="_blank">▶️ YouTube</a> '; if(s.tt) h+='<a class="socialLink" style="background:#000;border:1px solid #fff" href="'+s.tt+'" target="_blank">🎵 TikTok</a> '; if(s.ig) h+='<a class="socialLink" style="background:#E1306C" href="'+s.ig+'" target="_blank">📸 Instagram</a> '; if(s.fb) h+='<a class="socialLink" style="background:#1877F2" href="'+s.fb+'" target="_blank">📘 Facebook</a> '; if(s.sp) h+='<a class="socialLink" style="background:#1DB954" href="'+s.sp+'" target="_blank">🎧 Spotify</a> '; return h||'<span class="small">No social links yet</span>'; }
-function go(id){ var p=document.querySelectorAll('.page'); for(var i=0;i<p.length;i++) p[i].classList.remove('show'); var pg=document.getElementById('page-'+id); if(pg) pg.classList.add('show'); var b=document.querySelectorAll('.bottomnav button'); for(var j=0;j<b.length;j++) b[j].classList.remove('on'); var btn=document.getElementById('btn-'+id); if(btn) btn.classList.add('on'); window.scrollTo(0,0); if(id=='mysongs') showMy(); if(id=='admin') showAdmin(); if(id=='earnings') showEarn(); if(id=='chat') showChat(); }
-function openPicPicker(){ document.getElementById('artistPicFile').click(); }
-function pickPic(el){ var f=el.files[0]; if(!f) return; pic=URL.createObjectURL(f); document.getElementById('myPic').src=pic; document.getElementById('picMsg').innerHTML='✅ Photo chosen'; }
-function saveArtistProfile(){ var name=document.getElementById('aName').value.trim()||'Your Name'; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||'Your City'; document.getElementById('showArtistName').innerHTML=name; document.getElementById('showArtistInfo').innerHTML=city+', '+country; document.getElementById('showSocials').innerHTML=socialHTML(getSocials()); document.getElementById('profSaveMsg').innerHTML='✅ PROFILE + SOCIALS SAVED!'; alert('✅ Saved! Your songs will auto-link to your socials!'); }
-function pickCover(el){ var f=el.files[0]; if(!f) return; cover=URL.createObjectURL(f); var img=document.getElementById('coverPrev'); img.src=cover; img.style.display='block'; }
-function pickAudio(el){ var f=el.files[0]; if(!f) return; audio=URL.createObjectURL(f); audioName=f.name; document.getElementById('audioMsg').innerHTML='✅ MP3 OK: '+f.name; var t=document.getElementById('t'); if(t && !t.value) t.value=f.name.replace('.mp3',''); }
-function submitSong(){ var name=document.getElementById('aName').value.trim()||'Unknown Artist'; var wa=document.getElementById('aWa').value.trim()||''; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||''; var momo=document.getElementById('aMomo').value.trim()||wa; var t=document.getElementById('t').value.trim()||audioName||'Untitled'; var g=document.getElementById('g').value; var s=getSocials(); if(!audio){ alert('Choose MP3 first'); return; } subs.unshift({title:t,artist:name,genre:g,cover:cover||'https://via.placeholder.com/150',audio:audio,wa:wa,momo:momo,country:country,city:city,pic:pic,status:'PENDING',socials:s}); var msg='🎤 NEW SUBMISSION - AUTO\nArtist: '+name+'\nSong: '+t+'\nWhatsApp: '+wa+'\nYouTube: '+(s.yt||'')+'\nTikTok: '+(s.tt||'')+'\nInstagram: '+(s.ig||''); window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ SUBMITTED! Will auto-link to your socials after approval!'); go('mysongs'); }
-function showMy(){ var h=''; for(var i=0;i<subs.length;i++){ var s=subs[i]; var badge=s.status=='PENDING'?'<span class="badge pend">PENDING</span>':s.status=='APPROVED'?'<span class="badge appr">APPROVED</span>':'<span class="badge reje">REJECTED</span>'; h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>'+badge+'<br><p style="font-size:13px">🤖 Auto-links:</p>'+socialHTML(s.socials)+'<br><br><button class="btn btnP" onclick="promoteSong(\''+s.title.replace(/'/g,'')+'\')">🚀 PROMOTE - 5,000 / MONTH</button></div>'; } document.getElementById('myList').innerHTML=h||'<p>No songs yet.</p>'; }
-function showAdmin(){ var h=''; for(var i=0;i<subs.length;i++){ var s=subs[i]; h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>WhatsApp: '+s.wa+'<br>Status: <b>'+s.status+'</b><br><b>Artist Socials:</b><br>'+socialHTML(s.socials)+'<br><br><button class="btn btnG" onclick="approve('+i+')">✅ APPROVE + AUTO-POST</button><button class="btn btnR" onclick="reject('+i+')">❌ REJECT</button><button class="btn btnB" onclick="listenSong('+i+')">▶ LISTEN</button><br><b style="color:#FFC107">🤖 AUTO-POST:</b><br><button class="btn" style="background:#FF0000" onclick="postToYouTube('+i+')">▶️ AUTO-POST TO YOUTUBE</button><button class="btn" style="background:#000;border:1px solid #fff" onclick="postToTikTok('+i+')">🎵 AUTO-POST TO TIKTOK</button><button class="btn" style="background:#E1306C" onclick="postToInstagram('+i+')">📸 AUTO-POST TO INSTAGRAM</button><button class="btn btnWA" onclick="shareToWhatsApp('+i+')">💚 SHARE TO WHATSAPP</button></div>'; } document.getElementById('adminList').innerHTML=h||'<p>No submissions yet.</p>'; }
-function approve(i){ subs[i].status='APPROVED'; alert('✅ APPROVED + AUTO! Now tap AUTO-POST buttons!'); showAdmin(); showMy(); showEarn(); }
-function reject(i){ var r=prompt('Why reject?'); if(r===null) return; subs[i].status='REJECTED'; showAdmin(); showMy(); }
-function listenSong(i){ var s=subs[i]; document.getElementById('adminPlayer').style.display='block'; document.getElementById('adminAudio').src=s.audio; document.getElementById('adminAudio').play(); }
-function openAdmin(){ var pw=prompt('Admin Password:'); if(pw=='vixxon123'){ go('admin'); showAdmin(); } else if(pw!==null){ alert('Wrong password'); } }
-function postToYouTube(i){ var s=subs[i]; var ss=s.socials||{}; var title=s.title+' - '+s.artist+' | Vixxon Official'; var desc='🔥 '+s.title+' by '+s.artist+'\n\nFollow: YouTube '+(ss.yt||'')+' TikTok '+(ss.tt||'')+' Instagram '+(ss.ig||'')+'\nListen: https://vixxonofficial256.github.io/wicky-ai/'; window.open('https://www.youtube.com/upload','_blank'); setTimeout(function(){ alert('COPY TITLE:\n'+title+'\n\nCOPY DESCRIPTION:\n'+desc); },500); }
-function postToTikTok(i){ var s=subs[i]; var ss=s.socials||{}; var cap='🔥 '+s.title+' by '+s.artist+' #Vixxon #UgandaMusic #'+s.genre+' Follow: '+(ss.tt||''); window.open('https://www.tiktok.com/upload','_blank'); setTimeout(function(){ alert('COPY CAPTION:\n\n'+cap); },500); }
-function postToInstagram(i){ var s=subs[i]; var ss=s.socials||{}; var cap='🔥 '+s.title+' by '+s.artist+'\nFollow: '+(ss.ig||'')+'\nListen on Vixxon'; window.open('https://www.instagram.com/','_blank'); setTimeout(function(){ alert('COPY CAPTION:\n\n'+cap); },500); }
-function shareToWhatsApp(i){ var s=subs[i]; var ss=s.socials||{}; var msg='🔥 NEW MUSIC!\n'+s.title+' by '+s.artist+'\nYouTube: '+(ss.yt||'')+'\nTikTok: '+(ss.tt||'')+'\nListen: https://vixxonofficial256.github.io/wicky-ai/'; window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank'); }
-function promoteSong(title){ var name=document.getElementById('aName').value.trim()||'Artist'; var d=new Date(Date.now()+30*24*60*60*1000); earn.promoUntil=d.toLocaleDateString(); earn.promoSong=title; window.open('https://wa.me/256705570948?text='+encodeURIComponent('🚀 PROMOTION '+title+' by '+name),'_blank'); alert('🚀 PROMOTION REQUESTED!'); showEarn(); }
-function requestBooking(){ var name=document.getElementById('aName').value.trim()||'Artist'; var type=prompt('What event?'); if(!type) return; var date=prompt('What date?'); if(!date) return; var price=prompt('Your price? e.g. 200000'); if(!price) return; price=parseInt(price); var share=Math.round(price*0.9); earn.bookings++; earn.bookingList.unshift({event:type,date:date,price:price,artist:share,vixxon:Math.round(price*0.1)}); window.open('https://wa.me/256705570948?text='+encodeURIComponent('📞 BOOKING '+name+' '+type+' '+date+' Price '+price),'_blank'); alert('📞 BOOKING ADDED! You get 90%: '+share); showEarn(); }
-function requestShoutout(){ var name=document.getElementById('aName').value.trim()||'Artist'; var forWho=prompt('Shoutout for who?'); if(!forWho) return; earn.shoutouts++; earn.shoutList.unshift({for:forWho}); window.open('https://wa.me/256705570948?text='+encodeURIComponent('🎤 SHOUTOUT '+name+' for '+forWho),'_blank'); alert('🎤 SHOUTOUT ADDED! You get 4,500'); showEarn(); }
-function joinVIP(){ var name=document.getElementById('aName').value.trim()||'Artist'; var fan=prompt('Fan name?'); if(!fan) fan='Fan'; earn.vip++; earn.vipList.unshift({fan:fan}); window.open('https://wa.me/256705570948?text='+encodeURIComponent('⭐ VIP '+name+' Fan '+fan),'_blank'); alert('⭐ VIP ADDED! You get 1,500 / month'); showEarn(); }
-function voteArtist(){ var name=document.getElementById('aName').value.trim()||'Artist'; var votes=prompt('How many votes? 1 vote = 100'); if(!votes) return; votes=parseInt(votes); earn.votes+=votes; earn.voteList.unshift({votes:votes,total:votes*100}); window.open('https://wa.me/256705570948?text='+encodeURIComponent('🗳️ VOTE '+name+' '+votes+' votes'),' _blank'.replace(' ','')); alert('🗳️ '+votes+' VOTES ADDED!'); showEarn(
+var songs=[]; var pic=''; var cover=''; var audio=''; var total=0; var detail=[];
+var chats=[{n:'Vixxon Team',t:'Welcome! Talk to other artists here!'}];
+function go(id){
+  if(id=='admin'){ var pw=prompt('Admin Password:'); if(pw!='vixxon123'){ if(pw!==null) alert('Wrong password'); return; } }
+  var pages=document.querySelectorAll('.page'); for(var i=0;i<pages.length;i++) pages[i].classList.remove('show');
+  document.getElementById('p-'+id).classList.add('show');
+  var btns=document.querySelectorAll('.nav button'); for(var j=0;j<btns.length;j++) btns[j].classList.remove('on');
+  var map={profile:'n1',upload:'n2',earnings:'n3',chat:'n4',admin:'n5',mysongs:'n1'}; document.getElementById(map[id]).classList.add('on');
+  window.scrollTo(0,0);
+  if(id=='mysongs') showMy(); if(id=='admin') showAdmin(); if(id=='earnings') showEarn(); if(id=='chat') showChat();
+}
+function pickPic(el){ var f=el.files[0]; if(!f) return; pic=URL.createObjectURL(f); document.getElementById('myPic').src=pic; }
+function pickCover(el){ var f=el.files[0]; if(!f) return; cover=URL.createObjectURL(f); var im=document.getElementById('coverPrev'); im.src=cover; im.style.display='block'; }
+function pickAudio(el){ var f=el.files[0]; if(!f) return; audio=URL.createObjectURL(f); document.getElementById('audioMsg').innerHTML='✅ MP3 OK: '+f.name; }
+function getSocials(){ return {yt:document.getElementById('sYT').value,tt:document.getElementById('sTT').value,ig:document.getElementById('sIG').value,fb:document.getElementById('sFB').value}; }
+function socialHTML(s){ s=s||{}; var h=''; if(s.yt) h+='<a href="'+s.yt+'" target="_blank">▶️ YouTube</a> '; if(s.tt) h+='<a href="'+s.tt+'" target="_blank">🎵 TikTok</a> '; if(s.ig) h+='<a href="'+s.ig+'" target="_blank">📸 Instagram</a> '; if(s.fb) h+='<a href="'+s.fb+'" target="_blank">📘 Facebook</a> '; return h||'No socials yet'; }
+function saveProfile(){
+  var n=document.getElementById('aName').value||'Your Name';
+  var c=document.getElementById('aCity').value||'Your City';
+  document.getElementById('showName').innerHTML=n;
+  document.getElementById('showCity').innerHTML=c+', Uganda';
+  document.getElementById('showSocials').innerHTML=socialHTML(getSocials());
+  document.getElementById('saveMsg').innerHTML='✅ SAVED! Your songs will auto-link to your socials!';
+  alert('✅ Profile Saved!');
+}
+function submitSong(){
+  var title=document.getElementById('t').value||'Untitled';
+  var name=document.getElementById('aName').value||'Unknown Artist';
+  var wa=document.getElementById('aWa').value||'';
+  if(!audio){ alert('Please choose MP3 first'); return; }
+  songs.unshift({title:title,artist:name,genre:document.getElementById('g').value,cover:cover,audio:audio,wa:wa,socials:getSocials(),status:'PENDING'});
+  var s=getSocials();
+  var msg='🎤 NEW SONG\nArtist: '+name+'\nSong: '+title+'\nWhatsApp: '+wa+'\nYouTube: '+s.yt+'\nTikTok: '+s.tt+'\nInstagram: '+s.ig;
+  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank');
+  alert('✅ Submitted! Will auto-link to your socials after approval!');
+  go('mysongs');
+}
+function showMy(){
+  var h=''; for(var i=0;i<songs.length;i++){ var s=songs[i]; h+='<div class="box"><b>'+s.title+'</b> - '+s.artist+'<br>Status: <b>'+s.status+'</b><br>🤖 Auto-links: '+socialHTML(s.socials)+'<br><br><button class="p" onclick="promote()">🚀 PROMOTE - 5,000</button></div>'; }
+  document.getElementById('myList').innerHTML=h||'<p>No songs yet.</p>';
+}
+function showAdmin(){
+  var h=''; for(var i=0;i<songs.length;i++){ var s=songs[i]; h+='<div class="box"><b>'+s.title+'</b> - '+s.artist+'<br>WhatsApp: '+s.wa+'<br>Status: '+s.status+'<br>Socials: '+socialHTML(s.socials)+'<br><button class="g" onclick="approve('+i+')">✅ APPROVE</button><button class="r" onclick="rejectSong('+i+')">❌ REJECT</button><br><b>🤖 AUTO-POST:</b><br><button style="background:#FF0000" onclick="postYT('+i+')">▶️ POST TO YOUTUBE</button><button style="background:#000;border:1px solid #fff" onclick="postTT('+i+')">🎵 POST TO TIKTOK</button><button style="background:#E1306C" onclick="postIG('+i+')">📸 POST TO INSTAGRAM</button></div>'; }
+  document.getElementById('adminList').innerHTML=h||'<p>No songs yet.</p>';
+}
+function approve(i){ songs[i].status='APPROVED'; alert('✅ Approved! Now tap POST TO YOUTUBE / TIKTOK below!'); showAdmin(); showMy(); showEarn(); }
+function rejectSong(i){ songs[i].status='REJECTED'; showAdmin(); showMy(); }
+function postYT(i){ var s=songs[i]; var title=s.title+' - '+s.artist+' | Vixxon'; var desc='🔥 '+s.title+' by '+s.artist+'\nFollow: YouTube '+s.socials.yt+' TikTok '+s.socials.tt+' Instagram '+s.socials.ig; window.open('https://www.youtube.com/upload','_blank'); setTimeout(function(){ alert('COPY FOR YOUTUBE:\n\nTitle: '+title+'\n\nDescription:\n'+desc); },500); }
+function postTT(i){ var s=songs[i]; window.open('https://www.tiktok.com/upload','_blank'); setTimeout(function(){ alert('COPY FOR TIKTOK:\n\n🔥 '+s.title+' by '+s.artist+' #Vixxon #UgandaMusic #fyp\nFollow: '+s.socials.tt); },500); }
+function postIG(i){ var s=songs[i]; window.open('https://www.instagram.com/','_blank'); setTimeout(function(){ alert('COPY FOR INSTAGRAM:\n\n🔥 '+s.title+' by '+s.artist+'\nFollow: '+s.socials.ig); },500); }
+function promote(){ window.open('https://wa.me/256705570948?text='+encodeURIComponent('🚀 I want PROMOTION 5,000 / 1 month'),' _blank'.replace(' ','')); alert('🚀 Promotion requested!'); }
+function addMoney(amount,what){ total+=amount; detail.push(what+' +'+amount); alert('✅ '+what+' added! You get '+amount); showEarn(); }
+function addBooking(){ var p=prompt('Booking price? e.g. 200000'); if(!p) return; p=parseInt(p); var you=Math.round(p*0.9); total+=you; detail.push('Booking +'+you); alert('📞 Booking added! You get 90%: '+you); showEarn(); }
+function addVotes(){ var v=prompt('How many votes? 1 vote = 100'); if(!v) return; v=parseInt(v); var you=Math.round(v*100*0.5); total+=you; detail.push(v+' Votes +'+you); alert('🗳️ '+v+' votes added! You get '+you); showEarn(); }
+function showEarn(){
+  document.getElementById('bal1').innerHTML='UGX '+total;
+  document.getElementById('bal2').innerHTML='UGX '+total;
+  document.getElementById('earnDetail').innerHTML=detail.join('<br>')||'No earnings yet';
+  var h=''; for(var i=0;i<songs.length;i++){ if(songs[i].status=='APPROVED'){ h+='<div class="box"><b>'+songs[i].title+'</b><br><button class="g" onclick="addMoney(50,\'Download\')">💳 Fan Paid 100 - You Get 50 (Test)</button></div>'; } }
+  document.getElementById('dlList').innerHTML=h||'<p>No approved songs yet</p>';
+}
+function payout(){ if(total<1000){ alert('Need at least 1000. You have '+total); return; } window.open('https://wa.me/256705570948?text='+encodeURIComponent('💸 PAYOUT Request: UGX '+total),'_blank'); alert('✅ Payout requested: '+total); }
+function showChat(){ var h=''; for(var i=0;i<chats.length;i++){ h+='<div class="msg"><b>'+chats[i].n+'</b><br>'+chats[i].t+'</div>'; } document.getElementById('chatList').innerHTML=h; }
+function sendChat(){ var inp=document.getElementById('chatInput'); var txt=inp.value.trim(); if(!txt) return; var n=document.getElementById('aName').value||'Artist'; chats.push({n:n,t:txt}); inp.value=''; showChat(); }
+function quickChat(txt){ document.getElementById('chatInput').value=txt; sendChat(); }
+function joinWA(){ window.open('https://wa.me/256705570948?text='+encodeURIComponent('Hi Vixxon! Add me to Artists WhatsApp Group'),' _blank'.replace(' ','')); }
+showChat();
+</script>
+</body></html>
