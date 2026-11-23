@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON V36 - INTERNET SEARCH</title>
+<title>VIXXON V34.1 - V34 + INTERNET</title>
 <style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:180px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center;cursor:pointer}.card img{width:65px;height:65px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #ff3b30;display:flex;z-index:9999;height:62px}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:11px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}#coverPrev{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto;border:3px solid #1db954}#player{position:fixed;bottom:62px;left:0;right:0;background:#1e1e1e;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}#player img{width:55px;height:55px;border-radius:8px;object-fit:cover}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.status{padding:12px;border-radius:8px;margin:8px 0;font-size:14px;font-weight:bold}.tagUp{background:#ff3b30;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.tagNet{background:#2196F3;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}</style>
 <script>
 var pickedCover=''; var pickedAudio=''; var pickedAudioName='';
@@ -23,7 +23,7 @@ function pickCover(input){ var f=input.files[0]; if(!f) return; var url=URL.crea
 function pickAudio(input){ var f=input.files[0]; if(!f) return; pickedAudio=URL.createObjectURL(f); pickedAudioName=f.name; document.getElementById('audioMsg').innerHTML='✅ AUDIO: '+f.name; var as=document.getElementById('audioStatus'); as.innerHTML='✅ Song ready! Press PUBLISH.'; as.style.background='#1db954'; var tEl=document.getElementById('t'); if(tEl && !tEl.value){ tEl.value=f.name.replace('.mp3','').replace('.MP3','').trim(); } }
 function playSong(i,from){
   var s = from=='net' ? netList[i] : from=='lib' ? saved[i] : mine[i];
-  if(!s || !s.audio){ alert('No audio. Internet needs internet. Uploaded needs re-upload after refresh.'); return; }
+  if(!s || !s.audio){ alert('No audio'); return; }
   var au=document.getElementById('au'); au.pause(); au.src=s.audio; au.currentTime=0;
   document.getElementById('player').style.display='block';
   document.getElementById('pt').innerText=s.title;
@@ -47,11 +47,11 @@ function up(){
       mine.unshift(newSong);
       var already=false; for(var k=0;k<saved.length;k++){ if(saved[k].title==t && saved[k].artist==a) already=true; }
       if(!already) saved.unshift(newSong);
-      st.style.background='#1db954'; st.innerHTML='✅ PUBLISHED! '+t+' - Now in HOME + LIBRARY ONLY!';
+      st.style.background='#1db954'; st.innerHTML='✅ PUBLISHED! '+t+' - Now in HOME + LIBRARY!';
       try{showMine();}catch(e){} try{renderAll();}catch(e){} try{showLib();}catch(e){}
       pickedCover=''; pickedAudio=''; pickedAudioName='';
       try{document.getElementById('coverPrev').style.display='none'; document.getElementById('coverFile').value=''; document.getElementById('f').value='';}catch(e){}
-      alert('✅ SUCCESS! '+t+' is now in HOME + LIBRARY.');
+      alert('✅ SUCCESS! '+t+' is now in HOME + LIBRARY!');
       go('library');
     }catch(err){ st.style.background='#ff3b30'; st.innerHTML='❌ Error: '+err.message; }
   },50);
@@ -59,8 +59,133 @@ function up(){
 function showMine(){ var h=''; for(var i=0;i<mine.length;i++){ h+=cardUploaded(mine[i],i,'mine'); } var el=document.getElementById('myList'); if(el) el.innerHTML=h||'<p>No uploads yet.</p>'; }
 function flagFor(c){var m={'Uganda':'🇺🇬','Nigeria':'🇳🇬','Kenya':'🇰🇪','Tanzania':'🇹🇿','Ghana':'🇬🇭','South Africa':'🇿🇦','Ethiopia':'🇪🇹','USA':'🇺🇸','UK':'🇬🇧','Canada':'🇨🇦','Brazil':'🇧🇷','India':'🇮🇳','France':'🇫🇷','Germany':'🇩🇪'};return m[c]||'🌍';}
 function regionFor(c){if(['Uganda','Nigeria','Kenya','Tanzania','Ghana','South Africa','Ethiopia'].indexOf(c)>-1)return 'Africa';if(['USA','Canada','Brazil'].indexOf(c)>-1)return 'Americas';if(['UK','France','Germany'].indexOf(c)>-1)return 'Europe';if(['India'].indexOf(c)>-1)return 'Asia';return 'Other';}
+// V34 CARD - SAME AS V34, PLUS TAG
 function cardUploaded(s,i,from){
   var dl=(earn.dlPer[s.title+' - '+s.artist]||0);
   var saveBtn = from=='lib' ? '' : '<button class="mini dark" onclick="event.stopPropagation();saveUploaded('+i+')">❤️ Save</button>';
   var bookBtn = s.wa ? '<button class="mini gold" onclick="event.stopPropagation();bookArtist(\''+s.wa+'\')">📞 Book</button>' : '';
-  return '<div class="card" onclick="playSong('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>'+s.title+'</b> <span class="badge">
+  return '<div class="card" onclick="playSong('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>'+s.title+'</b> <span class="badge">⬇ '+dl+'</span><br><small>'+flagFor(s.country||'')+' '+s.artist+' • '+(s.city||'')+', '+(s.country||'')+' • '+(s.genre||'Music')+'</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\''+from+'\')">▶ Play</button>'+saveBtn+bookBtn+'<button class="mini green" onclick="event.stopPropagation();downloadSong('+i+',\''+from+'\')">⬇ Download</button></div></div>';
+}
+// NEW - INTERNET CARD - ADDED TO V34, DOES NOT CHANGE V34 CARDS
+function cardInternet(s,i){
+  return '<div class="card" onclick="playSong('+i+',\'net\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagNet">🌍 INTERNET</span> <b>'+s.title+'</b><br><small>'+s.artist+' • '+s.genre+' • 30-sec preview</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\'net\')">▶ Play Preview</button></div></div>';
+}
+function renderAll(){
+  var q=document.getElementById('q'); var qv=q?q.value.toLowerCase():'';
+  var cfEl=document.getElementById('countryFilter'); var cf=cfEl?cfEl.value:'ALL';
+  var filtered=mine.filter(function(s){ var okQ=(s.title+' '+s.artist+' '+(s.country||'')+' '+(s.city||'')).toLowerCase().indexOf(qv)>-1; var okC=cf=='ALL'||s.country==cf; var okR=curFilter=='ALL'||regionFor(s.country||'')==curFilter; return okQ&&okC&&okR; });
+  list=filtered;
+  var h=''; for(var i=0;i<filtered.length;i++){ h+=cardUploaded(filtered[i], mine.indexOf(filtered[i]), 'mine'); }
+  var hl=document.getElementById('homeList'); if(hl) hl.innerHTML=h||'<p>No uploaded songs yet.</p>';
+  var tr=document.getElementById('trendingList'); if(tr) tr.innerHTML=h||'<p>No uploaded songs yet.</p>';
+  var sl=document.getElementById('searchList'); if(sl) sl.innerHTML=h||'<p>No uploaded songs yet.</p>';
+  var cnt=document.getElementById('count'); if(cnt && mode=='local') cnt.innerHTML='Vixxon Uploaded: '+filtered.length+' songs';
+}
+function saveUploaded(i){
+  var s=mine[i]; if(!s) return;
+  for(var j=0;j<saved.length;j++){ if(saved[j].title==s.title && saved[j].artist==s.artist){ alert('Already in Library'); go('library'); return; } }
+  saved.unshift(s); alert('❤️ Saved to Library!'); try{showLib();}catch(e){}
+}
+function showLib(){
+  var h=''; for(var i=0;i<saved.length;i++){ h+=cardUploaded(saved[i],i,'lib'); }
+  var el=document.getElementById('libList'); if(el) el.innerHTML=h||'<p>No saved yet.</p>';
+  var c=document.getElementById('libCount'); if(c) c.innerHTML='Library: '+saved.length+' songs saved for later';
+}
+function clearLib(){ saved=[]; showLib(); }
+function bookArtist(wa){ if(!wa){alert('No WhatsApp');return} var num=String(wa).replace(/[^0-9]/g,''); window.open('https://wa.me/'+num+'?text='+encodeURIComponent('Hi, I found you on Vixxon. I want to book you!'),' _blank'); }
+function downloadSong(i,from){ var s=from=='lib'?saved[i]:mine[i]; if(!s||!s.audio){alert('No audio');return} earn.downloads++; var k=s.title+' - '+s.artist; earn.dlPer[k]=(earn.dlPer[k]||0)+1; var a=document.createElement('a'); a.href=s.audio; a.download=s.title+'.mp3'; document.body.appendChild(a); a.click(); a.remove(); alert('⬇ Downloading '+s.title); try{showEarn();renderAll();}catch(e){} }
+function setMode(m){
+  mode=m;
+  document.getElementById('tabLocal').className=m=='local'?'on':'off';
+  document.getElementById('tabNet').className=m=='net'?'on':'off';
+  document.getElementById('localBox').style.display=m=='local'?'block':'none';
+  document.getElementById('netBox').style.display=m=='net'?'block':'none';
+  document.getElementById('searchList').style.display=m=='local'?'block':'none';
+  if(m=='local'){ document.getElementById('count').innerHTML='Vixxon Uploaded: '+mine.length+' songs'; renderAll(); }
+  else { document.getElementById('count').innerHTML='🌍 INTERNET MODE - Search below'; }
+}
+function onType(){ if(mode=='local') renderAll(); }
+// *** ADDED TO V34 - INTERNET SEARCH ***
+function doNetSearch(){
+  var qEl=document.getElementById('qNet'); var q=qEl?qEl.value.trim():'';
+  if(!q){ alert('Type artist in INTERNET box - e.g. Fik Fameica'); return; }
+  var st=document.getElementById('netStatus'); st.style.background='#FF9800'; st.innerHTML='🔍 Searching internet for "'+q+'" ... wait 3 sec';
+  document.getElementById('netList').innerHTML='<p>🔍 Searching iTunes + Deezer...</p>';
+  netList=[]; var found=0;
+  function showNet(arr,from){
+    if(!arr || !arr.length) return;
+    netList=netList.concat(arr); found=1;
+    var h=''; for(var i=0;i<netList.length;i++){ h+=cardInternet(netList[i],i); }
+    document.getElementById('netList').innerHTML=h;
+    st.style.background='#1db954'; st.innerHTML='✅ Found '+netList.length+' internet songs from '+from+' - Tap to play';
+  }
+  fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=15').then(function(r){return r.json()}).then(function(d){
+    var arr=(d.results||[]).map(function(x){return{title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl,wa:'',country:'World',city:'World'}});
+    showNet(arr,'iTunes');
+  }).catch(function(){});
+  window.v34cb=function(d){
+    var arr=(d.data||[]).map(function(x){return{title:x.title,artist:x.artist.name,genre:'Music',cover:x.album.cover_medium,audio:x.preview,wa:'',country:'World',city:'World'}});
+    showNet(arr,'Deezer');
+  };
+  var s=document.createElement('script'); s.src='https://api.deezer.com/search?q='+encodeURIComponent(q)+'&output=jsonp&callback=v34cb'; document.body.appendChild(s);
+  setTimeout(function(){ if(!found){ st.style.background='#ff3b30'; st.innerHTML='❌ No results. Check WiFi, try Fik Fameica'; } },8000);
+}
+function quickSearch(name){ document.getElementById('qNet').value=name; doNetSearch(); }
+</script>
+</head>
+<body>
+<header><h1>🌍 VIXXON MUSIC</h1><p>V34 + Internet - Same V34 You Liked</p></header>
+
+<div id="page-home" class="page">
+<div class="box" style="background:linear-gradient(135deg,#ff3b30,#FF9800);text-align:center"><h3>🌍 ARTISTS FROM ALL OVER THE WORLD</h3><p style="font-size:13px">👆 TAP ANY SONG TO PLAY - Only one plays at a time</p><button class="btn gold" onclick="go('upload')">UPLOAD YOUR SONG →</button></div>
+<h3>🌍 Filter By World</h3>
+<div class="tab"><button class="on" id="fAll" onclick="setFilter('ALL')">🌍 ALL WORLD</button><button class="off" id="fAfrica" onclick="setFilter('Africa')">🌍 AFRICA</button><button class="off" id="fEurope" onclick="setFilter('Europe')">🇪🇺 EUROPE</button><button class="off" id="fAmericas" onclick="setFilter('Americas')">🇺🇸 AMERICAS</button><button class="off" id="fAsia" onclick="setFilter('Asia')">🌏 ASIA</button></div>
+<select id="countryFilter" onchange="renderAll()"><option value="ALL">All Countries</option><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
+<h3 style="margin-top:10px">🔥 Trending in World</h3><div id="trendingList"><p style="color:#aaa">No songs yet.</p></div>
+<h3>🎵 All Artists - World - 👆 Tap Song To Play</h3><div id="homeList"><p style="color:#aaa">No uploads yet.</p></div>
+</div>
+
+<div id="page-search" class="page">
+<h2>🔍 Search</h2>
+<div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">⬆️ VIXXON ARTISTS - Uploaded</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET - Added to V34</button></div>
+<p id="count" style="color:#1db954">Vixxon Uploaded: 0 songs</p>
+<!-- V34 ORIGINAL - VIXXON SEARCH - UNCHANGED -->
+<div id="localBox">
+<input id="q" placeholder="Search uploaded artists..." oninput="onType()">
+<div id="searchList"></div>
+</div>
+<!-- ADDED TO V34 - INTERNET SEARCH - NEW BOX -->
+<div id="netBox" style="display:none">
+<div class="box" style="background:#2196F3"><h3>🌍 INTERNET SEARCH - Added to V34</h3><p>Search any artist in the world. 30-sec previews. Tap to play with same One Player.</p></div>
+<input id="qNet" placeholder="🌍 Type internet artist - e.g. Fik Fameica, Bebe Cool...">
+<button class="btn red" style="font-size:18px;padding:16px" onclick="doNetSearch()">🌍 SEARCH INTERNET NOW</button>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn dark" style="flex:1" onclick="quickSearch('Fik Fameica')">Fik Fameica</button><button class="btn dark" style="flex:1" onclick="quickSearch('Bebe Cool')">Bebe Cool</button><button class="btn dark" style="flex:1" onclick="quickSearch('Eddy Kenzo')">Eddy Kenzo</button><button class="btn dark" style="flex:1" onclick="quickSearch('Sheebah')">Sheebah</button></div>
+<div id="netStatus" class="status" style="background:#333">Waiting... Type artist and tap SEARCH INTERNET NOW</div>
+<div id="netList"></div>
+</div>
+</div>
+
+<div id="page-library" class="page"><h2>📚 My Library - Listen Later</h2><p id="libCount" style="color:#1db954">Library: 0 songs</p><p style="color:#aaa;font-size:13px">✅ Uploaded songs auto-go here. ✅ Tap ❤️ Save to add here. Tap song to play.</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No saved yet.</p></div></div>
+
+<div id="page-upload" class="page">
+<h2>⬆️ Upload - Goes to HOME + LIBRARY</h2>
+<div class="box">
+<input id="t" placeholder="Song Title" value="How I Feel">
+<input id="a" placeholder="Artist Name" value="Vixxon Kalema">
+<select id="country"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
+<input id="city" placeholder="Your City" value="BUGIRI">
+<input id="wa" placeholder="WhatsApp" value="256705570948">
+<select id="payMethod"><option>MoMo - Uganda</option><option>M-Pesa - Kenya</option><option>Bank / OPay - Nigeria</option><option>PayPal - USA / UK / World</option><option>Other</option></select>
+<input id="momo" placeholder="Payout Number" value="256705570948">
+<select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Swahili Bongo</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
+<p style="font-size:14px;font-weight:bold">🖼️ STEP 1: COVER ART</p>
+<input type="file" id="coverFile" accept="image/*" onchange="pickCover(this)">
+<img id="coverPrev" src="">
+<p id="coverMsg" style="color:#1db954;font-size:14px;text-align:center"></p>
+<div id="coverStatus" class="status" style="background:#333">Waiting for cover...</div>
+<p style="font-size:14px;font-weight:bold">🎵 STEP 2: SONG MP3</p>
+<input type="file" id="f" accept="audio/*" onchange="pickAudio(this)">
+<p id="audioMsg" style="color:#1db954;font-size:14px"></p>
+<div id="audioStatus" class="status" style="background:#333">Waiting for song...</div>
+<button class="btn green" style="font-size:18px;padding:16px" onclick="up()">✅ PUBLISH TO HOME + LIBRARY</button>
+<div id="upStatus" class="status" style="background:#333">Waiting to publi
