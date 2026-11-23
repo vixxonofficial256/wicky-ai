@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON ARTIST PORTAL - V3.5 - ARTIST CHAT</title>
+<title>VIXXON ARTIST PORTAL - V3.6 - BOTTOM BARS FIXED</title>
 <style>
-body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:160px}
-header{background:#7b1fa2;padding:12px;text-align:center}
-.page{display:none;padding:12px}.show{display:block}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff;box-sizing:border-box}
+*{box-sizing:border-box}
+body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:90px}
+header{background:#7b1fa2;padding:12px;text-align:center;position:relative;z-index:1}
+.page{display:none;padding:12px;min-height:300px}.show{display:block}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff}
 .btn{width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;margin:6px 0;background:#7b1fa2;color:#fff}
 .btnG{background:#1db954}.btnR{background:#ff3b30}.btnY{background:#FFC107;color:#000}.btnB{background:#2196F3}.btnP{background:#E91E63}.btnOrange{background:#FF9800}.btnWA{background:#25D366;color:#000}
 .card{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
@@ -14,10 +15,11 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;bor
 .pend{background:#FF9800;color:#000}.appr{background:#1db954}.reje{background:#ff3b30}
 .pPic{width:130px;height:130px;border-radius:50%;object-fit:cover;border:4px solid #7b1fa2;display:block;margin:0 auto}
 .cPic{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto}
-.bottomnav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #7b1fa2;display:flex;z-index:9999;height:68px}
-.bottomnav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:9px;font-weight:bold}
+/* BOTTOM BARS - ALWAYS VISIBLE */
+.bottomnav{position:fixed!important;bottom:0!important;left:0!important;right:0!important;background:#1a1a1a!important;border-top:4px solid #7b1fa2!important;display:flex!important;z-index:99999!important;height:72px!important;width:100%!important}
+.bottomnav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 1px;font-size:10px;font-weight:bold;cursor:pointer}
 .bottomnav button.on{color:#fff;background:#7b1fa2}
-#adminPlayer{position:fixed;bottom:68px;left:0;right:0;background:#222;padding:8px;border-top:3px solid #7b1fa2;z-index:9998;display:none}
+#adminPlayer{position:fixed;bottom:72px;left:0;right:0;background:#222;padding:8px;border-top:3px solid #7b1fa2;z-index:9998;display:none}
 #adminPlayer audio{width:100%}
 .earnBox{border-left:6px solid #7b1fa2}
 .small{font-size:13px;color:#ccc}
@@ -38,26 +40,26 @@ var subs=[]; var pic=''; var cover=''; var audio=''; var audioName='';
 var earn={downloads:0,streams:0,per:{},votes:0,shoutouts:0,vip:0,bookings:0,promoUntil:'',promoSong:'',bookingList:[],shoutList:[],vipList:[],voteList:[]};
 var chatMsgs=[];
 try{ var savedChat=localStorage.getItem('vixxon_chat'); if(savedChat) chatMsgs=JSON.parse(savedChat); }catch(e){ chatMsgs=[]; }
-if(chatMsgs.length==0){ chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat! 🎤 Talk to other artists, share tips, collab, promote each other!',time:'Now',me:false}]; }
-function go(id){ var p=document.querySelectorAll('.page'); for(var i=0;i<p.length;i++) p[i].classList.remove('show'); document.getElementById('page-'+id).classList.add('show'); var b=document.querySelectorAll('.bottomnav button'); for(var j=0;j<b.length;j++) b[j].classList.remove('on'); var btn=document.getElementById('btn-'+id); if(btn) btn.classList.add('on'); window.scrollTo(0,0); if(id=='mysongs') showMy(); if(id=='admin') showAdmin(); if(id=='earnings') showEarn(); if(id=='chat') showChat(); }
+if(chatMsgs.length==0){ chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat! Talk to other artists, share tips, collab!',time:'Now',me:false}]; }
+function go(id){ var p=document.querySelectorAll('.page'); for(var i=0;i<p.length;i++) p[i].classList.remove('show'); var pg=document.getElementById('page-'+id); if(pg) pg.classList.add('show'); var b=document.querySelectorAll('.bottomnav button'); for(var j=0;j<b.length;j++) b[j].classList.remove('on'); var btn=document.getElementById('btn-'+id); if(btn) btn.classList.add('on'); window.scrollTo(0,0); if(id=='mysongs') showMy(); if(id=='admin') showAdmin(); if(id=='earnings') showEarn(); if(id=='chat') showChat(); }
 function openPicPicker(){ document.getElementById('artistPicFile').click(); }
 function pickPic(el){ var f=el.files[0]; if(!f) return; pic=URL.createObjectURL(f); document.getElementById('myPic').src=pic; document.getElementById('picMsg').innerHTML='✅ Photo chosen: '+f.name; }
 function saveArtistProfile(){ var name=document.getElementById('aName').value.trim()||'Your Name'; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||'Your City'; document.getElementById('showArtistName').innerHTML=name; document.getElementById('showArtistInfo').innerHTML=city+', '+country; document.getElementById('profSaveMsg').innerHTML='✅ PROFILE SAVED!'; alert('✅ Profile Saved!'); }
 function pickCover(el){ var f=el.files[0]; if(!f) return; cover=URL.createObjectURL(f); var img=document.getElementById('coverPrev'); img.src=cover; img.style.display='block'; }
 function pickAudio(el){ var f=el.files[0]; if(!f) return; audio=URL.createObjectURL(f); audioName=f.name; document.getElementById('audioMsg').innerHTML='✅ MP3 OK: '+f.name; var t=document.getElementById('t'); if(t && !t.value) t.value=f.name.replace('.mp3',''); }
-function submitSong(){ var name=document.getElementById('aName').value.trim()||'Unknown Artist'; var wa=document.getElementById('aWa').value.trim()||''; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||''; var momo=document.getElementById('aMomo').value.trim()||wa; var t=document.getElementById('t').value.trim()||audioName||'Untitled'; var g=document.getElementById('g').value; if(!audio){ alert('❌ Choose MP3 first'); return; } var now=new Date(); var deadline=new Date(now.getTime()+24*60*60*1000); var s={title:t,artist:name,genre:g,cover:cover||'https://via.placeholder.com/150',audio:audio,wa:wa,momo:momo,country:country,city:city,pic:pic,status:'PENDING',submitted:now.toLocaleString(),deadline:deadline.toLocaleString(),reason:''}; subs.unshift(s); var msg='🎤 NEW SUBMISSION\nArtist: '+name+'\nSong: '+t+'\nWhatsApp: '+wa+'\nMoMo: '+momo; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ SUBMITTED! PENDING'); go('mysongs'); }
+function submitSong(){ var name=document.getElementById('aName').value.trim()||'Unknown Artist'; var wa=document.getElementById('aWa').value.trim()||''; var country=document.getElementById('aCountry').value; var city=document.getElementById('aCity').value.trim()||''; var momo=document.getElementById('aMomo').value.trim()||wa; var t=document.getElementById('t').value.trim()||audioName||'Untitled'; var g=document.getElementById('g').value; if(!audio){ alert('❌ Choose MP3 first'); return; } var s={title:t,artist:name,genre:g,cover:cover||'https://via.placeholder.com/150',audio:audio,wa:wa,momo:momo,country:country,city:city,pic:pic,status:'PENDING',submitted:new Date().toLocaleString(),deadline:'',reason:''}; subs.unshift(s); var msg='🎤 NEW SUBMISSION\nArtist: '+name+'\nSong: '+t+'\nWhatsApp: '+wa+'\nMoMo: '+momo; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ SUBMITTED! PENDING'); go('mysongs'); }
 function showMy(){ var h=''; for(var i=0;i<subs.length;i++){ var s=subs[i]; var badge=s.status=='PENDING'?'<span class="badge pend">⏳ PENDING</span>':s.status=='APPROVED'?'<span class="badge appr">✅ APPROVED</span>':'<span class="badge reje">❌ REJECTED</span>'; h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>'+badge+'<br><button class="btn btnP" onclick="promoteSong(\''+s.title.replace(/'/g,'')+'\')">🚀 PROMOTE THIS SONG - 5,000 / MONTH</button></div>'; } document.getElementById('myList').innerHTML=h||'<p>No songs yet. Go to Upload to add your first song.</p>'; }
 function showAdmin(){ var h=''; for(var i=0;i<subs.length;i++){ var s=subs[i]; h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>WhatsApp: '+s.wa+' | MoMo: '+s.momo+'<br>Status: <b>'+s.status+'</b><br><button class="btn btnG" onclick="approve('+i+')">✅ APPROVE</button><button class="btn btnR" onclick="reject('+i+')">❌ REJECT</button><button class="btn btnB" onclick="listenSong('+i+')">▶ LISTEN</button></div>'; } document.getElementById('adminList').innerHTML=h||'<p>No submissions yet.</p>'; }
 function approve(i){ subs[i].status='APPROVED'; alert('✅ APPROVED - LIVE!'); showAdmin(); showMy(); showEarn(); }
 function reject(i){ var r=prompt('Why reject?'); if(r===null) return; subs[i].status='REJECTED'; subs[i].reason=r; showAdmin(); showMy(); }
 function listenSong(i){ var s=subs[i]; document.getElementById('adminPlayer').style.display='block'; document.getElementById('adminAudio').src=s.audio; document.getElementById('adminAudio').play(); earn.streams++; showEarn(); }
 function openAdmin(){ var pw=prompt('Admin Password:'); if(pw=='vixxon123'){ go('admin'); showAdmin(); } else if(pw!==null){ alert('Wrong password'); } }
-function promoteSong(title){ var name=document.getElementById('aName').value.trim()||'Artist'; var d=new Date(Date.now()+30*24*60*60*1000); earn.promoUntil=d.toLocaleDateString(); earn.promoSong=title; var msg='🚀 PROMOTION REQUEST - 1 MONTH\n\nArtist: '+name+'\nSong: '+title+'\nPrice: UGX 5,000 for 30 days\nI will send 5,000 MoMo to 256705570948 now. Please activate promotion until '+earn.promoUntil; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🚀 PROMOTION REQUESTED!\nSend UGX 5,000 MoMo to 256705570948'); showEarn(); }
+function promoteSong(title){ var name=document.getElementById('aName').value.trim()||'Artist'; var d=new Date(Date.now()+30*24*60*60*1000); earn.promoUntil=d.toLocaleDateString(); earn.promoSong=title; var msg='🚀 PROMOTION REQUEST - 1 MONTH\n\nArtist: '+name+'\nSong: '+title+'\nPrice: UGX 5,000 for 30 days\nI will send 5,000 MoMo to 256705570948 now. Please activate promotion until '+earn.promoUntil; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🚀 PROMOTION REQUESTED!'); showEarn(); }
 function requestBooking(){ var name=document.getElementById('aName').value.trim()||'Artist'; var type=prompt('What event? Wedding / Church / Club / Birthday?'); if(!type) return; var date=prompt('What date is the show?'); if(!date) return; var price=prompt('Your booking price? e.g. 200000'); if(!price) return; price=parseInt(price); var artistShare=Math.round(price*0.9); var vixxonShare=Math.round(price*0.1); earn.bookings++; earn.bookingList.unshift({event:type,date:date,price:price,artist:artistShare,vixxon:vixxonShare}); var msg='📞 BOOKING REQUEST\n\nArtist: '+name+'\nEvent: '+type+'\nDate: '+date+'\nPrice: UGX '+price+'\nArtist Gets (90%): UGX '+artistShare+'\nVixxon Gets (10%): UGX '+vixxonShare; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('📞 BOOKING ADDED! You get 90%: '+artistShare); showEarn(); }
-function requestShoutout(){ var name=document.getElementById('aName').value.trim()||'Artist'; var forWho=prompt('Shoutout for who? e.g. Happy Birthday Sarah'); if(!forWho) return; earn.shoutouts++; earn.shoutList.unshift({for:forWho,artist:4500,vixxon:500}); var msg='🎤 SHOUTOUT REQUEST - UGX 5,000\n\nArtist: '+name+'\nMessage: '+forWho+'\nPrice: UGX 5,000\nArtist Gets (90%): UGX 4,500\nVixxon Gets (10%): UGX 500\nI will send 5,000 MoMo to 256705570948 now.'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🎤 SHOUTOUT ADDED! You get 4,500 (90%)'); showEarn(); }
-function joinVIP(){ var name=document.getElementById('aName').value.trim()||'Artist'; var fan=prompt('Fan name for VIP? e.g. Sarah'); if(!fan) fan='Fan'; earn.vip++; earn.vipList.unshift({fan:fan,artist:1500,vixxon:500}); var msg='⭐ VIP FAN CLUB JOIN - UGX 2,000 / MONTH\n\nArtist: '+name+'\nFan: '+fan+'\nPrice: UGX 2,000 per month\nArtist Gets (75%): UGX 1,500\nVixxon Gets (25%): UGX 500\nI will send 2,000 MoMo to 256705570948 now.'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('⭐ VIP ADDED! You get 1,500 (75%) every month'); showEarn(); }
-function voteArtist(){ var name=document.getElementById('aName').value.trim()||'Artist'; var votes=prompt('How many votes? 1 vote = UGX 100. e.g. type 10 for 10 votes = 1,000'); if(!votes) return; votes=parseInt(votes); var total=votes*100; earn.votes+=votes; earn.voteList.unshift({votes:votes,total:total}); var msg='🗳️ VOTE FOR '+name+'\n\nVotes: '+votes+'\nTotal Paid: UGX '+total+' via MoMo\nI will send '+total+' MoMo to 256705570948 now.'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🗳️ '+votes+' VOTES ADDED! Total: UGX '+total); showEarn(); }
-function fakeDownload(title){ earn.downloads++; earn.per[title]=(earn.per[title]||0)+1; alert('💳 Fan paid UGX 100 MoMo!\nArtist gets 50\nVixxon gets 50'); showEarn(); }
+function requestShoutout(){ var name=document.getElementById('aName').value.trim()||'Artist'; var forWho=prompt('Shoutout for who? e.g. Happy Birthday Sarah'); if(!forWho) return; earn.shoutouts++; earn.shoutList.unshift({for:forWho,artist:4500,vixxon:500}); var msg='🎤 SHOUTOUT REQUEST - UGX 5,000\n\nArtist: '+name+'\nMessage: '+forWho+'\nPrice: UGX 5,000\nArtist Gets (90%): UGX 4,500\nVixxon Gets (10%): UGX 500'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🎤 SHOUTOUT ADDED! You get 4,500 (90%)'); showEarn(); }
+function joinVIP(){ var name=document.getElementById('aName').value.trim()||'Artist'; var fan=prompt('Fan name for VIP? e.g. Sarah'); if(!fan) fan='Fan'; earn.vip++; earn.vipList.unshift({fan:fan,artist:1500,vixxon:500}); var msg='⭐ VIP FAN CLUB JOIN - UGX 2,000 / MONTH\n\nArtist: '+name+'\nFan: '+fan+'\nPrice: UGX 2,000 per month\nArtist Gets (75%): UGX 1,500\nVixxon Gets (25%): UGX 500'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('⭐ VIP ADDED! You get 1,500 (75%) every month'); showEarn(); }
+function voteArtist(){ var name=document.getElementById('aName').value.trim()||'Artist'; var votes=prompt('How many votes? 1 vote = UGX 100. e.g. type 10 for 10 votes = 1,000'); if(!votes) return; votes=parseInt(votes); var total=votes*100; earn.votes+=votes; earn.voteList.unshift({votes:votes,total:total}); var msg='🗳️ VOTE FOR '+name+'\n\nVotes: '+votes+'\nTotal Paid: UGX '+total+' via MoMo'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('🗳️ '+votes+' VOTES ADDED! Total: UGX '+total); showEarn(); }
+function fakeDownload(title){ earn.downloads++; earn.per[title]=(earn.per[title]||0)+1; alert('💳 Fan paid UGX 100 MoMo! Artist gets 50'); showEarn(); }
 function getTotals(){ var dlMoney=earn.downloads*50; var shoutMoney=earn.shoutouts*4500; var vipMoney=earn.vip*1500; var voteMoney=Math.round(earn.votes*100*0.5); var bookMoney=0; for(var i=0;i<earn.bookingList.length;i++) bookMoney+=earn.bookingList[i].artist; var totalArtist=dlMoney+shoutMoney+vipMoney+voteMoney+bookMoney; var vixxonDl=earn.downloads*50; var vixxonShout=earn.shoutouts*500; var vixxonVip=earn.vip*500; var vixxonVote=Math.round(earn.votes*100*0.5); var vixxonBook=0; for(var j=0;j<earn.bookingList.length;j++) vixxonBook+=earn.bookingList[j].vixxon; var totalVixxon=vixxonDl+vixxonShout+vixxonVip+vixxonVote+vixxonBook; return {dl:dlMoney,shout:shoutMoney,vip:vipMoney,vote:voteMoney,book:bookMoney,total:totalArtist,vixxon:totalVixxon}; }
 function showEarn(){
   var t=getTotals();
@@ -70,7 +72,7 @@ function showEarn(){
   document.getElementById('voteCount').innerHTML=earn.votes+' Votes';
   document.getElementById('vipCount').innerHTML=earn.vip+' VIP Fans';
   document.getElementById('shoutCount').innerHTML=earn.shoutouts+' Shoutouts';
-  document.getElementById('promoStruct').innerHTML = earn.promoUntil ? '✅ <b>ACTIVE</b><br>Song: '+earn.promoSong+'<br>Until: '+earn.promoUntil : '❌ Not Active<br><span class="small">Pay 5,000 to promote for 30 days</span>';
+  document.getElementById('promoStruct').innerHTML = earn.promoUntil ? '✅ <b>ACTIVE</b><br>Song: '+earn.promoSong+'<br>Until: '+earn.promoUntil : '❌ Not Active';
   var bh=''; for(var b=0;b<earn.bookingList.length;b++){ var bk=earn.bookingList[b]; bh+='• '+bk.event+' - '+bk.date+' - Price '+bk.price+' → You: '+bk.artist+' | Vixxon: '+bk.vixxon+'<br>'; }
   document.getElementById('bookingStruct').innerHTML = bh || 'No bookings yet.';
   document.getElementById('bookingTotal').innerHTML = 'Your Booking Earnings: UGX '+t.book.toLocaleString()+' ('+earn.bookings+' bookings)';
@@ -89,10 +91,9 @@ function requestPayout(){
   var t=getTotals();
   if(t.total<1000){ alert('❌ Need at least UGX 1,000 to request payout.\nYou have UGX '+t.total); return; }
   var payBy=new Date(Date.now()+7*24*60*60*1000);
-  var msg='💸 VIXXON WEEKLY PAYOUT\n\nArtist: '+name+'\nTotal: UGX '+t.total+'\n- Downloads: UGX '+t.dl+'\n- Shoutouts: UGX '+t.shout+'\n- VIP: UGX '+t.vip+'\n- Votes Share: UGX '+t.vote+'\n- Bookings: UGX '+t.book+'\nMoMo: '+momo+'\nPay within 7 days by '+payBy.toLocaleDateString();
-  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ PAYOUT REQUESTED: UGX '+t.total+'\nPaid within 7 days'); showEarn();
+  var msg='💸 VIXXON WEEKLY PAYOUT\n\nArtist: '+name+'\nTotal: UGX '+t.total+'\nMoMo: '+momo+'\nPay within 7 days by '+payBy.toLocaleDateString();
+  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ PAYOUT REQUESTED: UGX '+t.total); showEarn();
 }
-// --- ARTIST CHAT ---
 function showChat(){
   var h='';
   for(var i=0;i<chatMsgs.length;i++){ var m=chatMsgs[i]; var cls=m.me?'msg me':'msg'; h+='<div class="'+cls+'"><span class="msgName">'+m.name+'</span><br>'+m.text+'<br><span class="msgTime">'+m.time+'</span></div>'; }
@@ -111,20 +112,9 @@ function sendChat(){
   input.value=''; showChat();
 }
 function sendChatQuick(txt){ document.getElementById('chatInput').value=txt; sendChat(); }
-function clearChat(){ if(confirm('Clear chat history on this phone?')){ chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat! 🎤 Talk to other artists, share tips, collab, promote each other!',time:'Now',me:false}]; try{ localStorage.setItem('vixxon_chat',JSON.stringify(chatMsgs)); }catch(e){} showChat(); } }
-function joinWhatsAppGroup(){
-  var name=document.getElementById('aName').value.trim()||'Artist';
-  var msg='Hi Vixxon! I want to join Vixxon Artists WhatsApp Group.\n\nMy Artist Name: '+name;
-  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank');
-  alert('✅ Request sent! I will add you to the Vixxon Artists WhatsApp Group.');
-}
-function chatWithArtist(){
-  var artist=prompt('Which artist do you want to chat with? Type their name:');
-  if(!artist) return;
-  var name=document.getElementById('aName').value.trim()||'Artist';
-  var msg='Hi '+artist+'! I am '+name+' from Vixxon. I saw you on Vixxon Artist Chat. Can we collab / talk? 🎤';
-  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank');
-}
+function clearChat(){ if(confirm('Clear chat history on this phone?')){ chatMsgs=[{name:'Vixxon Team',text:'Welcome to Vixxon Artist Chat!',time:'Now',me:false}]; try{ localStorage.setItem('vixxon_chat',JSON.stringify(chatMsgs)); }catch(e){} showChat(); } }
+function joinWhatsAppGroup(){ var name=document.getElementById('aName').value.trim()||'Artist'; var msg='Hi Vixxon! I want to join Vixxon Artists WhatsApp Group.\n\nMy Artist Name: '+name; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); alert('✅ Request sent! I will add you to the WhatsApp Group.'); }
+function chatWithArtist(){ var artist=prompt('Which artist do you want to chat with? Type their name:'); if(!artist) return; var name=document.getElementById('aName').value.trim()||'Artist'; var msg='Hi '+artist+'! I am '+name+' from Vixxon. Can we collab? 🎤'; window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank'); }
 </script>
 </head>
 <body>
@@ -139,4 +129,5 @@ function chatWithArtist(){
 
 <div id="page-upload" class="page"><h2>⬆️ Upload Song</h2><div class="box"><input id="t" placeholder="Song Title"><select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>Other</option></select><input type="file" accept="image/*" onchange="pickCover(this)"><img id="coverPrev" class="cPic"><input type="file" accept="audio/*" onchange="pickAudio(this)"><p id="audioMsg" style="color:#1db954"></p><button class="btn btnG" onclick="submitSong()">✅ SUBMIT FOR REVIEW (24h)</button></div></div>
 
-<d
+<div id="page-mysongs" class="page"><h2>🎵 My Music</h2><div id="myList"><p>No songs yet.</p></div><div class="box"><h3>🚀 Promotion - UGX 5,000 / 1 Month</h3><p>Pay 5,000 once, promoted for 30 days. Tap PROMOTE on your song above.</p></div>
+<div class="box" style="background:#E91E63;text-align:center"><h3>🎤 SHOUTOUT - UGX 5,000</h3><p>You get 4,500 (90%)</p><button class="btn btnY" onclick="requestShoutout()">🎤 REQUEST SHOUTOUT</button><p id="shoutCou
