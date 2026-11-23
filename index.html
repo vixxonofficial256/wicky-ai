@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON V34.2 - TOP + BOTTOM NAV</title>
-<style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:190px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center;cursor:pointer}.card img{width:65px;height:65px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.topnav{background:#1a1a1a;display:flex;flex-wrap:wrap;gap:5px;padding:8px;position:sticky;top:0;z-index:9997;border-bottom:3px solid #ff3b30}.topnav button{flex:1;min-width:70px;border:0;border-radius:8px;padding:10px 4px;font-size:12px;font-weight:bold;background:#333;color:#aaa}.topnav button.active{background:#ff3b30;color:#fff}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:4px solid #ff3b30;display:flex;z-index:9999;height:70px;padding-bottom:env(safe-area-inset-bottom)}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:8px 2px;font-size:12px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}#coverPrev{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto;border:3px solid #1db954}#player{position:fixed;bottom:70px;left:0;right:0;background:#1e1e1e;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}#player img{width:55px;height:55px;border-radius:8px;object-fit:cover}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.status{padding:12px;border-radius:8px;margin:8px 0;font-size:14px;font-weight:bold}.tagUp{background:#ff3b30;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.tagNet{background:#2196F3;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}</style>
+<title>VIXXON V34.3 - SONG OPENS</title>
+<style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:190px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center;cursor:pointer}.card img{width:65px;height:65px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.topnav{background:#1a1a1a;display:flex;flex-wrap:wrap;gap:5px;padding:8px;position:sticky;top:0;z-index:9997;border-bottom:3px solid #ff3b30}.topnav button{flex:1;min-width:70px;border:0;border-radius:8px;padding:10px 4px;font-size:12px;font-weight:bold;background:#333;color:#aaa}.topnav button.active{background:#ff3b30;color:#fff}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:4px solid #ff3b30;display:flex;z-index:9999;height:70px}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:8px 2px;font-size:12px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}#coverPrev{width:180px;height:180px;border-radius:10px;object-fit:cover;display:none;margin:10px auto;border:3px solid #1db954}#player{position:fixed;bottom:70px;left:0;right:0;background:#222;padding:10px;display:block;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}#player img{width:55px;height:55px;border-radius:8px;object-fit:cover}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.status{padding:12px;border-radius:8px;margin:8px 0;font-size:14px;font-weight:bold}.tagUp{background:#ff3b30;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.tagNet{background:#2196F3;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}#songOpen{position:fixed;top:0;left:0;right:0;bottom:0;background:#111;z-index:10000;display:none;overflow-y:auto;padding:12px;padding-bottom:90px}#songOpen img{width:260px;height:260px;border-radius:15px;object-fit:cover;display:block;margin:15px auto;border:4px solid #ff3b30}.bigFile{display:block;background:#ff3b30;color:#fff;text-align:center;padding:18px;border-radius:12px;font-weight:bold;font-size:18px;margin:8px 0;cursor:pointer}.bigFile input{display:none}.bigFile2{display:block;background:#2196F3;color:#fff;text-align:center;padding:18px;border-radius:12px;font-weight:bold;font-size:18px;margin:8px 0;cursor:pointer}.bigFile2 input{display:none}</style>
 <script>
 var pickedCover=''; var pickedAudio=''; var pickedAudioName='';
-var mine=[]; var saved=[]; var earn={streams:0,downloads:0,dlPer:{}}; var list=[]; var netList=[]; var mode='local'; var curFilter='ALL';
+var mine=[]; var saved=[]; var earn={streams:0,downloads:0,dlPer:{}}; var list=[]; var netList=[]; var mode='local'; var curFilter='ALL'; var openSong=null; var openFrom='';
 function go(p){
+  document.getElementById('songOpen').style.display='none';
   var pages=['home','search','library','upload','earnings','profile','admin'];
   for(var i=0;i<pages.length;i++){var el=document.getElementById('page-'+pages[i]); if(el) el.style.display='none';}
   var t=document.getElementById('page-'+p); if(t) t.style.display='block';
   var navs=['home','search','library','upload','earnings','profile'];
-  for(var j=0;j<navs.length;j++){
-    var b=document.getElementById('nav-'+navs[j]); if(b) b.className=(navs[j]==p?'active':'');
-    var tb=document.getElementById('top-'+navs[j]); if(tb) tb.className=(navs[j]==p?'active':'');
-  }
+  for(var j=0;j<navs.length;j++){ var b=document.getElementById('nav-'+navs[j]); if(b) b.className=(navs[j]==p?'active':''); var tb=document.getElementById('top-'+navs[j]); if(tb) tb.className=(navs[j]==p?'active':''); }
   window.scrollTo(0,0);
   try{ if(p=='upload') showMine(); }catch(e){}
   try{ if(p=='earnings') showEarn(); }catch(e){}
@@ -22,21 +20,40 @@ function go(p){
   try{ if(p=='admin') showAdmin(); }catch(e){}
   try{ if(p=='library') showLib(); }catch(e){}
 }
-function pickCover(input){ var f=input.files[0]; if(!f) return; var url=URL.createObjectURL(f); pickedCover=url; var img=document.getElementById('coverPrev'); img.src=url; img.style.display='block'; document.getElementById('coverMsg').innerHTML='✅ COVER: '+f.name; var cs=document.getElementById('coverStatus'); cs.innerHTML='✅ Cover loaded!'; cs.style.background='#1db954'; }
-function pickAudio(input){ var f=input.files[0]; if(!f) return; pickedAudio=URL.createObjectURL(f); pickedAudioName=f.name; document.getElementById('audioMsg').innerHTML='✅ AUDIO: '+f.name; var as=document.getElementById('audioStatus'); as.innerHTML='✅ Song ready! Press PUBLISH.'; as.style.background='#1db954'; var tEl=document.getElementById('t'); if(tEl && !tEl.value){ tEl.value=f.name.replace('.mp3','').replace('.MP3','').trim(); } }
-function playSong(i,from){
+function pickCover(input){ var f=input.files[0]; if(!f) return; var url=URL.createObjectURL(f); pickedCover=url; var img=document.getElementById('coverPrev'); img.src=url; img.style.display='block'; document.getElementById('coverMsg').innerHTML='✅ COVER CHOSEN: '+f.name; var cs=document.getElementById('coverStatus'); cs.innerHTML='✅ Cover loaded! Photo above is your cover.'; cs.style.background='#1db954'; }
+function pickAudio(input){ var f=input.files[0]; if(!f) return; pickedAudio=URL.createObjectURL(f); pickedAudioName=f.name; document.getElementById('audioMsg').innerHTML='✅ AUDIO CHOSEN: '+f.name; var as=document.getElementById('audioStatus'); as.innerHTML='✅ Song ready! Press PUBLISH.'; as.style.background='#1db954'; var tEl=document.getElementById('t'); if(tEl && !tEl.value){ tEl.value=f.name.replace('.mp3','').replace('.MP3','').trim(); } }
+// *** TAP SONG = OPEN FULL SCREEN SONG PAGE ***
+function openSongPage(i,from){
   var s = from=='net' ? netList[i] : from=='lib' ? saved[i] : mine[i];
-  if(!s || !s.audio){ alert('No audio'); return; }
-  var au=document.getElementById('au'); au.pause(); au.src=s.audio; au.currentTime=0;
-  document.getElementById('player').style.display='block';
-  document.getElementById('pt').innerText=s.title;
-  document.getElementById('pa').innerText=s.artist+' • '+(s.city||'')+' '+(s.country||'');
-  document.getElementById('pImg').src=s.cover||'https://via.placeholder.com/55';
-  document.getElementById('pStatus').innerText = from=='net' ? '🌍 INTERNET - 30 sec preview' : '⬆️ UPLOADED - Vixxon Artist';
-  au.play(); earn.streams++; try{showEarn();}catch(e){}
+  if(!s){ alert('Song not found'); return; }
+  openSong=s; openFrom=from;
+  document.getElementById('songOpen').style.display='block';
+  document.getElementById('soImg').src=s.cover||'https://via.placeholder.com/260';
+  document.getElementById('soTitle').innerText=s.title;
+  document.getElementById('soArtist').innerText=s.artist+' • '+(s.city||'')+' '+(s.country||'')+' • '+(s.genre||'Music');
+  document.getElementById('soTag').innerHTML = from=='net' ? '🌍 INTERNET - 30 sec preview' : '⬆️ UPLOADED - Vixxon Artist';
+  document.getElementById('soStatus').innerText='👆 Tap ▶ PLAY below to sing / listen';
+  document.getElementById('soPlayBtn').innerText='▶ PLAY '+s.title;
+  window.scrollTo(0,0);
 }
-function togglePlay(){ var au=document.getElementById('au'); if(au.paused){au.play(); document.getElementById('pStatus').innerText='▶ Now Playing';} else {au.pause(); document.getElementById('pStatus').innerText='⏸ Paused';} }
-function closePlayer(){ var au=document.getElementById('au'); au.pause(); au.src=''; document.getElementById('player').style.display='none'; }
+function closeSongPage(){ document.getElementById('songOpen').style.display='none'; }
+function playOpenSong(){
+  if(!openSong || !openSong.audio){ alert('No audio for this song. Internet needs WiFi. Uploaded needs re-upload after refresh.'); return; }
+  var au=document.getElementById('au'); au.pause(); au.src=openSong.audio; au.currentTime=0;
+  document.getElementById('player').style.display='block';
+  document.getElementById('pt').innerText=openSong.title;
+  document.getElementById('pa').innerText=openSong.artist;
+  document.getElementById('pImg').src=openSong.cover||'https://via.placeholder.com/55';
+  document.getElementById('pStatus').innerText='▶ Now Playing: '+openSong.title;
+  document.getElementById('soStatus').innerText='▶ NOW PLAYING - Listen! Tap ⏸ to pause';
+  document.getElementById('soPlayBtn').innerText='⏸ PAUSE';
+  au.play();
+  earn.streams++; try{showEarn();}catch(e){}
+  // If already playing, pause
+  if(document.getElementById('soPlayBtn').innerText=='⏸ PAUSE' && !au.paused){ /* playing */ }
+}
+function togglePlay(){ var au=document.getElementById('au'); if(au.paused){au.play(); document.getElementById('pStatus').innerText='▶ Now Playing'; document.getElementById('soStatus').innerText='▶ NOW PLAYING';} else {au.pause(); document.getElementById('pStatus').innerText='⏸ Paused'; document.getElementById('soStatus').innerText='⏸ Paused - Tap PLAY to continue';} }
+function closePlayer(){ var au=document.getElementById('au'); au.pause(); au.src=''; document.getElementById('pStatus').innerText='Tap a song to play'; }
 function up(){
   var st=document.getElementById('upStatus'); st.style.background='#FF9800'; st.innerHTML='⏳ Publishing...';
   setTimeout(function(){
@@ -44,7 +61,7 @@ function up(){
       var t=document.getElementById('t').value.trim(); var a=document.getElementById('a').value.trim(); var country=document.getElementById('country').value; var city=document.getElementById('city').value.trim(); var wa=document.getElementById('wa').value.trim(); var m=document.getElementById('momo').value.trim(); var g=document.getElementById('g').value;
       if(!t && pickedAudioName){ t=pickedAudioName.replace('.mp3','').replace('.MP3','').trim(); }
       if(!t) t='How I Feel'; if(!a) a='Vixxon Kalema'; if(!city) city='BUGIRI'; if(!wa) wa='256705570948'; if(!m) m=wa;
-      if(!pickedAudio){ st.style.background='#ff3b30'; st.innerHTML='❌ No MP3! Choose MP3 first'; return; }
+      if(!pickedAudio){ st.style.background='#ff3b30'; st.innerHTML='❌ No MP3! Tap BLUE button below to choose MP3 first'; return; }
       var cover=pickedCover||'https://via.placeholder.com/150/ff3b30/fff?text='+encodeURIComponent(t.charAt(0));
       var newSong={title:t,artist:a,genre:g,cover:cover,audio:pickedAudio,audioName:pickedAudioName,wa:wa,momo:m,country:country,city:city,isUploaded:true};
       mine.unshift(newSong);
@@ -66,10 +83,10 @@ function cardUploaded(s,i,from){
   var dl=(earn.dlPer[s.title+' - '+s.artist]||0);
   var saveBtn = from=='lib' ? '' : '<button class="mini dark" onclick="event.stopPropagation();saveUploaded('+i+')">❤️ Save</button>';
   var bookBtn = s.wa ? '<button class="mini gold" onclick="event.stopPropagation();bookArtist(\''+s.wa+'\')">📞 Book</button>' : '';
-  return '<div class="card" onclick="playSong('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>'+s.title+'</b> <span class="badge">⬇ '+dl+'</span><br><small>'+flagFor(s.country||'')+' '+s.artist+' • '+(s.city||'')+', '+(s.country||'')+' • '+(s.genre||'Music')+'</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\''+from+'\')">▶ Play</button>'+saveBtn+bookBtn+'<button class="mini green" onclick="event.stopPropagation();downloadSong('+i+',\''+from+'\')">⬇ Download</button></div></div>';
+  return '<div class="card" onclick="openSongPage('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>👆 TAP TO OPEN - '+s.title+'</b> <span class="badge">⬇ '+dl+'</span><br><small>'+flagFor(s.country||'')+' '+s.artist+' • '+(s.city||'')+', '+(s.country||'')+'</small><br><button class="mini red" onclick="event.stopPropagation();openSongPage('+i+',\''+from+'\')">👆 OPEN SONG</button>'+saveBtn+bookBtn+'<button class="mini green" onclick="event.stopPropagation();downloadSong('+i+',\''+from+'\')">⬇ Download</button></div></div>';
 }
 function cardInternet(s,i){
-  return '<div class="card" onclick="playSong('+i+',\'net\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagNet">🌍 INTERNET</span> <b>'+s.title+'</b><br><small>'+s.artist+' • '+s.genre+' • 30-sec preview</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\'net\')">▶ Play Preview</button></div></div>';
+  return '<div class="card" onclick="openSongPage('+i+',\'net\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagNet">🌍 INTERNET</span> <b>👆 TAP TO OPEN - '+s.title+'</b><br><small>'+s.artist+' • '+s.genre+' • 30-sec preview</small><br><button class="mini red" onclick="event.stopPropagation();openSongPage('+i+',\'net\')">👆 OPEN SONG</button></div></div>';
 }
 function renderAll(){
   var q=document.getElementById('q'); var qv=q?q.value.toLowerCase():'';
@@ -89,7 +106,7 @@ function saveUploaded(i){
 }
 function showLib(){
   var h=''; for(var i=0;i<saved.length;i++){ h+=cardUploaded(saved[i],i,'lib'); }
-  var el=document.getElementById('libList'); if(el) el.innerHTML=h||'<p>No saved yet.</p>';
+  var el=document.getElementById('libList'); if(el) el.innerHTML=h||'<p>No saved yet. Upload or Save a song.</p>';
   var c=document.getElementById('libCount'); if(c) c.innerHTML='Library: '+saved.length+' songs saved for later';
 }
 function clearLib(){ saved=[]; showLib(); }
@@ -117,7 +134,7 @@ function doNetSearch(){
     netList=netList.concat(arr); found=1;
     var h=''; for(var i=0;i<netList.length;i++){ h+=cardInternet(netList[i],i); }
     document.getElementById('netList').innerHTML=h;
-    st.style.background='#1db954'; st.innerHTML='✅ Found '+netList.length+' internet songs from '+from+' - Tap to play';
+    st.style.background='#1db954'; st.innerHTML='✅ Found '+netList.length+' internet songs from '+from+' - 👆 TAP ANY SONG TO OPEN IT';
   }
   fetch('https://itunes.apple.com/search?term='+encodeURIComponent(q)+'&media=music&limit=15').then(function(r){return r.json()}).then(function(d){
     var arr=(d.results||[]).map(function(x){return{title:x.trackName,artist:x.artistName,genre:x.primaryGenreName||'Music',cover:x.artworkUrl100,audio:x.previewUrl,wa:'',country:'World',city:'World'}});
@@ -134,9 +151,7 @@ function quickSearch(name){ document.getElementById('qNet').value=name; doNetSea
 </script>
 </head>
 <body>
-<header><h1>🌍 VIXXON MUSIC</h1><p>V34.2 - V34 + Internet + Top Nav</p></header>
-
-<!-- TOP NAV - ALWAYS VISIBLE, EVEN IF BOTTOM IS HIDDEN BY CHROME -->
+<header><h1>🌍 VIXXON MUSIC</h1><p>V34.3 - Tap Song To Open Full Page</p></header>
 <div class="topnav">
 <button id="top-home" class="active" onclick="go('home')">🏠 Home</button>
 <button id="top-search" onclick="go('search')">🔍 Search</button>
@@ -147,45 +162,24 @@ function quickSearch(name){ document.getElementById('qNet').value=name; doNetSea
 </div>
 
 <div id="page-home" class="page">
-<div class="box" style="background:linear-gradient(135deg,#ff3b30,#FF9800);text-align:center"><h3>🌍 ARTISTS FROM ALL OVER THE WORLD</h3><p style="font-size:13px">👆 TAP ANY SONG TO PLAY - Only one plays at a time</p><button class="btn gold" onclick="go('upload')">UPLOAD YOUR SONG →</button></div>
+<div class="box" style="background:linear-gradient(135deg,#ff3b30,#FF9800);text-align:center"><h3>🌍 ARTISTS FROM ALL OVER THE WORLD</h3><p style="font-size:13px">👆 TAP ANY SONG - It opens full page with BIG PLAY button</p><button class="btn gold" onclick="go('upload')">UPLOAD YOUR SONG →</button></div>
 <h3>🌍 Filter By World</h3>
 <div class="tab"><button class="on" id="fAll" onclick="setFilter('ALL')">🌍 ALL WORLD</button><button class="off" id="fAfrica" onclick="setFilter('Africa')">🌍 AFRICA</button><button class="off" id="fEurope" onclick="setFilter('Europe')">🇪🇺 EUROPE</button><button class="off" id="fAmericas" onclick="setFilter('Americas')">🇺🇸 AMERICAS</button><button class="off" id="fAsia" onclick="setFilter('Asia')">🌏 ASIA</button></div>
 <select id="countryFilter" onchange="renderAll()"><option value="ALL">All Countries</option><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
 <h3 style="margin-top:10px">🔥 Trending in World</h3><div id="trendingList"><p style="color:#aaa">No songs yet.</p></div>
-<h3>🎵 All Artists - World - 👆 Tap Song To Play</h3><div id="homeList"><p style="color:#aaa">No uploads yet.</p></div>
-<p style="color:#aaa;text-align:center;margin-top:20px">👆 Use TOP bar or BOTTOM bar to go to Library, Upload, Earnings, Profile</p>
+<h3>🎵 All Artists - 👆 Tap Song To Open</h3><div id="homeList"><p style="color:#aaa">No uploads yet.</p></div>
 </div>
 
 <div id="page-search" class="page">
 <h2>🔍 Search</h2>
-<div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">⬆️ VIXXON ARTISTS</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET - Added to V34</button></div>
+<div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">⬆️ VIXXON ARTISTS</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET</button></div>
 <p id="count" style="color:#1db954">Vixxon Uploaded: 0 songs</p>
 <div id="localBox">
 <input id="q" placeholder="Search uploaded artists..." oninput="onType()">
 <div id="searchList"></div>
 </div>
 <div id="netBox" style="display:none">
-<div class="box" style="background:#2196F3"><h3>🌍 INTERNET SEARCH</h3><p>Search any artist in the world. 30-sec previews.</p></div>
+<div class="box" style="background:#2196F3"><h3>🌍 INTERNET SEARCH</h3><p>Search any artist. Tap song to OPEN it, then tap PLAY.</p></div>
 <input id="qNet" placeholder="🌍 Type internet artist - e.g. Fik Fameica...">
 <button class="btn red" style="font-size:18px;padding:16px" onclick="doNetSearch()">🌍 SEARCH INTERNET NOW</button>
-<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn dark" style="flex:1" onclick="quickSearch('Fik Fameica')">Fik Fameica</button><button class="btn dark" style="flex:1" onclick="quickSearch('Bebe Cool')">Bebe Cool</button><button class="btn dark" style="flex:1" onclick="quickSearch('Eddy Kenzo')">Eddy Kenzo</button><button class="btn dark" style="flex:1" onclick="quickSearch('Sheebah')">Sheebah</button></div>
-<div id="netStatus" class="status" style="background:#333">Waiting... Type artist and tap SEARCH INTERNET NOW</div>
-<div id="netList"></div>
-</div>
-</div>
-
-<div id="page-library" class="page"><h2>📚 My Library - Listen Later</h2><p id="libCount" style="color:#1db954">Library: 0 songs</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No saved yet.</p></div></div>
-
-<div id="page-upload" class="page">
-<h2>⬆️ Upload - Goes to HOME + LIBRARY</h2>
-<div class="box">
-<input id="t" placeholder="Song Title" value="How I Feel">
-<input id="a" placeholder="Artist Name" value="Vixxon Kalema">
-<select id="country"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
-<input id="city" placeholder="Your City" value="BUGIRI">
-<input id="wa" placeholder="WhatsApp" value="256705570948">
-<select id="payMethod"><option>MoMo - Uganda</option><option>M-Pesa - Kenya</option><option>Bank / OPay - Nigeria</option><option>PayPal - USA / UK / World</option><option>Other</option></select>
-<input id="momo" placeholder="Payout Number" value="256705570948">
-<select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Swahili Bongo</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
-<p style="font-size:14px;font-weight:bold">🖼️ STEP 1: COVER ART</p>
-<input type="file" id="coverFile" accept="i
+<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn dark" style="flex:1" onclick="quickSearch('Fik Fameica')">Fik Fameica</button><button class="btn dark" style="flex:1" onclick="quickSearch('Bebe Cool')">Bebe Cool</button><button class="btn dark"
