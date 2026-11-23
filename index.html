@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIXXON V34.1 - V34 + INTERNET</title>
-<style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:180px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center;cursor:pointer}.card img{width:65px;height:65px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #ff3b30;display:flex;z-index:9999;height:62px}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:11px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}#coverPrev{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto;border:3px solid #1db954}#player{position:fixed;bottom:62px;left:0;right:0;background:#1e1e1e;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}#player img{width:55px;height:55px;border-radius:8px;object-fit:cover}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.status{padding:12px;border-radius:8px;margin:8px 0;font-size:14px;font-weight:bold}.tagUp{background:#ff3b30;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.tagNet{background:#2196F3;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}</style>
+<title>VIXXON V34.2 - TOP + BOTTOM NAV</title>
+<style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#111;color:#fff;padding-bottom:190px}header{background:#ff3b30;padding:12px;text-align:center}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;background:#222;color:#fff}button{cursor:pointer}.btn{width:100%;padding:13px;border:0;border-radius:10px;font-weight:bold;margin:5px 0}.red{background:#ff3b30;color:#fff}.green{background:#1db954;color:#fff}.dark{background:#333;color:#fff}.gold{background:#FFC107;color:#000}.card{display:flex;gap:10px;background:#1e1e1e;padding:10px;border-radius:10px;margin-bottom:8px;align-items:center;cursor:pointer}.card img{width:65px;height:65px;border-radius:8px;object-fit:cover}.mini{padding:7px 10px;border:0;border-radius:7px;font-weight:bold;margin:3px 2px 0 0}.page{display:none;padding:12px}#page-home{display:block}.topnav{background:#1a1a1a;display:flex;flex-wrap:wrap;gap:5px;padding:8px;position:sticky;top:0;z-index:9997;border-bottom:3px solid #ff3b30}.topnav button{flex:1;min-width:70px;border:0;border-radius:8px;padding:10px 4px;font-size:12px;font-weight:bold;background:#333;color:#aaa}.topnav button.active{background:#ff3b30;color:#fff}.nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:4px solid #ff3b30;display:flex;z-index:9999;height:70px;padding-bottom:env(safe-area-inset-bottom)}.nav button{flex:1;border:0;background:transparent;color:#aaa;padding:8px 2px;font-size:12px;font-weight:bold}.nav button.active{color:#fff;background:#ff3b30}.box{background:#1e1e1e;padding:12px;border-radius:10px;margin-top:8px}.tab{display:flex;gap:6px;flex-wrap:wrap}.tab button{flex:1;padding:10px;border:0;border-radius:10px;font-weight:bold;min-width:80px}.tab .on{background:#ff3b30;color:#fff}.tab .off{background:#333;color:#aaa}.profPic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #ff3b30;display:block;margin:0 auto 8px}#coverPrev{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto;border:3px solid #1db954}#player{position:fixed;bottom:70px;left:0;right:0;background:#1e1e1e;padding:10px;display:none;border-top:3px solid #ff3b30;z-index:9998}#player audio{width:100%}#player img{width:55px;height:55px;border-radius:8px;object-fit:cover}.badge{background:#FFC107;color:#000;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.status{padding:12px;border-radius:8px;margin:8px 0;font-size:14px;font-weight:bold}.tagUp{background:#ff3b30;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}.tagNet{background:#2196F3;color:#fff;padding:2px 6px;border-radius:5px;font-size:11px;font-weight:bold}</style>
 <script>
 var pickedCover=''; var pickedAudio=''; var pickedAudioName='';
 var mine=[]; var saved=[]; var earn={streams:0,downloads:0,dlPer:{}}; var list=[]; var netList=[]; var mode='local'; var curFilter='ALL';
@@ -10,7 +10,10 @@ function go(p){
   for(var i=0;i<pages.length;i++){var el=document.getElementById('page-'+pages[i]); if(el) el.style.display='none';}
   var t=document.getElementById('page-'+p); if(t) t.style.display='block';
   var navs=['home','search','library','upload','earnings','profile'];
-  for(var j=0;j<navs.length;j++){var b=document.getElementById('nav-'+navs[j]); if(b) b.className=(navs[j]==p?'active':'');}
+  for(var j=0;j<navs.length;j++){
+    var b=document.getElementById('nav-'+navs[j]); if(b) b.className=(navs[j]==p?'active':'');
+    var tb=document.getElementById('top-'+navs[j]); if(tb) tb.className=(navs[j]==p?'active':'');
+  }
   window.scrollTo(0,0);
   try{ if(p=='upload') showMine(); }catch(e){}
   try{ if(p=='earnings') showEarn(); }catch(e){}
@@ -59,14 +62,12 @@ function up(){
 function showMine(){ var h=''; for(var i=0;i<mine.length;i++){ h+=cardUploaded(mine[i],i,'mine'); } var el=document.getElementById('myList'); if(el) el.innerHTML=h||'<p>No uploads yet.</p>'; }
 function flagFor(c){var m={'Uganda':'🇺🇬','Nigeria':'🇳🇬','Kenya':'🇰🇪','Tanzania':'🇹🇿','Ghana':'🇬🇭','South Africa':'🇿🇦','Ethiopia':'🇪🇹','USA':'🇺🇸','UK':'🇬🇧','Canada':'🇨🇦','Brazil':'🇧🇷','India':'🇮🇳','France':'🇫🇷','Germany':'🇩🇪'};return m[c]||'🌍';}
 function regionFor(c){if(['Uganda','Nigeria','Kenya','Tanzania','Ghana','South Africa','Ethiopia'].indexOf(c)>-1)return 'Africa';if(['USA','Canada','Brazil'].indexOf(c)>-1)return 'Americas';if(['UK','France','Germany'].indexOf(c)>-1)return 'Europe';if(['India'].indexOf(c)>-1)return 'Asia';return 'Other';}
-// V34 CARD - SAME AS V34, PLUS TAG
 function cardUploaded(s,i,from){
   var dl=(earn.dlPer[s.title+' - '+s.artist]||0);
   var saveBtn = from=='lib' ? '' : '<button class="mini dark" onclick="event.stopPropagation();saveUploaded('+i+')">❤️ Save</button>';
   var bookBtn = s.wa ? '<button class="mini gold" onclick="event.stopPropagation();bookArtist(\''+s.wa+'\')">📞 Book</button>' : '';
   return '<div class="card" onclick="playSong('+i+',\''+from+'\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagUp">⬆️ UPLOADED</span> <b>'+s.title+'</b> <span class="badge">⬇ '+dl+'</span><br><small>'+flagFor(s.country||'')+' '+s.artist+' • '+(s.city||'')+', '+(s.country||'')+' • '+(s.genre||'Music')+'</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\''+from+'\')">▶ Play</button>'+saveBtn+bookBtn+'<button class="mini green" onclick="event.stopPropagation();downloadSong('+i+',\''+from+'\')">⬇ Download</button></div></div>';
 }
-// NEW - INTERNET CARD - ADDED TO V34, DOES NOT CHANGE V34 CARDS
 function cardInternet(s,i){
   return '<div class="card" onclick="playSong('+i+',\'net\')"><img src="'+(s.cover||'https://via.placeholder.com/60')+'"><div style="flex:1"><span class="tagNet">🌍 INTERNET</span> <b>'+s.title+'</b><br><small>'+s.artist+' • '+s.genre+' • 30-sec preview</small><br><button class="mini red" onclick="event.stopPropagation();playSong('+i+',\'net\')">▶ Play Preview</button></div></div>';
 }
@@ -105,7 +106,6 @@ function setMode(m){
   else { document.getElementById('count').innerHTML='🌍 INTERNET MODE - Search below'; }
 }
 function onType(){ if(mode=='local') renderAll(); }
-// *** ADDED TO V34 - INTERNET SEARCH ***
 function doNetSearch(){
   var qEl=document.getElementById('qNet'); var q=qEl?qEl.value.trim():'';
   if(!q){ alert('Type artist in INTERNET box - e.g. Fik Fameica'); return; }
@@ -134,7 +134,17 @@ function quickSearch(name){ document.getElementById('qNet').value=name; doNetSea
 </script>
 </head>
 <body>
-<header><h1>🌍 VIXXON MUSIC</h1><p>V34 + Internet - Same V34 You Liked</p></header>
+<header><h1>🌍 VIXXON MUSIC</h1><p>V34.2 - V34 + Internet + Top Nav</p></header>
+
+<!-- TOP NAV - ALWAYS VISIBLE, EVEN IF BOTTOM IS HIDDEN BY CHROME -->
+<div class="topnav">
+<button id="top-home" class="active" onclick="go('home')">🏠 Home</button>
+<button id="top-search" onclick="go('search')">🔍 Search</button>
+<button id="top-library" onclick="go('library')">📚 Library</button>
+<button id="top-upload" onclick="go('upload')">⬆️ Upload</button>
+<button id="top-earnings" onclick="go('earnings')">💰 Earnings</button>
+<button id="top-profile" onclick="go('profile')">👤 Profile</button>
+</div>
 
 <div id="page-home" class="page">
 <div class="box" style="background:linear-gradient(135deg,#ff3b30,#FF9800);text-align:center"><h3>🌍 ARTISTS FROM ALL OVER THE WORLD</h3><p style="font-size:13px">👆 TAP ANY SONG TO PLAY - Only one plays at a time</p><button class="btn gold" onclick="go('upload')">UPLOAD YOUR SONG →</button></div>
@@ -143,21 +153,20 @@ function quickSearch(name){ document.getElementById('qNet').value=name; doNetSea
 <select id="countryFilter" onchange="renderAll()"><option value="ALL">All Countries</option><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
 <h3 style="margin-top:10px">🔥 Trending in World</h3><div id="trendingList"><p style="color:#aaa">No songs yet.</p></div>
 <h3>🎵 All Artists - World - 👆 Tap Song To Play</h3><div id="homeList"><p style="color:#aaa">No uploads yet.</p></div>
+<p style="color:#aaa;text-align:center;margin-top:20px">👆 Use TOP bar or BOTTOM bar to go to Library, Upload, Earnings, Profile</p>
 </div>
 
 <div id="page-search" class="page">
 <h2>🔍 Search</h2>
-<div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">⬆️ VIXXON ARTISTS - Uploaded</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET - Added to V34</button></div>
+<div class="tab"><button id="tabLocal" class="on" onclick="setMode('local')">⬆️ VIXXON ARTISTS</button><button id="tabNet" class="off" onclick="setMode('net')">🌍 INTERNET - Added to V34</button></div>
 <p id="count" style="color:#1db954">Vixxon Uploaded: 0 songs</p>
-<!-- V34 ORIGINAL - VIXXON SEARCH - UNCHANGED -->
 <div id="localBox">
 <input id="q" placeholder="Search uploaded artists..." oninput="onType()">
 <div id="searchList"></div>
 </div>
-<!-- ADDED TO V34 - INTERNET SEARCH - NEW BOX -->
 <div id="netBox" style="display:none">
-<div class="box" style="background:#2196F3"><h3>🌍 INTERNET SEARCH - Added to V34</h3><p>Search any artist in the world. 30-sec previews. Tap to play with same One Player.</p></div>
-<input id="qNet" placeholder="🌍 Type internet artist - e.g. Fik Fameica, Bebe Cool...">
+<div class="box" style="background:#2196F3"><h3>🌍 INTERNET SEARCH</h3><p>Search any artist in the world. 30-sec previews.</p></div>
+<input id="qNet" placeholder="🌍 Type internet artist - e.g. Fik Fameica...">
 <button class="btn red" style="font-size:18px;padding:16px" onclick="doNetSearch()">🌍 SEARCH INTERNET NOW</button>
 <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn dark" style="flex:1" onclick="quickSearch('Fik Fameica')">Fik Fameica</button><button class="btn dark" style="flex:1" onclick="quickSearch('Bebe Cool')">Bebe Cool</button><button class="btn dark" style="flex:1" onclick="quickSearch('Eddy Kenzo')">Eddy Kenzo</button><button class="btn dark" style="flex:1" onclick="quickSearch('Sheebah')">Sheebah</button></div>
 <div id="netStatus" class="status" style="background:#333">Waiting... Type artist and tap SEARCH INTERNET NOW</div>
@@ -165,7 +174,7 @@ function quickSearch(name){ document.getElementById('qNet').value=name; doNetSea
 </div>
 </div>
 
-<div id="page-library" class="page"><h2>📚 My Library - Listen Later</h2><p id="libCount" style="color:#1db954">Library: 0 songs</p><p style="color:#aaa;font-size:13px">✅ Uploaded songs auto-go here. ✅ Tap ❤️ Save to add here. Tap song to play.</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No saved yet.</p></div></div>
+<div id="page-library" class="page"><h2>📚 My Library - Listen Later</h2><p id="libCount" style="color:#1db954">Library: 0 songs</p><button class="btn dark" onclick="clearLib()">🗑️ Clear Library</button><div id="libList"><p>No saved yet.</p></div></div>
 
 <div id="page-upload" class="page">
 <h2>⬆️ Upload - Goes to HOME + LIBRARY</h2>
@@ -179,13 +188,4 @@ function quickSearch(name){ document.getElementById('qNet').value=name; doNetSea
 <input id="momo" placeholder="Payout Number" value="256705570948">
 <select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Swahili Bongo</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
 <p style="font-size:14px;font-weight:bold">🖼️ STEP 1: COVER ART</p>
-<input type="file" id="coverFile" accept="image/*" onchange="pickCover(this)">
-<img id="coverPrev" src="">
-<p id="coverMsg" style="color:#1db954;font-size:14px;text-align:center"></p>
-<div id="coverStatus" class="status" style="background:#333">Waiting for cover...</div>
-<p style="font-size:14px;font-weight:bold">🎵 STEP 2: SONG MP3</p>
-<input type="file" id="f" accept="audio/*" onchange="pickAudio(this)">
-<p id="audioMsg" style="color:#1db954;font-size:14px"></p>
-<div id="audioStatus" class="status" style="background:#333">Waiting for song...</div>
-<button class="btn green" style="font-size:18px;padding:16px" onclick="up()">✅ PUBLISH TO HOME + LIBRARY</button>
-<div id="upStatus" class="status" style="background:#333">Waiting to publi
+<input type="file" id="coverFile" accept="i
