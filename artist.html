@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VIXXON ARTIST PORTAL - BOTTOM NAV</title>
+<style>
+body{background:#111;color:#fff;font-family:Arial;margin:0;padding-bottom:160px}
+header{background:#7b1fa2;padding:12px;text-align:center}
+.page{display:none;padding:12px}.show{display:block}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0;background:#222;color:#fff;box-sizing:border-box}
+.btn{width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;margin:6px 0;background:#7b1fa2;color:#fff}
+.btnG{background:#1db954}.btnR{background:#ff3b30}.btnY{background:#FFC107;color:#000}.btnB{background:#2196F3}
+.card{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
+.box{background:#1e1e1e;padding:12px;border-radius:10px;margin:8px 0}
+.badge{padding:3px 8px;border-radius:5px;font-size:12px;font-weight:bold}
+.pend{background:#FF9800;color:#000}.appr{background:#1db954}.reje{background:#ff3b30}
+.pPic{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #7b1fa2;display:block;margin:0 auto}
+.cPic{width:150px;height:150px;border-radius:10px;object-fit:cover;display:none;margin:10px auto}
+.bottomnav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:3px solid #7b1fa2;display:flex;z-index:9999;height:68px}
+.bottomnav button{flex:1;border:0;background:transparent;color:#aaa;padding:6px 2px;font-size:11px;font-weight:bold}
+.bottomnav button.on{color:#fff;background:#7b1fa2}
+#adminPlayer{position:fixed;bottom:68px;left:0;right:0;background:#222;padding:8px;border-top:3px solid #7b1fa2;z-index:9998;display:none}
+#adminPlayer audio{width:100%}
+</style>
+<script>
+var subs=[]; var pic=''; var cover=''; var audio=''; var audioName='';
+var earn={downloads:0,streams:0,per:{},payouts:[]};
+function go(id){
+  var p=document.querySelectorAll('.page');
+  for(var i=0;i<p.length;i++) p[i].classList.remove('show');
+  document.getElementById('page-'+id).classList.add('show');
+  var b=document.querySelectorAll('.bottomnav button');
+  for(var j=0;j<b.length;j++) b[j].classList.remove('on');
+  var btn=document.getElementById('btn-'+id); if(btn) btn.classList.add('on');
+  window.scrollTo(0,0);
+  if(id=='mysongs') showMy();
+  if(id=='admin') showAdmin();
+  if(id=='earnings') showEarn();
+}
+function pickPic(el){ var f=el.files[0]; if(!f) return; pic=URL.createObjectURL(f); document.getElementById('myPic').src=pic; document.getElementById('picMsg').innerHTML='✅ Artist Photo OK: '+f.name; }
+function pickCover(el){ var f=el.files[0]; if(!f) return; cover=URL.createObjectURL(f); var img=document.getElementById('coverPrev'); img.src=cover; img.style.display='block'; document.getElementById('coverMsg').innerHTML='✅ Cover OK: '+f.name; }
+function pickAudio(el){ var f=el.files[0]; if(!f) return; audio=URL.createObjectURL(f); audioName=f.name; document.getElementById('audioMsg').innerHTML='✅ MP3 OK: '+f.name; var t=document.getElementById('t'); if(t && !t.value) t.value=f.name.replace('.mp3',''); }
+function submitSong(){
+  var name=document.getElementById('aName').value.trim() || 'Unknown Artist';
+  var wa=document.getElementById('aWa').value.trim() || '';
+  var country=document.getElementById('aCountry').value;
+  var city=document.getElementById('aCity').value.trim() || '';
+  var momo=document.getElementById('aMomo').value.trim() || wa;
+  var t=document.getElementById('t').value.trim() || audioName || 'Untitled';
+  var g=document.getElementById('g').value;
+  if(!audio){ alert('❌ Choose MP3 first'); return; }
+  if(!wa){ alert('❌ WhatsApp required so Vixxon can contact you'); return; }
+  var now=new Date(); var deadline=new Date(now.getTime()+24*60*60*1000);
+  var s={title:t,artist:name,genre:g,cover:cover||'https://via.placeholder.com/150',audio:audio,wa:wa,momo:momo,country:country,city:city,pic:pic,status:'PENDING',submitted:now.toLocaleString(),deadline:deadline.toLocaleString(),reason:''};
+  subs.unshift(s);
+  document.getElementById('submitMsg').innerHTML='✅ SUBMITTED! PENDING - Vixxon will verify within 24 hours.';
+  var msg='🎤 NEW VIXXON ARTIST SUBMISSION\n\nArtist: '+name+'\nSong: '+t+'\nGenre: '+g+'\nCountry: '+country+' '+city+'\nWhatsApp: '+wa+'\nMoMo: '+momo+'\nSubmitted: '+s.submitted+'\nDeadline: '+s.deadline+'\n\nPlease verify in Artist Portal > Admin within 24h.';
+  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank');
+  alert('✅ SUBMITTED FOR REVIEW!\nStatus: PENDING\nVixxon will verify within 24 hours.');
+  go('mysongs');
+}
+function showMy(){
+  var h='';
+  for(var i=0;i<subs.length;i++){
+    var s=subs[i];
+    var badge = s.status=='PENDING' ? '<span class="badge pend">⏳ PENDING - Within 24h</span>' : s.status=='APPROVED' ? '<span class="badge appr">✅ APPROVED - LIVE!</span>' : '<span class="badge reje">❌ REJECTED</span>';
+    var extra = s.status=='PENDING' ? '<p>Submitted: '+s.submitted+'<br>Verify by: '+s.deadline+'<br>⏳ Waiting for Vixxon.</p>' : s.status=='APPROVED' ? '<p>✅ Live! Fans can listen in User App. Earnings started - See Earnings tab.</p>' : '<p>Reason: '+s.reason+'<br>Fix and resubmit.</p>';
+    h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>'+badge+'<br>'+extra+'</div>';
+  }
+  document.getElementById('myList').innerHTML=h||'<p>No submissions yet. Go to Upload Song at bottom.</p>';
+  document.getElementById('myCount').innerHTML='My Submissions: '+subs.length;
+}
+function showAdmin(){
+  var h='';
+  for(var i=0;i<subs.length;i++){
+    var s=subs[i];
+    h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>Country: '+s.country+' '+s.city+'<br>WhatsApp: '+s.wa+' | MoMo: '+s.momo+'<br>Submitted: '+s.submitted+'<br>Deadline: '+s.deadline+'<br>Status: <b>'+s.status+'</b><br><button class="btn btnG" onclick="approve('+i+')">✅ APPROVE - Make Live</button><button class="btn btnR" onclick="reject('+i+')">❌ REJECT</button><button class="btn btnB" onclick="listenSong('+i+')">▶ LISTEN BEFORE VERIFY</button></div>';
+  }
+  document.getElementById('adminList').innerHTML=h||'<p>No submissions yet.</p>';
+  document.getElementById('adminCount').innerHTML='Pending: '+subs.filter(function(x){return x.status=='PENDING'}).length+' | Approved: '+subs.filter(function(x){return x.status=='APPROVED'}).length+' | Rejected: '+subs.filter(function(x){return x.status=='REJECTED'}).length;
+}
+function approve(i){ var s=subs[i]; s.status='APPROVED'; alert('✅ APPROVED: '+s.title+' is now LIVE!'); window.open('https://wa.me/'+String(s.wa).replace(/[^0-9]/g,'')+'?text='+encodeURIComponent('✅ CONGRATS! Your song "'+s.title+'" is APPROVED and LIVE on Vixxon! Fans can now listen. Check Earnings in Artist Portal.'),'_blank'); showAdmin(); showMy(); showEarn(); }
+function reject(i){ var r=prompt('Why reject? e.g. Bad quality, Copyright, No cover'); if(r===null) return; subs[i].status='REJECTED'; subs[i].reason=r||'Not approved'; alert('❌ Rejected'); showAdmin(); showMy(); }
+function listenSong(i){ var s=subs[i]; document.getElementById('adminPlayer').style.display='block'; var au=document.getElementById('adminAudio'); au.src=s.audio; au.play(); earn.streams++; showEarn(); alert('▶ Playing '+s.title+' for verification. Listen, then Approve or Reject.'); }
+function openAdmin(){ var pw=prompt('Admin Password (Only Vixxon):'); if(pw=='vixxon123'){ go('admin'); showAdmin(); } else if(pw!==null){ alert('Wrong password'); } }
+function showEarn(){
+  var approved=subs.filter(function(x){return x.status=='APPROVED'});
+  var h='';
+  for(var i=0;i<approved.length;i++){
+    var s=approved[i]; var dl=earn.per[s.title]||0;
+    h+='<div class="card"><b>'+s.title+'</b> - '+s.artist+'<br>Downloads: <b>'+dl+'</b> | Status: ✅ LIVE<br><button class="btn btnG" onclick="fakeDownload(\''+s.title.replace(/'/g,'')+'\')">⬇ Simulate Fan Download (Test)</button></div>';
+  }
+  document.getElementById('earnList').innerHTML=h||'<p>No approved songs yet. Earnings start AFTER Vixxon approves your song.</p>';
+  document.getElementById('earnTotal').innerHTML=earn.downloads+' Downloads';
+  document.getElementById('earnStreams').innerHTML=earn.streams+' Streams';
+  document.getElementById('earnBalance').innerHTML='UGX '+(earn.downloads*500).toLocaleString();
+  document.getElementById('earnApproved').innerHTML=approved.length+' Approved Songs';
+  var ph='';
+  for(var j=0;j<earn.payouts.length;j++){ ph+='<p>'+earn.payouts[j]+'</p>'; }
+  document.getElementById('payoutHistory').innerHTML=ph||'<p>No payouts yet.</p>';
+}
+function fakeDownload(title){ earn.downloads++; earn.per[title]=(earn.per[title]||0)+1; alert('⬇ Fan downloaded: '+title+'\nYour Earnings +UGX 500'); showEarn(); }
+function requestPayout(){
+  var name=document.getElementById('aName').value || 'Artist';
+  var momo=document.getElementById('aMomo').value || '';
+  if(earn.downloads<5){ alert('❌ Need 5 downloads to request payout.\nYou have '+earn.downloads+' downloads.\nShare your songs to get more downloads.'); return; }
+  var amt=earn.downloads*500;
+  var msg='💸 VIXXON PAYOUT REQUEST\n\nArtist: '+name+'\nDownloads: '+earn.downloads+'\nAmount: UGX '+amt+'\nMoMo: '+momo+'\nDate: '+new Date().toLocaleString()+'\n\nPlease pay on Friday.';
+  earn.payouts.unshift('💸 Requested UGX '+amt+' - '+new Date().toLocaleString()+' - MoMo '+momo);
+  window.open('https://wa.me/256705570948?text='+encodeURIComponent(msg),'_blank');
+  alert('✅ PAYOUT REQUESTED!\nAmount: UGX '+amt+'\nVixxon will pay on Friday to '+momo);
+  showEarn();
+}
+</script>
+</head>
+<body>
+<header><h1>🎤 VIXXON ARTIST PORTAL</h1><p>For Artists Only - Profile + Upload + 24h Verify + Earnings</p></header>
+<div id="page-profile" class="page show">
+<h2>👤 Artist Profile - Put Your Information Here</h2>
+<div class="box" style="text-align:center"><img id="myPic" class="pPic" src="https://via.placeholder.com/110/7b1fa2/fff?text=+"><p style="color:#aaa">👆 Tap below to upload your artist photo</p></div>
+<div class="box">
+<p><b>🖼️ Artist Photo:</b></p><input type="file" accept="image/*" onchange="pickPic(this)"><p id="picMsg" style="color:#1db954"></p>
+<p><b>Artist / Stage Name *</b></p><input id="aName" placeholder="e.g. Vixxon Kalema" value="Vixxon Kalema">
+<p><b>WhatsApp *</b></p><input id="aWa" placeholder="e.g. 256705570948" value="256705570948">
+<p><b>Country</b></p><select id="aCountry"><option>Uganda</option><option>Nigeria</option><option>Kenya</option><option>Tanzania</option><option>Ghana</option><option>South Africa</option><option>Ethiopia</option><option>USA</option><option>UK</option><option>Canada</option><option>Brazil</option><option>India</option><option>France</option><option>Germany</option><option>Other</option></select>
+<p><b>City</b></p><input id="aCity" placeholder="Your City" value="BUGIRI">
+<p><b>Payout - MoMo / M-Pesa / PayPal *</b></p><input id="aMomo" placeholder="Payout Number" value="256705570948">
+<p><b>Your Bio</b></p><textarea placeholder="Tell fans about you..."></textarea>
+</div>
+<div class="box" style="background:#7b1fa2"><h3>How It Works - 24h Verification</h3><p>1. Fill profile + Upload song</p><p>2. Tap SUBMIT FOR REVIEW</p><p>3. Status = ⏳ PENDING</p><p>4. Vixxon listens + verifies within <b>24 hours</b></p><p>5. ✅ APPROVED → Live in User App + Earnings start</p><p>6. ❌ REJECTED → You get reason, fix + resubmit</p></div>
+</div>
+<div id="page-upload" class="page">
+<h2>⬆️ Upload Song For Review</h2>
+<div class="box">
+<p><b>Song Title *</b></p><input id="t" placeholder="Song Title">
+<p><b>Genre</b></p><select id="g"><option>Afrobeat</option><option>Amapiano</option><option>Luganda</option><option>Dancehall</option><option>Gospel</option><option>Hip Hop</option><option>Pop</option><option>R&B</option><option>Zouk</option><option>Other</option></select>
+<p><b>🖼️ Cover Art - Choose File:</b></p><input type="file" accept="image/*" onchange="pickCover(this)"><img id="coverPrev" class="cPic"><p id="coverMsg" style="color:#1db954"></p>
+<p><b>🎵 MP3 Song - Choose File:</b></p><input type="file" accept="audio/*" onchange="pickAudio(this)"><p id="audioMsg" style="color:#1db954"></p>
+<button class="btn btnG" onclick="submitSong()">✅ SUBMIT FOR REVIEW (24h)</button>
+<p id="submitMsg" style="color:#1db954"></p>
+<p style="color:#FFC107;font-size:13px">⚠️ Confirm this is your original song. Vixxon will reject copyright / stolen songs.</p>
+</div>
+</div>
+<div id="page-mysongs" class="page"><h2>🎵 My Songs - Verification Status</h2><p id="myCount">My Submissions: 0</p><div id="myList"><p>No submissions yet. Go to Upload Song at bottom.</p></div></div>
+<div id="page-earnings" class="page">
+<h2>💰 Earnings - Approved Songs Only</h2>
+<div class="box" style="text-align:center"><h3>Vixxon Kalema</h3><p>Approved Songs: <b id="earnApproved">0</b></p><h2 id="earnTotal" style="color:#FFC107">0 Downloads</h2><p>Streams: <b id="earnStreams">0</b></p><p>Balance: <b id="earnBalance" style="color:#1db954">UGX 0</b></p><p style="color:#aaa;font-size:13px">Rate: UGX 500 per download. Paid every Friday via MoMo / M-Pesa / PayPal. Need 5 downloads to request payout.</p></div>
+<div class="box"><button class="btn btnY" onclick="requestPayout()">💸 REQUEST FRIDAY PAYOUT</button><p style="color:#aaa;font-size:13px">Tap to send payout request to Vixxon via WhatsApp.</p></div>
+<div class="box"><h3>📊 Your Approved Songs & Downloads</h3><div id="earnList"><p>No approved songs yet. Earnings start AFTER approval.</p></div></div>
+<div class="box"><h3>🧾 Payout History</h3><div id="payoutHistory"><p>No payouts yet.</p></div></div>
+<div class="box"><h3>How To Earn More</h3><p>1. Get APPROVED</p><p>2. Share your song link to fans in User App</p><p>3. Fans tap ⬇ Download</p><p>4
